@@ -1,0 +1,149 @@
+{
+  "commands": [
+    {
+      "command_type": "ACTION",
+      "description": "Error where the message is actually a JSON Serializable dictionary.",
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af2496",
+      "name": "dictionary_error_message",
+      "output_type": "STRING",
+      "parameters": [],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f042e8f00001af2495"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "Error where the message is a string an the output type is JSON.",
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af2497",
+      "name": "error_string_output_type_json",
+      "output_type": "JSON",
+      "parameters": [],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f042e8f00001af2495"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "Error where the message is a normal string but in JSON format.",
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af2498",
+      "name": "json_string_error_message",
+      "output_type": "STRING",
+      "parameters": [],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f042e8f00001af2495"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "Error where the message is actually a JSON Serializable list.",
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af2499",
+      "name": "list_error_message",
+      "output_type": "STRING",
+      "parameters": [],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f042e8f00001af2495"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "Error where the message is None",
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af249a",
+      "name": "no_error_message",
+      "output_type": "STRING",
+      "parameters": [],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f042e8f00001af2495"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "Error where the message is just a normal string.",
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af249b",
+      "name": "string_error_message",
+      "output_type": "STRING",
+      "parameters": [],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f042e8f00001af2495"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "Error where the message is an unknown object type.",
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af249c",
+      "name": "unknown_object_for_message",
+      "output_type": "STRING",
+      "parameters": [],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f042e8f00001af2495"
+      },
+      "template": null
+    }
+  ],
+  "description": "A Client that always errors. There is no hope.",
+  "display_name": null,
+  "icon_name": null,
+  "id": "5ad7d5f042e8f00001af2495",
+  "instances": [
+    {
+      "description": null,
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af249d",
+      "metadata": {},
+      "name": "default",
+      "queue_info": {
+        "admin": {
+          "args": {
+            "auto_delete": true
+          },
+          "name": "admin.error.1-0-0-dev0.default.cmzv1niyoy"
+        },
+        "request": {
+          "args": {
+            "arguments": {
+              "x-max-priority": 1
+            },
+            "durable": true
+          },
+          "name": "error.1-0-0-dev0.default"
+        },
+        "url": "amqp://beer_garden:password@rabbitmq:5672/"
+      },
+      "queue_type": "rabbitmq",
+      "status": "RUNNING",
+      "status_info": {
+        "heartbeat": 1524094468043
+      }
+    }
+  ],
+  "max_instances": 1,
+  "metadata": {},
+  "name": "error",
+  "version": "1.0.0.dev0"
+}

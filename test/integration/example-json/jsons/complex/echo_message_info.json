@@ -1,0 +1,32 @@
+{
+  "command_type": "INFO",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5ef42e8f00001af2467",
+  "name": "echo_message_info",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": null,
+      "description": null,
+      "display_name": "message",
+      "form_input_type": null,
+      "key": "message",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5ef42e8f00001af2454"
+  },
+  "template": null
+}

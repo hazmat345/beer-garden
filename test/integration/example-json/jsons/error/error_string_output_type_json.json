@@ -1,0 +1,15 @@
+{
+  "command_type": "ACTION",
+  "description": "Error where the message is a string an the output type is JSON.",
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f042e8f00001af2497",
+  "name": "error_string_output_type_json",
+  "output_type": "JSON",
+  "parameters": [],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f042e8f00001af2495"
+  },
+  "template": null
+}

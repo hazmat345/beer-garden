@@ -1,0 +1,64 @@
+{
+  "command_type": "ACTION",
+  "description": "Echos using Echo and sleeps using Sleeper",
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f242e8f00001af24c5",
+  "name": "say_sleep",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": "Happy World!",
+      "description": "The message",
+      "display_name": "message",
+      "form_input_type": null,
+      "key": "message",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": true,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    },
+    {
+      "choices": null,
+      "default": false,
+      "description": "Add exclamation marks",
+      "display_name": "loud",
+      "form_input_type": null,
+      "key": "loud",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": true,
+      "parameters": [],
+      "regex": null,
+      "type": "Boolean"
+    },
+    {
+      "choices": null,
+      "default": 10,
+      "description": "How long to sleep",
+      "display_name": "amount",
+      "form_input_type": null,
+      "key": "amount",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": true,
+      "parameters": [],
+      "regex": null,
+      "type": "Float"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f242e8f00001af24c2"
+  },
+  "template": null
+}

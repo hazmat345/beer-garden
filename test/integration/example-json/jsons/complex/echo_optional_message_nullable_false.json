@@ -1,0 +1,32 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5ef42e8f00001af246f",
+  "name": "echo_optional_message_nullable_false",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": "default required",
+      "description": null,
+      "display_name": "message",
+      "form_input_type": null,
+      "key": "message",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": true,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5ef42e8f00001af2454"
+  },
+  "template": null
+}

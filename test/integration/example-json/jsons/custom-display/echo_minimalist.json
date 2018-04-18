@@ -1,0 +1,32 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f342e8f00001af24db",
+  "name": "echo_minimalist",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": null,
+      "description": null,
+      "display_name": "message",
+      "form_input_type": null,
+      "key": "message",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "Any"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f342e8f00001af24d3"
+  },
+  "template": "\n<h1>Echo Minimalist</h1>\n\n<p>If you have ALLOW_UNSANITIZED_TEMPLATES set to true <b>(DON'T DO THIS UNLESS YOU KNOW WHAT YOU'RE DOING. YOU'VE BEEN WARNED.)</b> in the BrewView config there'll be a form after this. Otherwise you'll just have to use your imagination.</p>\n\n<div>\n    <form action=\"/api/v1/requests\" method=\"POST\">\n        System Name:\n        <input type=\"text\" name=\"system\" value=\"custom-display\" readonly>\n\n        <br>\n        System Version:\n        <input type=\"text\" name=\"system_version\" value=\"1.0.0.dev\" readonly>\n\n        <br>\n        Command Name:\n        <input type=\"text\" name=\"command\" value=\"echo_minimalist\" readonly>\n\n        <br>\n        Instance Name:\n        <input type=\"text\" name=\"instance_name\" value=\"default\" readonly>\n\n        <br>\n        <br>\n        <fieldset>\n            <legend>Parameters</legend>\n            Message:\n            <input type=\"text\" name=\"parameters.message\">\n        </fieldset>\n\n        <br>\n        <input type=\"submit\" value=\"Make Request\">\n    </form>\n</div>\n"
+}

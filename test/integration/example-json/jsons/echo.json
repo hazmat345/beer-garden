@@ -1,0 +1,124 @@
+{
+  "commands": [
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af24a2",
+      "name": "say",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": "Hello, World!",
+          "description": "The Message to be Echoed",
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        },
+        {
+          "choices": null,
+          "default": false,
+          "description": "Determines if Exclamation marks are added",
+          "display_name": "loud",
+          "form_input_type": null,
+          "key": "loud",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "Boolean"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f042e8f00001af24a1"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "Echos with JSON output_type",
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af24a3",
+      "name": "say_json",
+      "output_type": "JSON",
+      "parameters": [
+        {
+          "choices": null,
+          "default": "{\"str\": \"value\", \"nums\": [1, 2, 17], \"obj\": {\"nested\": \"awesome\"}}",
+          "description": "The Message to be Echoed",
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f042e8f00001af24a1"
+      },
+      "template": null
+    }
+  ],
+  "description": "Client that echos things",
+  "display_name": null,
+  "icon_name": null,
+  "id": "5ad7d5f042e8f00001af24a1",
+  "instances": [
+    {
+      "description": null,
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af24a4",
+      "metadata": {},
+      "name": "default",
+      "queue_info": {
+        "admin": {
+          "args": {
+            "auto_delete": true
+          },
+          "name": "admin.echo.1-0-0-dev0.default.yu0q1460uc"
+        },
+        "request": {
+          "args": {
+            "arguments": {
+              "x-max-priority": 1
+            },
+            "durable": true
+          },
+          "name": "echo.1-0-0-dev0.default"
+        },
+        "url": "amqp://beer_garden:password@rabbitmq:5672/"
+      },
+      "queue_type": "rabbitmq",
+      "status": "RUNNING",
+      "status_info": {
+        "heartbeat": 1524094468030
+      }
+    }
+  ],
+  "max_instances": 1,
+  "metadata": {},
+  "name": "echo",
+  "version": "1.0.0.dev0"
+}

@@ -1,0 +1,32 @@
+{
+  "command_type": "ACTION",
+  "description": "Echos with JSON output_type",
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f042e8f00001af24a3",
+  "name": "say_json",
+  "output_type": "JSON",
+  "parameters": [
+    {
+      "choices": null,
+      "default": "{\"str\": \"value\", \"nums\": [1, 2, 17], \"obj\": {\"nested\": \"awesome\"}}",
+      "description": "The Message to be Echoed",
+      "display_name": "message",
+      "form_input_type": null,
+      "key": "message",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": true,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f042e8f00001af24a1"
+  },
+  "template": null
+}

@@ -1,0 +1,369 @@
+{
+  "commands": [
+    {
+      "command_type": "ACTION",
+      "description": "form={\"type\": \"fieldset\", \"items\": [{\"key\": \"parameters.message\", \"readonly\": True}]}",
+      "form": {
+        "items": [
+          {
+            "key": "parameters.message",
+            "readonly": true
+          }
+        ],
+        "type": "fieldset"
+      },
+      "icon_name": null,
+      "id": "5ad7d5f342e8f00001af24d4",
+      "name": "echo_message_custom_form_as_dict",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": "Can't change me! Hahaha!",
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f342e8f00001af24d3"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "form=[{\"key\": \"parameters.message\", \"readonly\": True}]",
+      "form": {
+        "items": [
+          {
+            "key": "parameters.message",
+            "readonly": true
+          }
+        ],
+        "type": "fieldset"
+      },
+      "icon_name": null,
+      "id": "5ad7d5f342e8f00001af24d5",
+      "name": "echo_message_custom_form_as_list",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": "Can't change me! Hahaha!",
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f342e8f00001af24d3"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "form='./resources/say_form.json'",
+      "form": {
+        "items": [
+          {
+            "tabs": [
+              {
+                "items": [
+                  {
+                    "helpvalue": "None! :)",
+                    "type": "help"
+                  }
+                ],
+                "title": "Required Fields"
+              },
+              {
+                "items": [
+                  {
+                    "key": "parameters.message"
+                  },
+                  {
+                    "description": "No shouting!",
+                    "key": "parameters.loud",
+                    "readonly": "true"
+                  }
+                ],
+                "title": "Optional Fields"
+              }
+            ],
+            "type": "tabs"
+          }
+        ],
+        "type": "fieldset"
+      },
+      "icon_name": null,
+      "id": "5ad7d5f342e8f00001af24d6",
+      "name": "echo_message_custom_form_from_file",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": "Hello world!",
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        },
+        {
+          "choices": null,
+          "default": false,
+          "description": null,
+          "display_name": "loud",
+          "form_input_type": null,
+          "key": "loud",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "Boolean"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f342e8f00001af24d3"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "schema={\"message\":{'type': 'string','readonly': True,'default':'Default in schema!'}}",
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f342e8f00001af24d7",
+      "name": "echo_message_custom_schema",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": "Can't change me! Hahaha!",
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {
+        "message": {
+          "default": "Default in schema!",
+          "readonly": true,
+          "type": "string"
+        }
+      },
+      "system": {
+        "id": "5ad7d5f342e8f00001af24d3"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f342e8f00001af24d8",
+      "name": "echo_message_dictionary",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": "textarea",
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f342e8f00001af24d3"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f342e8f00001af24d9",
+      "name": "echo_message_list_textarea",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "messages",
+          "form_input_type": "textarea",
+          "key": "messages",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f342e8f00001af24d3"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f342e8f00001af24da",
+      "name": "echo_message_textarea",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": "textarea",
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f342e8f00001af24d3"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f342e8f00001af24db",
+      "name": "echo_minimalist",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Any"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f342e8f00001af24d3"
+      },
+      "template": "\n<h1>Echo Minimalist</h1>\n\n<p>If you have ALLOW_UNSANITIZED_TEMPLATES set to true <b>(DON'T DO THIS UNLESS YOU KNOW WHAT YOU'RE DOING. YOU'VE BEEN WARNED.)</b> in the BrewView config there'll be a form after this. Otherwise you'll just have to use your imagination.</p>\n\n<div>\n    <form action=\"/api/v1/requests\" method=\"POST\">\n        System Name:\n        <input type=\"text\" name=\"system\" value=\"custom-display\" readonly>\n\n        <br>\n        System Version:\n        <input type=\"text\" name=\"system_version\" value=\"1.0.0.dev\" readonly>\n\n        <br>\n        Command Name:\n        <input type=\"text\" name=\"command\" value=\"echo_minimalist\" readonly>\n\n        <br>\n        Instance Name:\n        <input type=\"text\" name=\"instance_name\" value=\"default\" readonly>\n\n        <br>\n        <br>\n        <fieldset>\n            <legend>Parameters</legend>\n            Message:\n            <input type=\"text\" name=\"parameters.message\">\n        </fieldset>\n\n        <br>\n        <input type=\"submit\" value=\"Make Request\">\n    </form>\n</div>\n"
+    }
+  ],
+  "description": null,
+  "display_name": null,
+  "icon_name": null,
+  "id": "5ad7d5f342e8f00001af24d3",
+  "instances": [
+    {
+      "description": null,
+      "icon_name": null,
+      "id": "5ad7d5f342e8f00001af24dc",
+      "metadata": {},
+      "name": "default",
+      "queue_info": {
+        "admin": {
+          "args": {
+            "auto_delete": true
+          },
+          "name": "admin.custom-display.1-0-0-dev0.default.dwwz406yya"
+        },
+        "request": {
+          "args": {
+            "arguments": {
+              "x-max-priority": 1
+            },
+            "durable": true
+          },
+          "name": "custom-display.1-0-0-dev0.default"
+        },
+        "url": "amqp://beer_garden:password@rabbitmq:5672/"
+      },
+      "queue_type": "rabbitmq",
+      "status": "RUNNING",
+      "status_info": {
+        "heartbeat": 1524094468018
+      }
+    }
+  ],
+  "max_instances": 1,
+  "metadata": {},
+  "name": "custom-display",
+  "version": "1.0.0.dev0"
+}

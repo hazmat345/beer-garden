@@ -1,0 +1,48 @@
+{
+  "command_type": "ACTION",
+  "description": "Echos using Echo and then errors using Error",
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f242e8f00001af24c3",
+  "name": "say_error_and_catch",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": "Happy World!",
+      "description": "The message",
+      "display_name": "message",
+      "form_input_type": null,
+      "key": "message",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": true,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    },
+    {
+      "choices": null,
+      "default": false,
+      "description": "Add exclamation marks",
+      "display_name": "loud",
+      "form_input_type": null,
+      "key": "loud",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": true,
+      "parameters": [],
+      "regex": null,
+      "type": "Boolean"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f242e8f00001af24c2"
+  },
+  "template": null
+}

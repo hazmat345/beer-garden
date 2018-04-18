@@ -1,0 +1,65 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5ef42e8f00001af2489",
+  "name": "echo_simple_model",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": {},
+      "description": "A Model with a cool definition.",
+      "display_name": "model",
+      "form_input_type": null,
+      "key": "model",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": false,
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Just Testing a String",
+          "display_name": "My Nested String",
+          "form_input_type": null,
+          "key": "my_nested_string",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        },
+        {
+          "choices": null,
+          "default": null,
+          "description": "Just Testing an Int",
+          "display_name": "My Nested Int",
+          "form_input_type": null,
+          "key": "my_nested_int",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Integer"
+        }
+      ],
+      "regex": null,
+      "type": "Dictionary"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5ef42e8f00001af2454"
+  },
+  "template": null
+}

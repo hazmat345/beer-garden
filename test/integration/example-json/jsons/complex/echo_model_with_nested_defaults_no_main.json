@@ -1,0 +1,68 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5ef42e8f00001af246d",
+  "name": "echo_model_with_nested_defaults_no_main",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": {
+        "my_bar": "defaultBarFromModel",
+        "my_foo": "defaultFooFromModel"
+      },
+      "description": "A Model with a cool definition.",
+      "display_name": "model",
+      "form_input_type": null,
+      "key": "model",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": false,
+      "parameters": [
+        {
+          "choices": null,
+          "default": "defaultFooFromModel",
+          "description": "Foo With Defaults.",
+          "display_name": "Foo",
+          "form_input_type": null,
+          "key": "my_foo",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        },
+        {
+          "choices": null,
+          "default": "defaultBarFromModel",
+          "description": "Bar With Defaults.",
+          "display_name": "Bar",
+          "form_input_type": null,
+          "key": "my_bar",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "regex": null,
+      "type": "Dictionary"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5ef42e8f00001af2454"
+  },
+  "template": null
+}

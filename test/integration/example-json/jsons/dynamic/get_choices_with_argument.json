@@ -1,0 +1,42 @@
+{
+  "command_type": "INFO",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f142e8f00001af24ac",
+  "name": "get_choices_with_argument",
+  "output_type": "JSON",
+  "parameters": [
+    {
+      "choices": {
+        "details": {},
+        "display": "select",
+        "strict": true,
+        "type": "static",
+        "value": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "default": null,
+      "description": null,
+      "display_name": "key",
+      "form_input_type": null,
+      "key": "key",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f142e8f00001af24a7"
+  },
+  "template": null
+}

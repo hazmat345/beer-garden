@@ -1,0 +1,15 @@
+{
+  "command_type": "INFO",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f142e8f00001af24a9",
+  "name": "get_choices",
+  "output_type": "JSON",
+  "parameters": [],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f142e8f00001af24a7"
+  },
+  "template": null
+}

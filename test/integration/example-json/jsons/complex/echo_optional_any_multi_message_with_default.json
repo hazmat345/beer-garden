@@ -1,0 +1,37 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5ef42e8f00001af246e",
+  "name": "echo_optional_any_multi_message_with_default",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": [
+        "a",
+        1,
+        true,
+        null
+      ],
+      "description": "This message could be any valid JSON value.",
+      "display_name": "messages",
+      "form_input_type": null,
+      "key": "messages",
+      "maximum": null,
+      "minimum": null,
+      "multi": true,
+      "nullable": true,
+      "optional": true,
+      "parameters": [],
+      "regex": null,
+      "type": "Any"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5ef42e8f00001af2454"
+  },
+  "template": null
+}

@@ -1,0 +1,32 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5ef42e8f00001af245f",
+  "name": "echo_list_of_booleans_with_maximum",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": null,
+      "description": "Testing List of Booleans",
+      "display_name": "A List of Booleans",
+      "form_input_type": null,
+      "key": "list_of_b",
+      "maximum": 2,
+      "minimum": null,
+      "multi": true,
+      "nullable": false,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "Boolean"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5ef42e8f00001af2454"
+  },
+  "template": null
+}

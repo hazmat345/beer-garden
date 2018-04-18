@@ -1,0 +1,103 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f142e8f00001af24b0",
+  "name": "say_specific_dictionary_with_key_reference",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": {
+        "details": {
+          "key_reference": "dict_key"
+        },
+        "display": "select",
+        "strict": true,
+        "type": "static",
+        "value": {
+          "a": [
+            "r",
+            "s",
+            "t"
+          ],
+          "b": [
+            "u",
+            "v",
+            "w"
+          ],
+          "c": [
+            "x",
+            "y",
+            "z"
+          ],
+          "null": [
+            "r",
+            "s",
+            "t",
+            "u",
+            "v",
+            "w",
+            "x",
+            "y",
+            "z",
+            "r",
+            "s",
+            "t",
+            "u",
+            "v",
+            "w",
+            "x",
+            "y",
+            "z"
+          ]
+        }
+      },
+      "default": null,
+      "description": "I depend on 'dict_key'",
+      "display_name": "message",
+      "form_input_type": null,
+      "key": "message",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": true,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    },
+    {
+      "choices": {
+        "details": {},
+        "display": "select",
+        "strict": true,
+        "type": "static",
+        "value": [
+          "a",
+          "b",
+          "c",
+          null
+        ]
+      },
+      "default": null,
+      "description": null,
+      "display_name": "dict_key",
+      "form_input_type": null,
+      "key": "dict_key",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": true,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f142e8f00001af24a7"
+  },
+  "template": null
+}

@@ -1,0 +1,48 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5ef42e8f00001af2459",
+  "name": "echo_dates",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": null,
+      "description": "No time component, nullable",
+      "display_name": "Date",
+      "form_input_type": null,
+      "key": "date",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": true,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "Date"
+    },
+    {
+      "choices": null,
+      "default": null,
+      "description": "Time component, not nullable",
+      "display_name": "DateTime",
+      "form_input_type": null,
+      "key": "datetime",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "DateTime"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5ef42e8f00001af2454"
+  },
+  "template": null
+}

@@ -1,0 +1,32 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f342e8f00001af24d9",
+  "name": "echo_message_list_textarea",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": null,
+      "description": null,
+      "display_name": "messages",
+      "form_input_type": "textarea",
+      "key": "messages",
+      "maximum": null,
+      "minimum": null,
+      "multi": true,
+      "nullable": false,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f342e8f00001af24d3"
+  },
+  "template": null
+}

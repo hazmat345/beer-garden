@@ -1,0 +1,32 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f142e8f00001af24a8",
+  "name": "_get_attribute",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": null,
+      "default": null,
+      "description": null,
+      "display_name": "attribute",
+      "form_input_type": null,
+      "key": "attribute",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "Any"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f142e8f00001af24a7"
+  },
+  "template": null
+}

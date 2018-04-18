@@ -1,0 +1,3249 @@
+{
+  "commands": [
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2455",
+      "name": "echo_bool",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Just want to test Booleans",
+          "display_name": "A Boolean",
+          "form_input_type": null,
+          "key": "b",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Boolean"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2456",
+      "name": "echo_boolean_nullable",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing a nullable boolean",
+          "display_name": "A boolean",
+          "form_input_type": null,
+          "key": "b",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Boolean"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2457",
+      "name": "echo_boolean_nullable_with_true_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": true,
+          "description": "Testing a nullable boolean",
+          "display_name": "A boolean",
+          "form_input_type": null,
+          "key": "b",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Boolean"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2458",
+      "name": "echo_boolean_optional_with_false_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": false,
+          "description": "Testing a Boolean with a false default",
+          "display_name": "A Boolean",
+          "form_input_type": null,
+          "key": "b",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "Boolean"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2459",
+      "name": "echo_dates",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "No time component, nullable",
+          "display_name": "Date",
+          "form_input_type": null,
+          "key": "date",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Date"
+        },
+        {
+          "choices": null,
+          "default": null,
+          "description": "Time component, not nullable",
+          "display_name": "DateTime",
+          "form_input_type": null,
+          "key": "datetime",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "DateTime"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af245a",
+      "name": "echo_float",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Just want to test Floats",
+          "display_name": "A Float",
+          "form_input_type": null,
+          "key": "f",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Float"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af245b",
+      "name": "echo_integer",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Just want to test Integers",
+          "display_name": "An Integer",
+          "form_input_type": null,
+          "key": "i",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Integer"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af245c",
+      "name": "echo_integer_with_lots_of_choices",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": {
+            "details": {},
+            "display": "typeahead",
+            "strict": true,
+            "type": "static",
+            "value": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              70,
+              71,
+              72,
+              73,
+              74,
+              75,
+              76,
+              77,
+              78,
+              79,
+              80,
+              81,
+              82,
+              83,
+              84,
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99,
+              100
+            ]
+          },
+          "default": null,
+          "description": "Just want to test Integers",
+          "display_name": "An Integer",
+          "form_input_type": null,
+          "key": "i",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Integer"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af245d",
+      "name": "echo_list_model",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": {},
+          "description": "A Model with a cool definition.",
+          "display_name": "model",
+          "form_input_type": null,
+          "key": "model",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [
+            {
+              "choices": {
+                "details": {},
+                "display": "select",
+                "strict": true,
+                "type": "static",
+                "value": [
+                  "a",
+                  "b",
+                  "c"
+                ]
+              },
+              "default": null,
+              "description": "This has some choices",
+              "display_name": "Choices!",
+              "form_input_type": null,
+              "key": "my_choices_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just testing a list of Strings.",
+              "display_name": "My List of Strings",
+              "form_input_type": null,
+              "key": "my_list_of_strings",
+              "maximum": null,
+              "minimum": null,
+              "multi": true,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af245e",
+      "name": "echo_list_of_booleans",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing List of Booleans",
+          "display_name": "A List of Booleans",
+          "form_input_type": null,
+          "key": "list_of_b",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Boolean"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af245f",
+      "name": "echo_list_of_booleans_with_maximum",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing List of Booleans",
+          "display_name": "A List of Booleans",
+          "form_input_type": null,
+          "key": "list_of_b",
+          "maximum": 2,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Boolean"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2460",
+      "name": "echo_list_of_booleans_with_minimum",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing List of Booleans",
+          "display_name": "A List of Booleans",
+          "form_input_type": null,
+          "key": "list_of_b",
+          "maximum": null,
+          "minimum": 2,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Boolean"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2461",
+      "name": "echo_list_of_integers",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing List of Integers",
+          "display_name": "A List of Integers",
+          "form_input_type": null,
+          "key": "list_of_i",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Integer"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2462",
+      "name": "echo_list_of_strings",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing List of Strings",
+          "display_name": "A List of Strings",
+          "form_input_type": null,
+          "key": "list_of_s",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2463",
+      "name": "echo_list_of_strings_with_choices",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": {
+            "details": {},
+            "display": "select",
+            "strict": true,
+            "type": "static",
+            "value": [
+              "a",
+              "b",
+              "c"
+            ]
+          },
+          "default": null,
+          "description": "Testing List of Strings",
+          "display_name": "A List of Strings",
+          "form_input_type": null,
+          "key": "list_of_s",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2464",
+      "name": "echo_list_of_strings_with_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": [
+            "a",
+            "b",
+            "c"
+          ],
+          "description": "Testing List of Strings",
+          "display_name": "A List of Strings",
+          "form_input_type": null,
+          "key": "list_of_s",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2465",
+      "name": "echo_list_of_strings_with_default_required",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": [
+            "a",
+            "b",
+            "c"
+          ],
+          "description": "Testing List of Strings",
+          "display_name": "A List of Strings",
+          "form_input_type": null,
+          "key": "list_of_s",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2466",
+      "name": "echo_message_huge_json",
+      "output_type": "JSON",
+      "parameters": [],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "INFO",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2467",
+      "name": "echo_message_info",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2468",
+      "name": "echo_model",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": {
+            "my_optional_string": "test_opt"
+          },
+          "description": "A Model with a cool definition.",
+          "display_name": "model",
+          "form_input_type": null,
+          "key": "model",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a String",
+              "display_name": "My String",
+              "form_input_type": null,
+              "key": "my_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": {
+                "details": {},
+                "display": "select",
+                "strict": true,
+                "type": "static",
+                "value": [
+                  "A",
+                  "B",
+                  "C"
+                ]
+              },
+              "default": null,
+              "description": "Just Testing a String with choices",
+              "display_name": "My String With Choices",
+              "form_input_type": null,
+              "key": "my_string_with_choices",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing an Int",
+              "display_name": "My Int",
+              "form_input_type": null,
+              "key": "my_int",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Integer"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a Float",
+              "display_name": "My Float",
+              "form_input_type": null,
+              "key": "my_float",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Float"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a Boolean",
+              "display_name": "My Bool",
+              "form_input_type": null,
+              "key": "my_bool",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Boolean"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing an Any",
+              "display_name": "My Any",
+              "form_input_type": null,
+              "key": "my_any",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Any"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a Dictionary",
+              "display_name": "My Raw Dict",
+              "form_input_type": null,
+              "key": "my_raw_dict",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Dictionary"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a Nested Model",
+              "display_name": "My Nested Model",
+              "form_input_type": null,
+              "key": "my_nested_model",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [
+                {
+                  "choices": null,
+                  "default": null,
+                  "description": "Just Testing a String",
+                  "display_name": "My Nested String",
+                  "form_input_type": null,
+                  "key": "my_nested_string",
+                  "maximum": null,
+                  "minimum": null,
+                  "multi": false,
+                  "nullable": false,
+                  "optional": false,
+                  "parameters": [],
+                  "regex": null,
+                  "type": "String"
+                },
+                {
+                  "choices": null,
+                  "default": null,
+                  "description": "Just Testing an Int",
+                  "display_name": "My Nested Int",
+                  "form_input_type": null,
+                  "key": "my_nested_int",
+                  "maximum": null,
+                  "minimum": null,
+                  "multi": false,
+                  "nullable": false,
+                  "optional": false,
+                  "parameters": [],
+                  "regex": null,
+                  "type": "Integer"
+                }
+              ],
+              "regex": null,
+              "type": "Dictionary"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just testing a list of Strings.",
+              "display_name": "My List of Strings",
+              "form_input_type": null,
+              "key": "my_list_of_strings",
+              "maximum": null,
+              "minimum": null,
+              "multi": true,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": "test_opt",
+              "description": "Just testing an optional String.",
+              "display_name": "My Optional",
+              "form_input_type": null,
+              "key": "my_optional_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": true,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just testing a nullable String.",
+              "display_name": "My Nullable String",
+              "form_input_type": null,
+              "key": "my_nullable_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": true,
+              "optional": true,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a list of Models",
+              "display_name": "My List of Models",
+              "form_input_type": null,
+              "key": "my_list_of_models",
+              "maximum": null,
+              "minimum": null,
+              "multi": true,
+              "nullable": false,
+              "optional": false,
+              "parameters": [
+                {
+                  "choices": {
+                    "details": {},
+                    "display": "select",
+                    "strict": true,
+                    "type": "static",
+                    "value": [
+                      "a",
+                      "b",
+                      "c"
+                    ]
+                  },
+                  "default": null,
+                  "description": "This has some choices",
+                  "display_name": "Choices!",
+                  "form_input_type": null,
+                  "key": "my_choices_string",
+                  "maximum": null,
+                  "minimum": null,
+                  "multi": false,
+                  "nullable": false,
+                  "optional": false,
+                  "parameters": [],
+                  "regex": null,
+                  "type": "String"
+                },
+                {
+                  "choices": null,
+                  "default": null,
+                  "description": "Just testing a list of Strings.",
+                  "display_name": "My List of Strings",
+                  "form_input_type": null,
+                  "key": "my_list_of_strings",
+                  "maximum": null,
+                  "minimum": null,
+                  "multi": true,
+                  "nullable": false,
+                  "optional": false,
+                  "parameters": [],
+                  "regex": null,
+                  "type": "String"
+                }
+              ],
+              "regex": null,
+              "type": "Dictionary"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2469",
+      "name": "echo_model_optional",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "A optional model.",
+          "display_name": "model",
+          "form_input_type": null,
+          "key": "model",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": true,
+          "parameters": [
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a String",
+              "display_name": "My String",
+              "form_input_type": null,
+              "key": "my_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": {
+                "details": {},
+                "display": "select",
+                "strict": true,
+                "type": "static",
+                "value": [
+                  "A",
+                  "B",
+                  "C"
+                ]
+              },
+              "default": null,
+              "description": "Just Testing a String with choices",
+              "display_name": "My String With Choices",
+              "form_input_type": null,
+              "key": "my_string_with_choices",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing an Int",
+              "display_name": "My Int",
+              "form_input_type": null,
+              "key": "my_int",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Integer"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a Float",
+              "display_name": "My Float",
+              "form_input_type": null,
+              "key": "my_float",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Float"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a Boolean",
+              "display_name": "My Bool",
+              "form_input_type": null,
+              "key": "my_bool",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Boolean"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing an Any",
+              "display_name": "My Any",
+              "form_input_type": null,
+              "key": "my_any",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Any"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a Dictionary",
+              "display_name": "My Raw Dict",
+              "form_input_type": null,
+              "key": "my_raw_dict",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Dictionary"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a Nested Model",
+              "display_name": "My Nested Model",
+              "form_input_type": null,
+              "key": "my_nested_model",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [
+                {
+                  "choices": null,
+                  "default": null,
+                  "description": "Just Testing a String",
+                  "display_name": "My Nested String",
+                  "form_input_type": null,
+                  "key": "my_nested_string",
+                  "maximum": null,
+                  "minimum": null,
+                  "multi": false,
+                  "nullable": false,
+                  "optional": false,
+                  "parameters": [],
+                  "regex": null,
+                  "type": "String"
+                },
+                {
+                  "choices": null,
+                  "default": null,
+                  "description": "Just Testing an Int",
+                  "display_name": "My Nested Int",
+                  "form_input_type": null,
+                  "key": "my_nested_int",
+                  "maximum": null,
+                  "minimum": null,
+                  "multi": false,
+                  "nullable": false,
+                  "optional": false,
+                  "parameters": [],
+                  "regex": null,
+                  "type": "Integer"
+                }
+              ],
+              "regex": null,
+              "type": "Dictionary"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just testing a list of Strings.",
+              "display_name": "My List of Strings",
+              "form_input_type": null,
+              "key": "my_list_of_strings",
+              "maximum": null,
+              "minimum": null,
+              "multi": true,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": "test_opt",
+              "description": "Just testing an optional String.",
+              "display_name": "My Optional",
+              "form_input_type": null,
+              "key": "my_optional_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": true,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just testing a nullable String.",
+              "display_name": "My Nullable String",
+              "form_input_type": null,
+              "key": "my_nullable_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": true,
+              "optional": true,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a list of Models",
+              "display_name": "My List of Models",
+              "form_input_type": null,
+              "key": "my_list_of_models",
+              "maximum": null,
+              "minimum": null,
+              "multi": true,
+              "nullable": false,
+              "optional": false,
+              "parameters": [
+                {
+                  "choices": {
+                    "details": {},
+                    "display": "select",
+                    "strict": true,
+                    "type": "static",
+                    "value": [
+                      "a",
+                      "b",
+                      "c"
+                    ]
+                  },
+                  "default": null,
+                  "description": "This has some choices",
+                  "display_name": "Choices!",
+                  "form_input_type": null,
+                  "key": "my_choices_string",
+                  "maximum": null,
+                  "minimum": null,
+                  "multi": false,
+                  "nullable": false,
+                  "optional": false,
+                  "parameters": [],
+                  "regex": null,
+                  "type": "String"
+                },
+                {
+                  "choices": null,
+                  "default": null,
+                  "description": "Just testing a list of Strings.",
+                  "display_name": "My List of Strings",
+                  "form_input_type": null,
+                  "key": "my_list_of_strings",
+                  "maximum": null,
+                  "minimum": null,
+                  "multi": true,
+                  "nullable": false,
+                  "optional": false,
+                  "parameters": [],
+                  "regex": null,
+                  "type": "String"
+                }
+              ],
+              "regex": null,
+              "type": "Dictionary"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af246a",
+      "name": "echo_model_simple_list",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": {},
+          "description": "A List of Models",
+          "display_name": "models",
+          "form_input_type": null,
+          "key": "models",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a String",
+              "display_name": "My Nested String",
+              "form_input_type": null,
+              "key": "my_nested_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing an Int",
+              "display_name": "My Nested Int",
+              "form_input_type": null,
+              "key": "my_nested_int",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Integer"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af246b",
+      "name": "echo_model_simple_list_with_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": [
+            {
+              "my_nested_int": 1,
+              "my_nested_string": "str1"
+            },
+            {
+              "my_nested_int": 2,
+              "my_nested_string": "str2"
+            }
+          ],
+          "description": "A List of Models",
+          "display_name": "models",
+          "form_input_type": null,
+          "key": "models",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a String",
+              "display_name": "My Nested String",
+              "form_input_type": null,
+              "key": "my_nested_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing an Int",
+              "display_name": "My Nested Int",
+              "form_input_type": null,
+              "key": "my_nested_int",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Integer"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af246c",
+      "name": "echo_model_with_nested_defaults",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": {
+            "my_bar": "clientBarValue",
+            "my_foo": "clientFooValue"
+          },
+          "description": "A Model with a cool definition.",
+          "display_name": "model",
+          "form_input_type": null,
+          "key": "model",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [
+            {
+              "choices": null,
+              "default": "defaultFooFromModel",
+              "description": "Foo With Defaults.",
+              "display_name": "Foo",
+              "form_input_type": null,
+              "key": "my_foo",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": "defaultBarFromModel",
+              "description": "Bar With Defaults.",
+              "display_name": "Bar",
+              "form_input_type": null,
+              "key": "my_bar",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af246d",
+      "name": "echo_model_with_nested_defaults_no_main",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": {
+            "my_bar": "defaultBarFromModel",
+            "my_foo": "defaultFooFromModel"
+          },
+          "description": "A Model with a cool definition.",
+          "display_name": "model",
+          "form_input_type": null,
+          "key": "model",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [
+            {
+              "choices": null,
+              "default": "defaultFooFromModel",
+              "description": "Foo With Defaults.",
+              "display_name": "Foo",
+              "form_input_type": null,
+              "key": "my_foo",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": "defaultBarFromModel",
+              "description": "Bar With Defaults.",
+              "display_name": "Bar",
+              "form_input_type": null,
+              "key": "my_bar",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af246e",
+      "name": "echo_optional_any_multi_message_with_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": [
+            "a",
+            1,
+            true,
+            null
+          ],
+          "description": "This message could be any valid JSON value.",
+          "display_name": "messages",
+          "form_input_type": null,
+          "key": "messages",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": true,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "Any"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af246f",
+      "name": "echo_optional_message_nullable_false",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": "default required",
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2470",
+      "name": "echo_optional_message_nullable_true_no_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2471",
+      "name": "echo_optional_message_nullable_true_non_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": "can be null",
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2472",
+      "name": "echo_optional_message_nullable_true_null_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2473",
+      "name": "echo_optional_model_with_defaults",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "An optional model with defaults",
+          "display_name": "model",
+          "form_input_type": null,
+          "key": "model",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": true,
+          "parameters": [
+            {
+              "choices": null,
+              "default": "defaultFooFromModel",
+              "description": "Foo With Defaults.",
+              "display_name": "Foo",
+              "form_input_type": null,
+              "key": "my_foo",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": "defaultBarFromModel",
+              "description": "Bar With Defaults.",
+              "display_name": "Bar",
+              "form_input_type": null,
+              "key": "my_bar",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2474",
+      "name": "echo_optional_multi_nullable_model",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "param",
+          "form_input_type": null,
+          "key": "param",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": true,
+          "optional": true,
+          "parameters": [
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a String",
+              "display_name": "My Nested String",
+              "form_input_type": null,
+              "key": "my_nested_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing an Int",
+              "display_name": "My Nested Int",
+              "form_input_type": null,
+              "key": "my_nested_int",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Integer"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2475",
+      "name": "echo_optional_multi_nullable_model_with_both_defaults",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": [
+            {
+              "my_bar": "bar",
+              "my_foo": "foo"
+            }
+          ],
+          "description": null,
+          "display_name": "param",
+          "form_input_type": null,
+          "key": "param",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": true,
+          "optional": true,
+          "parameters": [
+            {
+              "choices": null,
+              "default": "defaultFooFromModel",
+              "description": "Foo With Defaults.",
+              "display_name": "Foo",
+              "form_input_type": null,
+              "key": "my_foo",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": "defaultBarFromModel",
+              "description": "Bar With Defaults.",
+              "display_name": "Bar",
+              "form_input_type": null,
+              "key": "my_bar",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2476",
+      "name": "echo_optional_multi_nullable_model_with_model_defaults",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "param",
+          "form_input_type": null,
+          "key": "param",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": true,
+          "optional": true,
+          "parameters": [
+            {
+              "choices": null,
+              "default": "defaultFooFromModel",
+              "description": "Foo With Defaults.",
+              "display_name": "Foo",
+              "form_input_type": null,
+              "key": "my_foo",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": "defaultBarFromModel",
+              "description": "Bar With Defaults.",
+              "display_name": "Bar",
+              "form_input_type": null,
+              "key": "my_bar",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2477",
+      "name": "echo_optional_multi_nullable_model_with_multi_defaults",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": [
+            {
+              "my_nested_int": 2,
+              "my_nested_string": "hi"
+            }
+          ],
+          "description": null,
+          "display_name": "param",
+          "form_input_type": null,
+          "key": "param",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": true,
+          "optional": true,
+          "parameters": [
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a String",
+              "display_name": "My Nested String",
+              "form_input_type": null,
+              "key": "my_nested_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing an Int",
+              "display_name": "My Nested Int",
+              "form_input_type": null,
+              "key": "my_nested_int",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Integer"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2478",
+      "name": "echo_optional_multi_nullable_string",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": [
+            "hello",
+            "there"
+          ],
+          "description": null,
+          "display_name": "param",
+          "form_input_type": null,
+          "key": "param",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": true,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2479",
+      "name": "echo_raw_dictionary",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing a Blank Dictionary",
+          "display_name": "A Dictionary",
+          "form_input_type": null,
+          "key": "d",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af247a",
+      "name": "echo_raw_dictionary_nullable",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing a Blank Dictionary",
+          "display_name": "A Dictionary",
+          "form_input_type": null,
+          "key": "d",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af247b",
+      "name": "echo_raw_dictionary_optional",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing a Blank Dictionary",
+          "display_name": "A Dictionary",
+          "form_input_type": null,
+          "key": "d",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af247c",
+      "name": "echo_raw_dictionary_optional_with_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": {
+            "foo": "bar"
+          },
+          "description": "Testing a Blank Dictionary",
+          "display_name": "A Dictionary",
+          "form_input_type": null,
+          "key": "d",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af247d",
+      "name": "echo_raw_dictionary_optional_with_maximum",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing a Blank Dictionary",
+          "display_name": "A Dictionary",
+          "form_input_type": null,
+          "key": "d",
+          "maximum": 2,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": true,
+          "parameters": [],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af247e",
+      "name": "echo_required_any_message",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "This message could be any valid JSON value.",
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Any"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af247f",
+      "name": "echo_required_any_multi_message",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "This message could be any valid JSON value.",
+          "display_name": "messages",
+          "form_input_type": null,
+          "key": "messages",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Any"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2480",
+      "name": "echo_required_any_multi_message_with_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": [
+            "a",
+            1,
+            true,
+            null
+          ],
+          "description": "This message could be any valid JSON value.",
+          "display_name": "messages",
+          "form_input_type": null,
+          "key": "messages",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": true,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Any"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2481",
+      "name": "echo_required_message",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2482",
+      "name": "echo_required_message_nullable_false_no_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2483",
+      "name": "echo_required_message_nullable_false_with_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": "cannot be null",
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2484",
+      "name": "echo_required_message_nullable_true",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2485",
+      "name": "echo_required_message_nullable_true_with_non_null_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": "can be null",
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2486",
+      "name": "echo_required_message_nullable_true_with_null_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2487",
+      "name": "echo_required_message_regex",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": "^Hi.*",
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2488",
+      "name": "echo_required_nullable_message_regex",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "message",
+          "form_input_type": null,
+          "key": "message",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": true,
+          "optional": false,
+          "parameters": [],
+          "regex": "^Hi.*",
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2489",
+      "name": "echo_simple_model",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": {},
+          "description": "A Model with a cool definition.",
+          "display_name": "model",
+          "form_input_type": null,
+          "key": "model",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a String",
+              "display_name": "My Nested String",
+              "form_input_type": null,
+              "key": "my_nested_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing an Int",
+              "display_name": "My Nested Int",
+              "form_input_type": null,
+              "key": "my_nested_int",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Integer"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af248a",
+      "name": "echo_simple_model_with_default",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": {
+            "my_nested_int": 1,
+            "my_nested_string": "foo"
+          },
+          "description": "A Model with a cool definition.",
+          "display_name": "model",
+          "form_input_type": null,
+          "key": "model",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing a String",
+              "display_name": "My Nested String",
+              "form_input_type": null,
+              "key": "my_nested_string",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "String"
+            },
+            {
+              "choices": null,
+              "default": null,
+              "description": "Just Testing an Int",
+              "display_name": "My Nested Int",
+              "form_input_type": null,
+              "key": "my_nested_int",
+              "maximum": null,
+              "minimum": null,
+              "multi": false,
+              "nullable": false,
+              "optional": false,
+              "parameters": [],
+              "regex": null,
+              "type": "Integer"
+            }
+          ],
+          "regex": null,
+          "type": "Dictionary"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af248b",
+      "name": "echo_string_with_small_choices",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": {
+            "details": {},
+            "display": "select",
+            "strict": true,
+            "type": "static",
+            "value": [
+              "a",
+              "b",
+              "c",
+              "d",
+              "e"
+            ]
+          },
+          "default": null,
+          "description": "Just want to test Small Choices",
+          "display_name": "A String",
+          "form_input_type": null,
+          "key": "s",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af248c",
+      "name": "echo_with_max_value",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing integer maximum constraint",
+          "display_name": "An Integer",
+          "form_input_type": null,
+          "key": "echo_max_value",
+          "maximum": 20,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Integer"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af248d",
+      "name": "echo_with_max_value_string",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing string maximum constraint",
+          "display_name": "A String",
+          "form_input_type": null,
+          "key": "echo_string",
+          "maximum": 10,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af248e",
+      "name": "echo_with_min_value",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing integer minimum constraint",
+          "display_name": "An Integer",
+          "form_input_type": null,
+          "key": "echo_min_value",
+          "maximum": null,
+          "minimum": 10,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Integer"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af248f",
+      "name": "echo_with_min_value_string",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Testing string minimum constraint",
+          "display_name": "A String",
+          "form_input_type": null,
+          "key": "echo_string",
+          "maximum": null,
+          "minimum": 3,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2490",
+      "name": "ping",
+      "output_type": "STRING",
+      "parameters": [],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": "Prints out the DB_NAME and DB_PASS from the environment, just to prove it works",
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5ef42e8f00001af2491",
+      "name": "prove_env",
+      "output_type": "STRING",
+      "parameters": [],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    },
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af2492",
+      "name": "weird_parameter_names",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "parameters",
+          "form_input_type": null,
+          "key": "parameters",
+          "maximum": null,
+          "minimum": null,
+          "multi": true,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        },
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "instance_name",
+          "form_input_type": null,
+          "key": "instance_name",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        },
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "system_version",
+          "form_input_type": null,
+          "key": "system_version",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        },
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "comment",
+          "form_input_type": null,
+          "key": "comment",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        },
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "command",
+          "form_input_type": null,
+          "key": "command",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        },
+        {
+          "choices": null,
+          "default": null,
+          "description": null,
+          "display_name": "system",
+          "form_input_type": null,
+          "key": "system",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "String"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5ef42e8f00001af2454"
+      },
+      "template": null
+    }
+  ],
+  "description": "Plugin that shows all the cool things beergarden can do",
+  "display_name": "",
+  "icon_name": "",
+  "id": "5ad7d5ef42e8f00001af2454",
+  "instances": [
+    {
+      "description": null,
+      "icon_name": null,
+      "id": "5ad7d5f042e8f00001af2493",
+      "metadata": {},
+      "name": "c1",
+      "queue_info": {
+        "admin": {
+          "args": {
+            "auto_delete": true
+          },
+          "name": "admin.complex.1-0-0-dev0.c1.ns64jwo506"
+        },
+        "request": {
+          "args": {
+            "arguments": {
+              "x-max-priority": 1
+            },
+            "durable": true
+          },
+          "name": "complex.1-0-0-dev0.c1"
+        },
+        "url": "amqp://beer_garden:password@rabbitmq:5672/"
+      },
+      "queue_type": "rabbitmq",
+      "status": "RUNNING",
+      "status_info": {
+        "heartbeat": 1524094468008
+      }
+    },
+    {
+      "description": null,
+      "icon_name": null,
+      "id": "5ad7d5f242e8f00001af24cb",
+      "metadata": {},
+      "name": "c2",
+      "queue_info": {
+        "admin": {
+          "args": {
+            "auto_delete": true
+          },
+          "name": "admin.complex.1-0-0-dev0.c2.3glj04wth1"
+        },
+        "request": {
+          "args": {
+            "arguments": {
+              "x-max-priority": 1
+            },
+            "durable": true
+          },
+          "name": "complex.1-0-0-dev0.c2"
+        },
+        "url": "amqp://beer_garden:password@rabbitmq:5672/"
+      },
+      "queue_type": "rabbitmq",
+      "status": "RUNNING",
+      "status_info": {
+        "heartbeat": 1524094468023
+      }
+    }
+  ],
+  "max_instances": 2,
+  "metadata": {},
+  "name": "complex",
+  "version": "1.0.0.dev0"
+}

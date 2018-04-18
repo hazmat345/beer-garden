@@ -1,0 +1,76 @@
+{
+  "commands": [
+    {
+      "command_type": "ACTION",
+      "description": null,
+      "form": {},
+      "icon_name": null,
+      "id": "5ad7d5f242e8f00001af24cf",
+      "name": "sleep",
+      "output_type": "STRING",
+      "parameters": [
+        {
+          "choices": null,
+          "default": null,
+          "description": "Amount of time to sleep (in seconds)",
+          "display_name": "amount",
+          "form_input_type": null,
+          "key": "amount",
+          "maximum": null,
+          "minimum": null,
+          "multi": false,
+          "nullable": false,
+          "optional": false,
+          "parameters": [],
+          "regex": null,
+          "type": "Float"
+        }
+      ],
+      "schema": {},
+      "system": {
+        "id": "5ad7d5f242e8f00001af24ce"
+      },
+      "template": null
+    }
+  ],
+  "description": null,
+  "display_name": null,
+  "icon_name": null,
+  "id": "5ad7d5f242e8f00001af24ce",
+  "instances": [
+    {
+      "description": null,
+      "icon_name": null,
+      "id": "5ad7d5f242e8f00001af24d0",
+      "metadata": {},
+      "name": "default",
+      "queue_info": {
+        "admin": {
+          "args": {
+            "auto_delete": true
+          },
+          "name": "admin.concurrent-sleeper.1-0-0-dev0.default.8q2jjaseq3"
+        },
+        "request": {
+          "args": {
+            "arguments": {
+              "x-max-priority": 1
+            },
+            "durable": true
+          },
+          "name": "concurrent-sleeper.1-0-0-dev0.default"
+        },
+        "url": "amqp://beer_garden:password@rabbitmq:5672/"
+      },
+      "queue_type": "rabbitmq",
+      "status": "RUNNING",
+      "status_info": {
+        "heartbeat": 1524094468048
+      }
+    }
+  ],
+  "max_instances": 1,
+  "metadata": {},
+  "name": "concurrent-sleeper",
+  "version": "1.0.0.dev0"
+}

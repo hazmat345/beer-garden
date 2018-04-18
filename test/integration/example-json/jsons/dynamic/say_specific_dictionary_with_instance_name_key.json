@@ -1,0 +1,51 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f142e8f00001af24af",
+  "name": "say_specific_dictionary_with_instance_name_key",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": {
+        "details": {
+          "key_reference": "instance_name"
+        },
+        "display": "select",
+        "strict": true,
+        "type": "static",
+        "value": {
+          "d1": [
+            "100",
+            "101",
+            "111"
+          ],
+          "d2": [
+            "200",
+            "202",
+            "222"
+          ]
+        }
+      },
+      "default": null,
+      "description": "I depend on the instance",
+      "display_name": "message",
+      "form_input_type": null,
+      "key": "message",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": true,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f142e8f00001af24a7"
+  },
+  "template": null
+}

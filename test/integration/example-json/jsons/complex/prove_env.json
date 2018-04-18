@@ -1,0 +1,15 @@
+{
+  "command_type": "ACTION",
+  "description": "Prints out the DB_NAME and DB_PASS from the environment, just to prove it works",
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5ef42e8f00001af2491",
+  "name": "prove_env",
+  "output_type": "STRING",
+  "parameters": [],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5ef42e8f00001af2454"
+  },
+  "template": null
+}

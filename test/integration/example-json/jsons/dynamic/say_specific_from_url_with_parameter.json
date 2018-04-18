@@ -1,0 +1,67 @@
+{
+  "command_type": "ACTION",
+  "description": null,
+  "form": {},
+  "icon_name": null,
+  "id": "5ad7d5f142e8f00001af24b6",
+  "name": "say_specific_from_url_with_parameter",
+  "output_type": "STRING",
+  "parameters": [
+    {
+      "choices": {
+        "details": {
+          "address": "http://example.com/api",
+          "args": []
+        },
+        "display": "select",
+        "strict": true,
+        "type": "url",
+        "value": "http://example.com/api"
+      },
+      "default": null,
+      "description": "Say what we want",
+      "display_name": "message",
+      "form_input_type": null,
+      "key": "message",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    },
+    {
+      "choices": {
+        "details": {},
+        "display": "select",
+        "strict": true,
+        "type": "static",
+        "value": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "default": "a",
+      "description": null,
+      "display_name": "index",
+      "form_input_type": null,
+      "key": "index",
+      "maximum": null,
+      "minimum": null,
+      "multi": false,
+      "nullable": false,
+      "optional": false,
+      "parameters": [],
+      "regex": null,
+      "type": "String"
+    }
+  ],
+  "schema": {},
+  "system": {
+    "id": "5ad7d5f142e8f00001af24a7"
+  },
+  "template": null
+}

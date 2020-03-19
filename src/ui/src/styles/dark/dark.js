@@ -1,3 +1,3 @@
 
-import 'bootswatch/slate/bootstrap.css';
+import 'bootswatch/dist/slate/bootstrap.css';
 import './dark.css';

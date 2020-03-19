@@ -52,10 +52,10 @@ import '@beer-garden/addons';
 
 // CSS
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
+// import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.css';
 import 'metismenu/dist/metisMenu.css';
-import 'startbootstrap-sb-admin-2/dist/css/sb-admin-2.css';
+import 'startbootstrap-sb-admin-2/css/sb-admin-2.css';
 import 'datatables.net-bs/css/dataTables.bootstrap.css';
 import 'ui-select/dist/select.css';
 import 'font-awesome/css/font-awesome.css';

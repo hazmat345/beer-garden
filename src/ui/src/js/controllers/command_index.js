@@ -20,16 +20,33 @@ export default function commandIndexController(
     DTOptionsBuilder) {
   $scope.setWindowTitle('commands');
 
+  let filterSpec = {
+    0: {html: 'input', type: 'text', attr: {id: 'nsFilter', class: 'form-inline form-control'}},
+    1: {html: 'input', type: 'text', attr: {id: 'sysFilter', class: 'form-inline form-control'}},
+    2: {html: 'input', type: 'text', attr: {id: 'verFilter', class: 'form-inline form-control'}},
+    3: {html: 'input', type: 'text', attr: {class: 'form-inline form-control'}},
+    4: {html: 'input', type: 'text', attr: {class: 'form-inline form-control'}},
+  };
+
+  if ($stateParams.namespace) {
+    filterSpec[0]['attr']['value'] = $stateParams.namespace;
+    filterSpec[0]['attr']['disabled'] = "";
+
+    if ($stateParams.systemName) {
+      filterSpec[1]['attr']['value'] = $stateParams.systemName;
+      filterSpec[1]['attr']['disabled'] = "";
+      
+      if ($stateParams.systemVersion) {
+        filterSpec[2]['attr']['value'] = $stateParams.systemVersion;
+        filterSpec[2]['attr']['disabled'] = "";
+      }
+    }
+  }
+
   $scope.dtOptions = DTOptionsBuilder.newOptions()
     .withOption('autoWidth', false)
     .withOption('order', [[0, 'asc'], [1, 'asc'], [2, 'asc'], [3, 'asc']])
-    .withLightColumnFilter({
-      0: {html: 'input', type: 'text', attr: {class: 'form-inline form-control'}},
-      1: {html: 'input', type: 'text', attr: {class: 'form-inline form-control'}},
-      2: {html: 'input', type: 'text', attr: {class: 'form-inline form-control'}},
-      3: {html: 'input', type: 'text', attr: {class: 'form-inline form-control'}},
-      4: {html: 'input', type: 'text', attr: {class: 'form-inline form-control'}},
-    })
+    .withLightColumnFilter(filterSpec)
     .withBootstrap();
 
 
@@ -57,6 +74,13 @@ export default function commandIndexController(
   $scope.failureCallback = function(response) {
     $scope.response = response;
     $scope.data = {};
+  };
+
+  $scope.instanceCreated = function(_instance) {
+    $scope.dtInstance = _instance;
+    $("#nsFilter").trigger("keyup");
+    $("#sysFilter").trigger("keyup");
+    $("#verFilter").trigger("keyup");
   };
 
   $scope.successCallback($rootScope.sysResponse);

@@ -49,6 +49,7 @@ db:
     action: -1
     event: 15
     info: 15
+  type: mongo
 entry:
   http:
     enable: true

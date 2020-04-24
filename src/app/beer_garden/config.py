@@ -541,6 +541,12 @@ _AUTH_SPEC = {
 _DB_SPEC = {
     "type": "dict",
     "items": {
+        "type": {
+            "type": "str",
+            "default": "mongo",
+            "description": "Type of database",
+            "choices": ["mongo", "sql"],
+        },
         "name": {
             "type": "str",
             "default": "beer_garden",

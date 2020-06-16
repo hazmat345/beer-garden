@@ -29,33 +29,6 @@ __all__ = [
     "Garden",
 ]
 
-
-class MongoModel:
-    brewtils_model = None
-
-    def __str__(self):
-        return self.brewtils_model.__str__(self)
-
-    def __repr__(self):
-        return self.brewtils_model.__repr__(self)
-
-    @classmethod
-    def index_names(cls):
-        return [index["name"] for index in cls._meta["indexes"]]
-
-    def save(self, *args, **kwargs):
-        kwargs.setdefault("write_concern", {"w": "majority"})
-        return super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        # Sigh. In delete (but not save!) write_concern things ARE the kwargs!
-        kwargs.setdefault("w", "majority")
-        return super().delete(*args, **kwargs)
-
-    def clean_update(self):
-        pass
-
-
 base_type_mapper = {
     "STRING": sqlalchemy.String,
     "BOOLEAN": sqlalchemy.Boolean,
@@ -249,12 +222,6 @@ class StatusInfo(Base):
     __tablename__ = "StatusInfo"
 
 
-# schema_mapping = {
-#     brewtils.models.Choices.schema: Choices,
-#     brewtils.models.Parameter.schema: Parameter,
-#     brewtils.models.Command.schema: Command,
-#     "StatusInfo" : StatusInfo
-# }
 schema_mapping = dict()
 
 class_mapper(Choices, db_models.Choices)

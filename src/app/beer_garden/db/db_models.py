@@ -41,6 +41,7 @@ class FieldBase:
             field_type: Approved mapping type for databases
             is_list: If this is a list
             is_ref: Is this stored in another table
+            unique_with: List or Str to define columns to unique against
 
         Returns:
 

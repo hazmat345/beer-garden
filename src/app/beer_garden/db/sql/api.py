@@ -93,7 +93,7 @@ def check_connection(db_config: Box):
         Any mongoengine or pymongo error *except* ConnectionFailure,
         ServerSelectionTimeoutError
     """
-    engine = create_engine('sqlite:///:memory:', echo=True)
+    engine = create_engine("sqlite:///:memory:", echo=True)
     # try:
     #
     #     # The 'connect' method won't actually fail

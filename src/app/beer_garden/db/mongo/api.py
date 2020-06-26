@@ -8,7 +8,8 @@ from mongoengine import connect, register_connection, DoesNotExist
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 from typing import List, Optional, Type, Union, Tuple
 
-import beer_garden.db.mongo.models
+#import beer_garden.db.mongo.models as db_models
+import beer_garden.db.mongo.new_models as db_models
 from beer_garden.db.mongo.models import MongoModel
 from beer_garden.db.mongo.parser import MongoParser
 from beer_garden.db.mongo.pruner import MongoPruner
@@ -36,11 +37,12 @@ ModelItem = Union[
     brewtils.models.Garden,
 ]
 
-_model_map = {}
-for model_name in beer_garden.db.mongo.models.__all__:
-    mongo_class = getattr(beer_garden.db.mongo.models, model_name)
-    _model_map[mongo_class.brewtils_model] = mongo_class
+# _model_map = {}
+# for model_name in db_models.__all__:
+#     mongo_class = getattr(db_models, model_name)
+#     _model_map[mongo_class.brewtils_model] = mongo_class
 
+_model_map = db_models.schema_mapping
 
 def from_brewtils(obj: ModelItem) -> MongoModel:
     """Convert an item from its Brewtils model to its  one
@@ -138,11 +140,11 @@ def initial_setup(guest_login_enabled):
     """Do everything necessary to ensure the database is in a 'good' state"""
 
     for doc in (
-        beer_garden.db.mongo.models.Job,
-        beer_garden.db.mongo.models.Request,
-        beer_garden.db.mongo.models.Role,
-        beer_garden.db.mongo.models.System,
-        beer_garden.db.mongo.models.Principal,
+        db_models.Job,
+        db_models.Request,
+        db_models.Role,
+        db_models.System,
+        db_models.Principal,
     ):
         check_indexes(doc)
 
@@ -395,7 +397,7 @@ def replace_commands(
     mongo_system = from_brewtils(system)
     mongo_commands = [from_brewtils(command) for command in new_commands]
 
-    old_commands = beer_garden.db.mongo.models.Command.objects(system=mongo_system)
+    old_commands = db_models.Command.objects(system=mongo_system)
     old_names = {command.name: command.id for command in old_commands}
 
     new_names = [command.name for command in new_commands]

@@ -180,7 +180,7 @@ def count(model_class: ModelType, **kwargs) -> int:
         session.rollback()
         raise
     finally:
-
+        pass
 
 def query_unique(
     model_class: ModelType, raise_missing=False, **kwargs

@@ -10,7 +10,8 @@ from brewtils.models import Job
 from pytz import utc
 
 from beer_garden.db.mongo.api import delete, query, query_unique, update
-from beer_garden.db.mongo.models import Job as MongoJob
+#from beer_garden.db.mongo.models import Job as MongoJob
+from beer_garden.db.mongo.new_models import Job as MongoJob
 from beer_garden.scheduler import IntervalTrigger
 
 logger = logging.getLogger(__name__)

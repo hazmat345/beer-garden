@@ -6,7 +6,8 @@ from typing import Tuple, List
 from brewtils.stoppable_thread import StoppableThread
 from mongoengine import Q
 
-from beer_garden.db.mongo.models import Event, Request
+#from beer_garden.db.mongo.models import Event, Request
+from beer_garden.db.mongo.new_models import Event, Request
 
 
 class MongoPruner(StoppableThread):

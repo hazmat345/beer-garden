@@ -35,16 +35,11 @@ base_type_mapper = {
     "INT": sqlalchemy.Integer,
     "DATE": sqlalchemy.Date,
     "JSON": sqlalchemy.JSON,
+    "DICT": sqlalchemy.JSON,
 }
 
 
 def field_mapper(base_field):
-    base_field.required
-    base_field.default
-    base_field.choices
-    base_field.field_type
-    base_field.is_list
-    base_field.is_ref
 
     if base_field.is_list:
         if base_field.field_type not in base_type_mapper:
@@ -229,3 +224,15 @@ class_mapper(Parameter, db_models.Parameter)
 class_mapper(Command, db_models.Command)
 class_mapper(StatusInfo, db_models.StatusInfo)
 class_mapper(Instance, db_models.Instance)
+class_mapper(RequestTemplate, db_models.RequestTemplate)
+class_mapper(Request, db_models.Request)
+class_mapper(System, db_models.System)
+class_mapper(Event, db_models.Event)
+class_mapper(Role, db_models.Role)
+class_mapper(Principal, db_models.Principal)
+class_mapper(RefreshToken, db_models.RefreshToken)
+class_mapper(DateTrigger, db_models.DateTrigger)
+class_mapper(IntervalTrigger, db_models.IntervalTrigger)
+class_mapper(CronTrigger, db_models.CronTrigger)
+class_mapper(Job, db_models.Job)
+class_mapper(Garden, db_models.Garden)

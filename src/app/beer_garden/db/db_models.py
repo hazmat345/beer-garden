@@ -1,4 +1,6 @@
 import six
+import datetime
+import pytz
 
 try:
     from lark import ParseError
@@ -9,7 +11,7 @@ except ImportError:
     LarkError = ParseError
 
 import brewtils
-from brewtils.errors import ModelValidationError
+#from brewtils.errors import ModelValidationError
 from brewtils.choices import parse
 from brewtils.errors import ModelValidationError, RequestStatusTransitionError
 from brewtils.models import (
@@ -23,14 +25,16 @@ from brewtils.models import (
 
 class FieldBase:
     def __init__(
-        self,
-        required=False,
-        default=None,
-        choices=None,
-        field_type=None,
-        is_list=False,
-        is_ref=False,
-        unique_with=None,
+            self,
+            required=False,
+            default=None,
+            choices=None,
+            field_type=None,
+            is_list=False,
+            is_ref=False,
+            unique_with=None,
+            reverse_delete_rule="DO_NOTHING",
+            min_value=None,
     ):
         """
 
@@ -53,6 +57,8 @@ class FieldBase:
         self.is_list = is_list
         self.is_ref = is_ref
         self.unique_with = unique_with
+        self.reverse_delete_rule = reverse_delete_rule
+        self.min_value = min_value
 
     def clean_update(self):
         pass
@@ -90,7 +96,7 @@ class Choices:
                 f"not a string"
             )
         elif self.type == "command" and not isinstance(
-            self.value, (six.string_types, dict)
+                self.value, (six.string_types, dict)
         ):
             raise ModelValidationError(
                 f"Can not save choices '{self}': type is 'command' but the value is "
@@ -133,7 +139,7 @@ class Parameter:
     optional = FieldBase(field_type="BOOLEAN", required=True, default=True)
     default = FieldBase(field_type="JSON", required=False, default=None)
     description = FieldBase(field_type="STRING", required=False)
-    choices = FieldBase(field_type=brewtils.models.Choices, default=None, is_ref=True)
+    choices = FieldBase(field_type=brewtils.models.Choices, default=None)
     nullable = FieldBase(field_type="BOOLEAN", required=False, default=False)
     maximum = FieldBase(field_type="INT", required=False)
     minimum = FieldBase(field_type="INT", required=False)
@@ -143,7 +149,7 @@ class Parameter:
     )
     type_info = FieldBase(field_type="JSON", required=False)
     parameters = FieldBase(
-        field_type=brewtils.models.Parameter, default=None, is_ref=True, is_list=True
+        field_type=brewtils.models.Parameter, default=None, is_list=True
     )
 
 
@@ -153,7 +159,7 @@ class Command:
     name = FieldBase(field_type="STRING", required=True)
     description = FieldBase(field_type="STRING")
     parameters = FieldBase(
-        field_type=brewtils.models.Parameter, default=None, is_ref=True, is_list=True
+        field_type=brewtils.models.Parameter, default=None, is_list=True
     )
     command_type = FieldBase(
         field_type="STRING", choices=BrewtilsCommand.COMMAND_TYPES, default="ACTION"
@@ -165,9 +171,6 @@ class Command:
     form = FieldBase(field_type="JSON")
     template = FieldBase(field_type="STRING")
     icon_name = FieldBase(field_type="STRING")
-    parameters = FieldBase(
-        field_type=brewtils.models.Parameter, default=None, is_ref=True, is_list=True
-    )
 
     def clean(self):
         """Validate before saving to the database"""
@@ -190,19 +193,15 @@ class Command:
             )
 
         if len(self.parameters) != len(
-            set(parameter.key for parameter in self.parameters)
+                set(parameter.key for parameter in self.parameters)
         ):
             raise ModelValidationError(
                 f"Can not save Command {self}: Contains Parameters with duplicate keys"
             )
 
 
-class StatusInfoBrewtils:
-    schema = "StatusInfo"
-
-
 class StatusInfo:
-    brewtils_model = StatusInfoBrewtils
+    brewtils_model = brewtils.models.StatusInfo
     heartbeat = FieldBase(field_type="DATE")
 
 
@@ -213,7 +212,7 @@ class Instance:
     description = FieldBase(field_type="STRING")
     status = FieldBase(field_type="STRING", default="INITIALIZING")
     status_info = FieldBase(
-        field_type=StatusInfoBrewtils, default=StatusInfo(), is_ref=True
+        field_type="StatusInfo", default=StatusInfo()
     )
     queue_type = FieldBase(field_type="STRING")
     queue_info = FieldBase(field_type="JSON")
@@ -227,3 +226,169 @@ class Instance:
             raise ModelValidationError(
                 f"Can not save Instance {self}: Invalid status '{self.status}'"
             )
+
+
+class RequestTemplate:
+    brewtils_model = brewtils.models.RequestTemplate
+
+    system = FieldBase(field_type="STRING", required=True)
+    system_version = FieldBase(field_type="STRING", required=True)
+    instance_name = FieldBase(field_type="STRING", required=True)
+    namespace = FieldBase(field_type="STRING", required=True)
+    command = FieldBase(field_type="STRING", required=True)
+    command_type = FieldBase(field_type="STRING")
+    parameters = FieldBase(field_type="DICT")
+    comment = FieldBase(field_type="STRING")
+    metadata = FieldBase(field_type="DICT")
+    output_type = FieldBase(field_type="STRING")
+
+
+class Request(RequestTemplate):
+    brewtils_model = brewtils.models.Request
+
+    parent = FieldBase(field_type=brewtils.models.Request, is_ref=True, reverse_delete_rule="CASCADE")
+    children = FieldBase(field_type="PLACE_HOLDER")
+    output = FieldBase(field_type="STRING")
+    output_type = FieldBase(field_type="STRING", choices=BrewtilsCommand.OUTPUT_TYPES)
+    status = FieldBase(field_type="STRING", choices=BrewtilsRequest.STATUS_LIST, default="CREATED")
+    command_type = FieldBase(field_type="STRING", choices=BrewtilsCommand.COMMAND_TYPES)
+    created_at = FieldBase(field_type="DATE", default=datetime.datetime.utcnow, required=True)
+    updated_at = FieldBase(field_type="DATE", default=None, required=True)
+    error_class = FieldBase(field_type="STRING")
+    has_parent = FieldBase(field_type="BOOLEAN")
+    requester = FieldBase(field_type="STRING")
+
+class System:
+    brewtils_model = brewtils.models.System
+
+    name = FieldBase(field_type="STRING", required=True, unique_with=['name','version', 'namespace'])
+    description = FieldBase(field_type="STRING")
+    version = FieldBase(field_type="STRING", required=True)
+    namespace = FieldBase(field_type="STRING", required=True)
+    max_instances = FieldBase(field_type="INT", default=1)
+    instances = FieldBase(field_type=brewtils.models.Instance, is_ref=True, is_list=True, reverse_delete_rule="PULL")
+    commands = FieldBase(field_type=brewtils.models.Command, is_ref=True, is_list=True, reverse_delete_rule="PULL")
+    icon_name = FieldBase(field_type="STRING")
+    display_name = FieldBase(field_type="STRING")
+    metadata = FieldBase(field_type="DICT")
+    local = FieldBase(field_type="BOOLEAN", default=True)
+
+class Event:
+    brewtils_model = brewtils.models.Event
+
+    name = FieldBase(field_type="STRING", required=True)
+    namespace = FieldBase(field_type="STRING", required=True)
+    garden = FieldBase(field_type="STRING")
+    payload = FieldBase(field_type="DICT")
+    error = FieldBase(field_type="BOOLEAN")
+    metadata = FieldBase(field_type="DICT")
+    timestamp = FieldBase(field_type="DATE")
+
+class Role:
+    brewtils_model = brewtils.models.Role
+
+    name = FieldBase(field_type="STRING", required=True, unique_with=['name'])
+    description = FieldBase(field_type="STRING")
+    commands = FieldBase(field_type=brewtils.models.Role, is_ref=True, is_list=True, reverse_delete_rule="PULL")
+    permissions = FieldBase(field_type="STRING", is_list=True)
+
+class Principal:
+    brewtils_model = brewtils.models.Principal
+
+    username = FieldBase(field_type="STRING", required=True, unique_with=['username'])
+    hash = FieldBase(field_type="STRING")
+    roles = FieldBase(field_type=brewtils.models.Role, is_ref=True, is_list=True, reverse_delete_rule="PULL")
+    preferences = FieldBase(field_type="DICT")
+    metadata = FieldBase(field_type="DICT")
+
+class RefreshToken:
+    brewtils_model = brewtils.models.RefreshToken
+
+    issued = FieldBase(field_type="DATE", required=True)
+    expires = FieldBase(field_type="DATE", required=True)
+    payload = FieldBase(field_type="DICT", required=True)
+
+class DateTrigger:
+    brewtils_model = brewtils.models.DateTrigger
+
+    run_date = FieldBase(field_type="DATE", required=True)
+    timezone = FieldBase(field_type="STRING", required=False, default="utc", choices=pytz.all_timezones)
+
+class IntervalTrigger:
+    brewtils_model = brewtils.models.IntervalTrigger
+
+    weeks = FieldBase(field_type="INT", default=0)
+    days = FieldBase(field_type="INT", default=0)
+    hours = FieldBase(field_type="INT", default=0)
+    minutes = FieldBase(field_type="INT", default=0)
+    seconds = FieldBase(field_type="INT", default=0)
+    start_date = FieldBase(field_type="DATE")
+    end_date = FieldBase(field_type="DATE")
+    timezone = FieldBase(field_type="STRING", required=False, default="utc", choices=pytz.all_timezones)
+    jitter = FieldBase(field_type="INT")
+    reschedule_on_finish = FieldBase(field_type="BOOLEAN", required=False, default=False)
+
+class CronTrigger:
+    brewtils_model = brewtils.models.CronTrigger
+
+    year = FieldBase(field_type="STRING", default="*")
+    month = FieldBase(field_type="STRING", default="1")
+    day = FieldBase(field_type="STRING", default="1")
+    week = FieldBase(field_type="STRING", default="*")
+    day_of_week = FieldBase(field_type="STRING", default="*")
+    hour = FieldBase(field_type="STRING", default="0")
+    minute = FieldBase(field_type="STRING", default="0")
+    second = FieldBase(field_type="STRING", default="0")
+    start_date = FieldBase(field_type="DATE")
+    end_date = FieldBase(field_type="DATE")
+    timezone = FieldBase(field_type="STRING", default="utc", choices=pytz.all_timezones)
+    jitter = FieldBase(field_type="INT")
+
+class Job:
+    brewtils_model = brewtils.models.Job
+
+    TRIGGER_MODEL_MAPPING = {
+        "date": brewtils.models.DateTrigger,
+        "cron": brewtils.models.CronTrigger,
+        "interval": brewtils.models.IntervalTrigger,
+    }
+
+    name = FieldBase(field_type="STRING", required=True)
+    trigger_type = FieldBase(field_type="STRING", required=True, choices=BrewtilsJob.TRIGGER_TYPES)
+    request_template = FieldBase(field_type=TRIGGER_MODEL_MAPPING, required=True, choices=list(TRIGGER_MODEL_MAPPING.values()))
+    request_template = FieldBase(field_type=brewtils.models.RequestTemplate, required=True)
+    misfire_grace_time = FieldBase(field_type="INT")
+    coalesce = FieldBase(field_type="BOOLEAN",default=True)
+    next_run_time = FieldBase(field_type="DATE")
+    success_count = FieldBase(field_type="INT", required=True, default=0, min_value=0)
+    error_count = FieldBase(field_type="INT", required=True, default=0, min_value=0)
+    status = FieldBase(field_type="STRING",
+        required=True, choices=BrewtilsJob.STATUS_TYPES, default="RUNNING"
+    )
+    max_instances = FieldBase(field_type="INT", default=3, min_value=1)
+
+    def clean(self):
+        """Validate before saving to the database"""
+
+        if self.trigger_type not in self.TRIGGER_MODEL_MAPPING:
+            raise ModelValidationError(
+                f"Cannot save job. No mongo model for trigger type {self.trigger_type}"
+            )
+
+        trigger_class = self.TRIGGER_MODEL_MAPPING.get(self.trigger_type)
+        if not isinstance(self.trigger, trigger_class):
+            raise ModelValidationError(
+                f"Cannot save job. Expected trigger type {self.trigger_type} but "
+                f"actual type was {type(self.trigger)}"
+            )
+
+class Garden:
+    brewtils_model = brewtils.models.Garden
+
+    name = FieldBase(field_type="STRING",required=True, default="default", unique_with=['name'])
+    status = FieldBase(field_type="STRING", default="INITIALIZING")
+    status_info = FieldBase(field_type="StatusInfo", default=StatusInfo())
+    namespaces = FieldBase(field_type="STRING", is_list=True)
+    connection_type = FieldBase(field_type="STRING")
+    connection_params = FieldBase(field_type="DICT")
+    systems = FieldBase(field_type="STRING", is_list=True)

@@ -3,7 +3,8 @@ from copy import copy
 
 from brewtils.schema_parser import SchemaParser
 
-import beer_garden.db.mongo.models
+#import beer_garden.db.mongo.models as bd_models
+import beer_garden.db.mongo.new_models as bd_models
 
 
 class MongoParser(SchemaParser):
@@ -12,28 +13,28 @@ class MongoParser(SchemaParser):
     _models = copy(SchemaParser._models)
     _models.update(
         {
-            "SystemSchema": beer_garden.db.mongo.models.System,
-            "InstanceSchema": beer_garden.db.mongo.models.Instance,
-            "CommandSchema": beer_garden.db.mongo.models.Command,
-            "ParameterSchema": beer_garden.db.mongo.models.Parameter,
-            "RequestSchema": beer_garden.db.mongo.models.Request,
-            "RequestTemplateSchema": beer_garden.db.mongo.models.RequestTemplate,
-            "ChoicesSchema": beer_garden.db.mongo.models.Choices,
-            "EventSchema": beer_garden.db.mongo.models.Event,
-            "PrincipalSchema": beer_garden.db.mongo.models.Principal,
-            "RoleSchema": beer_garden.db.mongo.models.Role,
-            "RefreshTokenSchema": beer_garden.db.mongo.models.RefreshToken,
-            "JobSchema": beer_garden.db.mongo.models.Job,
-            "DateTriggerSchema": beer_garden.db.mongo.models.DateTrigger,
-            "IntervalTriggerSchema": beer_garden.db.mongo.models.IntervalTrigger,
-            "CronTriggerSchema": beer_garden.db.mongo.models.CronTrigger,
-            "GardenSchema": beer_garden.db.mongo.models.Garden,
+            "SystemSchema": bd_models.System,
+            "InstanceSchema": bd_models.Instance,
+            "CommandSchema": bd_models.Command,
+            "ParameterSchema": bd_models.Parameter,
+            "RequestSchema": bd_models.Request,
+            "RequestTemplateSchema": bd_models.RequestTemplate,
+            "ChoicesSchema": bd_models.Choices,
+            "EventSchema": bd_models.Event,
+            "PrincipalSchema": bd_models.Principal,
+            "RoleSchema": bd_models.Role,
+            "RefreshTokenSchema": bd_models.RefreshToken,
+            "JobSchema": bd_models.Job,
+            "DateTriggerSchema": bd_models.DateTrigger,
+            "IntervalTriggerSchema": bd_models.IntervalTrigger,
+            "CronTriggerSchema": bd_models.CronTrigger,
+            "GardenSchema": bd_models.Garden,
         }
     )
 
     @classmethod
     def _get_schema_name(cls, model):
-        if isinstance(model, beer_garden.db.mongo.models.MongoModel):
+        if isinstance(model, bd_models.MongoModel):
             return model.brewtils_model.schema
         else:
             return super(MongoParser, cls)._get_schema_name(model)

@@ -60,7 +60,7 @@ base_type_mapper = {
     "JSON": DictField,
     "DICT": DictField,
     "PLACE_HOLDER": DummyField,
-    "BLOB": DynamicField
+    "BLOB": DynamicField,
 }
 
 schema_mapping = dict()
@@ -100,43 +100,65 @@ def field_mapper(base_field):
 
     if base_field.is_list:
         if base_field.field_type not in base_type_mapper:
-            if hasattr(base_field.field_type, "schema"):
+            if isinstance(brewtils.models.BaseModel, base_field.field_type):
                 return ListField(
-                    EmbeddedDocumentField(schema_mapping[base_field.field_type].__name__, required=base_field.required,
-                                          default=base_field.default, choices=base_field.choices))
+                    EmbeddedDocumentField(
+                        base_field.field_type.__name__,
+                        required=base_field.required,
+                        default=base_field.default,
+                        choices=base_field.choices,
+                    )
+                )
             else:
                 return ListField(
-                    GenericEmbeddedDocumentField(required=base_field.required,
-                                                 default=base_field.default, choices=base_field.choices))
+                    GenericEmbeddedDocumentField(
+                        required=base_field.required,
+                        default=base_field.default,
+                        choices=base_field.choices,
+                    )
+                )
         else:
             return ListField(
-                base_type_mapper[base_field.field_type](required=base_field.required,
-                                                        default=base_field.default,
-                                                        choices=base_field.choices))
+                base_type_mapper[base_field.field_type](
+                    required=base_field.required,
+                    default=base_field.default,
+                    choices=base_field.choices,
+                )
+            )
     else:
         if base_field.field_type not in base_type_mapper:
-            if hasattr(base_field.field_type, "schema"):
-                return EmbeddedDocumentField(schema_mapping[base_field.field_type].__name__, required=base_field.required,
-                                             default=base_field.default, choices=base_field.choices)
+            if isinstance(brewtils.models.BaseModel, base_field.field_type):
+                return EmbeddedDocumentField(
+                    base_field.field_type.__name__,
+                    required=base_field.required,
+                    default=base_field.default,
+                    choices=base_field.choices,
+                )
             else:
-                return GenericEmbeddedDocumentField(required=base_field.required, default=base_field.default,
-                                                    choices=base_field.choices)
+                return GenericEmbeddedDocumentField(
+                    required=base_field.required,
+                    default=base_field.default,
+                    choices=base_field.choices,
+                )
         else:
-            return base_type_mapper[base_field.field_type](required=base_field.required, default=base_field.default,
-                                                    choices=base_field.choices)
+            return base_type_mapper[base_field.field_type](
+                required=base_field.required,
+                default=base_field.default,
+                choices=base_field.choices,
+            )
 
 
 def class_mapper(mongo_class, model):
 
     new_attributes = dict()
+    new_attributes["brewtils_model"] = getattr(model, "brewtils_model", None)
 
-    #setattr(mongo_class, "brewtils_model", getattr(model, "brewtils_model", None))
-    new_attributes['brewtils_model'] = getattr(model, "brewtils_model", None)
-    #setattr(mongo_class, "clean", getattr(model, "clean", None))
-    new_attributes['clean'] = getattr(model, "clean", None)
+    if hasattr(model, "clean"):
+        new_attributes["clean"] = getattr(model, "clean")
+    if hasattr(model, "clean_update"):
+        new_attributes["clean_update"] = getattr(model, "clean_update")
 
     # Set it just in case the object references itself
-    schema_mapping[model.brewtils_model] = mongo_class
     for field_label in [
         attr
         for attr in dir(model)
@@ -153,26 +175,21 @@ def class_mapper(mongo_class, model):
                 reverse_delete_rule = PULL
 
             if field.is_list:
-                # setattr(
-                #     mongo_class,
-                #     field_label,
-                #     ReferenceField(schema_mapping[field.field_type.schema].__name__, required=str(field.required),
-                #                    reverse_delete_rule=reverse_delete_rule),
-                # )
-                new_attributes[field_label] = ReferenceField(schema_mapping[field.field_type].__name__, required=str(field.required),
-                                   reverse_delete_rule=reverse_delete_rule)
+                new_attributes[field_label] = ReferenceField(
+                    field.field_type.__name__,
+                    required=field.required,
+                    reverse_delete_rule=reverse_delete_rule,
+                )
             else:
-                # setattr(
-                #     mongo_class,
-                #     field_label,
-                #     ListField(ReferenceField(schema_mapping[field.field_type.schema].__name__, required=str(field.required),
-                #                              reverse_delete_rule=reverse_delete_rule)),
-                # )
-                new_attributes[field_label] = ListField(ReferenceField(schema_mapping[field.field_type].__name__, required=str(field.required),
-                                             reverse_delete_rule=reverse_delete_rule))
+                new_attributes[field_label] = ListField(
+                    ReferenceField(
+                        field.field_type.__name__,
+                        required=field.required,
+                        reverse_delete_rule=reverse_delete_rule,
+                    )
+                )
 
         else:
-            # setattr(mongo_class, field_label, field_mapper(field))
 
             new_attributes[field_label] = field_mapper(field)
             if field.unique_with:
@@ -192,16 +209,23 @@ def class_mapper(mongo_class, model):
                         for key, value in enumerate(meta["indexes"]):
                             if value["name"] == "unique_index":
                                 for unique_field in unique_args:
-                                    if unique_field not in meta["indexes"][key]["fields"]:
-                                        meta["indexes"][key]["fields"].append(unique_field)
+                                    if (
+                                        unique_field
+                                        not in meta["indexes"][key]["fields"]
+                                    ):
+                                        meta["indexes"][key]["fields"].append(
+                                            unique_field
+                                        )
                                 unique_set = True
                                 break
                         if not unique_set:
-                            meta["indexes"].append({
-                                "name": "unique_index",
-                                "fields": unique_args,
-                                "unique": True,
-                            })
+                            meta["indexes"].append(
+                                {
+                                    "name": "unique_index",
+                                    "fields": unique_args,
+                                    "unique": True,
+                                }
+                            )
                     else:
                         meta["indexes"] = [
                             {
@@ -211,11 +235,6 @@ def class_mapper(mongo_class, model):
                             }
                         ]
 
-                    # setattr(
-                    #     mongo_class,
-                    #     "meta",
-                    #     meta,
-                    # )
                     new_attributes["meta"] = meta
                 else:
                     meta = {
@@ -229,17 +248,14 @@ def class_mapper(mongo_class, model):
                             }
                         ],
                     }
-                    # setattr(
-                    #     mongo_class,
-                    #     "meta",
-                    #     meta,
-                    # )
+
                     new_attributes["meta"] = meta
 
-
-
+    # Creates new class objects with the attributes injected into them
     if hasattr(mongo_class, "embedded") and mongo_class.embedded:
-        new_class = type(mongo_class.__name__, (MongoModel, EmbeddedDocument), new_attributes)
+        new_class = type(
+            mongo_class.__name__, (MongoModel, EmbeddedDocument), new_attributes
+        )
     else:
         new_class = type(mongo_class.__name__, (MongoModel, Document), new_attributes)
 
@@ -265,9 +281,9 @@ class Parameter:
 class Command:
     pass
 
+
 class Command:
     pass
-
 
 
 class Instance:
@@ -481,6 +497,7 @@ class Job:
 class Garden:
     pass
 
+
 class StatusInfo:
     embedded = True
 
@@ -511,4 +528,4 @@ Job = class_mapper(Job, db_models.Job)
 Garden = class_mapper(Garden, db_models.Garden)
 
 # Update the Command field now that all models are defined
-System.register_delete_rule(Command, "system", CASCADE)
+# System.register_delete_rule(Command, "system", CASCADE)

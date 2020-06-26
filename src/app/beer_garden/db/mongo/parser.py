@@ -3,7 +3,7 @@ from copy import copy
 
 from brewtils.schema_parser import SchemaParser
 
-#import beer_garden.db.mongo.models as bd_models
+# import beer_garden.db.mongo.models as bd_models
 import beer_garden.db.mongo.new_models as bd_models
 
 

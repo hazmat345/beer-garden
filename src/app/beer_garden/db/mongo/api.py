@@ -8,7 +8,7 @@ from mongoengine import connect, register_connection, DoesNotExist
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 from typing import List, Optional, Type, Union, Tuple
 
-#import beer_garden.db.mongo.models as db_models
+# import beer_garden.db.mongo.models as db_models
 import beer_garden.db.mongo.new_models as db_models
 from beer_garden.db.mongo.models import MongoModel
 from beer_garden.db.mongo.parser import MongoParser
@@ -43,6 +43,7 @@ ModelItem = Union[
 #     _model_map[mongo_class.brewtils_model] = mongo_class
 
 _model_map = db_models.schema_mapping
+
 
 def from_brewtils(obj: ModelItem) -> MongoModel:
     """Convert an item from its Brewtils model to its  one

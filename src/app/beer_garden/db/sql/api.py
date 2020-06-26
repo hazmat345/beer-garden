@@ -6,8 +6,9 @@ import logging
 from box import Box
 from brewtils.models import BaseModel
 from brewtils.schema_parser import SchemaParser
-#from mongoengine import connect, register_connection, DoesNotExist
-#from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
+
+# from mongoengine import connect, register_connection, DoesNotExist
+# from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 from sqlalchemy import create_engine
 from typing import List, Optional, Type, Union, Tuple
 
@@ -15,7 +16,8 @@ import beer_garden.db.sql.models
 from beer_garden.db.sql.models import Base as SqlModel
 from beer_garden.db.sql.parser import SqlParser
 from beer_garden.db.sql.pruner import SqlPruner
-#from beer_garden.db.sql.util import check_indexes, ensure_roles, ensure_users
+
+# from beer_garden.db.sql.util import check_indexes, ensure_roles, ensure_users
 
 logger = logging.getLogger(__name__)
 
@@ -182,6 +184,7 @@ def count(model_class: ModelType, **kwargs) -> int:
     finally:
         pass
 
+
 def query_unique(
     model_class: ModelType, raise_missing=False, **kwargs
 ) -> Optional[ModelItem]:
@@ -223,6 +226,7 @@ def query_unique(
         raise
     finally:
         session.close()
+
 
 def query(model_class: ModelType, **kwargs) -> List[ModelItem]:
     """Query a collection
@@ -428,7 +432,9 @@ def replace_commands(
         sql_system = from_brewtils(system)
         sql_commands = [from_brewtils(command) for command in new_commands]
 
-        old_commands = session.query(beer_garden.db.sql.models.Command).filter(SystemSchema_id=system.id)
+        old_commands = session.query(beer_garden.db.sql.models.Command).filter(
+            SystemSchema_id=system.id
+        )
 
         old_names = {command.name: command.id for command in old_commands}
 
@@ -456,6 +462,7 @@ def replace_commands(
         raise
     finally:
         session.close()
+
 
 def distinct(brewtils_clazz: ModelItem, field: str) -> List:
     return _model_map[brewtils_clazz].objects.distinct(field)

@@ -7,7 +7,7 @@ import sys
 import beer_garden
 import beer_garden.config
 import beer_garden.log
-from beer_garden.app import Application
+
 
 
 def generate_logging_config():
@@ -31,10 +31,14 @@ def main():
     logger = logging.getLogger(__name__)
 
     # Need to create the application before registering the signal handlers
+    # We now have to load this here to allow for the config to be registered
+    from beer_garden.app import Application
     beer_garden.application = Application()
 
     signal.signal(signal.SIGINT, beer_garden.signal_handler)
     signal.signal(signal.SIGTERM, beer_garden.signal_handler)
+
+
 
     logger.info("Hi! Please give me just a minute to get set up.")
     beer_garden.application.start()

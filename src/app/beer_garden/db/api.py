@@ -1,22 +1,35 @@
 # -*- coding: utf-8 -*-
-import beer_garden.db.mongo.api
+import beer_garden
 
-check_connection = beer_garden.db.mongo.api.check_connection
-create_connection = beer_garden.db.mongo.api.create_connection
-initial_setup = beer_garden.db.mongo.api.initial_setup
+api = None
 
-get_pruner = beer_garden.db.mongo.api.get_pruner
-prune_tasks = beer_garden.db.mongo.api.prune_tasks
+try:
+    database_type = beer_garden.config.get("db.connection.type")
+    if database_type:
+        if database_type.lower() == "mongo":
+            import beer_garden.db.mongo.api as api
+        else:
+            import beer_garden.db.sql.api as api
+except TypeError:
+    raise
 
-get_job_store = beer_garden.db.mongo.api.get_job_store
+if api:
+    check_connection = api.check_connection
+    create_connection = api.create_connection
+    initial_setup = api.initial_setup
 
-count = beer_garden.db.mongo.api.count
-query_unique = beer_garden.db.mongo.api.query_unique
-query = beer_garden.db.mongo.api.query
-reload = beer_garden.db.mongo.api.reload
-replace_commands = beer_garden.db.mongo.api.replace_commands
-distinct = beer_garden.db.mongo.api.distinct
+    get_pruner = api.get_pruner
+    prune_tasks = api.prune_tasks
 
-create = beer_garden.db.mongo.api.create
-update = beer_garden.db.mongo.api.update
-delete = beer_garden.db.mongo.api.delete
+    get_job_store = api.get_job_store
+
+    count = api.count
+    query_unique = api.query_unique
+    query = api.query
+    reload = api.reload
+    replace_commands = api.replace_commands
+    distinct = api.distinct
+
+    create = api.create
+    update = api.update
+    delete = api.delete

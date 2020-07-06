@@ -5,7 +5,7 @@ import brewtils.models
 import logging
 from box import Box
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, inspect
 
 from beer_garden.db.sql.parser import SqlParser
 from beer_garden.db.sql.pruner import SqlPruner
@@ -52,6 +52,88 @@ for model_name in beer_garden.db.sql.models.__all__:
 def create_session():
     return Session()
 
+def to_brewtils_fields(obj):
+
+    if not isinstance(obj, dict):
+        table = inspect(obj)
+        obj = inspect(obj).dict
+
+        columns = list()
+
+        for column in table.mapper.columns:
+            columns.append(column.key)
+
+        for column in table.mapper.relationships:
+            columns.append(column.key)
+
+        remove_keys = list()
+
+        for key in obj:
+            if key not in columns:
+                remove_keys.append(key)
+        for key in remove_keys:
+            obj.pop(key)
+
+    for key in beer_garden.db.sql.models.restricted_field_mapping:
+        if key in obj:
+            obj[beer_garden.db.sql.models.restricted_field_mapping[key]] = obj[key]
+            obj.pop(key, None)
+
+    if "id" in obj:
+        obj["id"] = str(obj["id"])
+
+    for key in obj:
+        if isinstance(obj[key], list):
+            items = list()
+
+            for item in obj[key]:
+                items.append(item)
+
+            obj[key] = items
+
+        elif isinstance(obj[key], dict):
+            obj[key] = to_brewtils_fields(obj[key])
+
+    return obj
+
+
+def from_brewtils_fields(obj, SqlModel):
+    for key in beer_garden.db.sql.models.restricted_field_mapping:
+        if beer_garden.db.sql.models.restricted_field_mapping[key] in obj:
+            obj[key] = obj[beer_garden.db.sql.models.restricted_field_mapping[key]]
+            obj.pop(beer_garden.db.sql.models.restricted_field_mapping[key], None)
+
+    if "id" in obj:
+        obj["id"] = int(obj["id"])
+
+    for key in obj:
+
+        if key in SqlModel.__mapper__.relationships.keys():
+            if obj[key] is not None:
+                print(key)
+                column = SqlModel.__mapper__.relationships[key]
+                if isinstance(obj[key], list):
+                    if len(obj[key]) == 0:
+                        obj[key] = []
+                    else:
+                        obj_list = list()
+                        for item in obj[key]:
+                            obj_list.append(from_brewtils_fields(item, column.entity.class_))
+                        obj[key] = obj_list
+                else:
+                    obj[key] = from_brewtils_fields(obj[key], column.entity.class_)
+            elif SqlModel.__mapper__.relationships[key].uselist:
+                obj[key] = []
+
+        elif key in SqlModel.__mapper__.columns.keys():
+            pass
+        else:
+            obj.pop(key, None)
+    try:
+        return SqlModel(**obj)
+    except Exception as e:
+        raise
+
 
 def from_brewtils(obj: ModelItem):
     """Convert an item from its Brewtils model to its  one
@@ -65,14 +147,12 @@ def from_brewtils(obj: ModelItem):
     """
     model_dict = SchemaParser.serialize(obj, to_string=False)
 
-    for key, value in beer_garden.db.sql.restricted_field_mapping:
-        if value in model_dict:
-            model_dict["key"] = model_dict["value"]
-            model_dict.pop('value', None)
-
-    sql_obj = SqlParser.parse(model_dict, type(obj))
+    sql_obj = from_brewtils_fields(model_dict, _model_map[type(obj)])
     return sql_obj
 
+def object_as_dict(obj):
+    return {c.key: getattr(obj, c.key)
+        for c in inspect(obj).mapper.column_attrs}
 
 def to_brewtils(
         obj
@@ -89,9 +169,22 @@ def to_brewtils(
     if obj is None or (isinstance(obj, list) and len(obj) == 0):
         return obj
 
-    serialized = SqlParser.serialize(obj)
+    results = list()
+
+    for item in obj:
+        #results.append(to_brewtils_fields(object_as_dict(item)))
+        results.append(to_brewtils_fields(item))
+        #results.append(inspect(item).dict)
+
+    if len(results) == 0:
+        serialized = None
+    elif len(results) == 1:
+        serialized = results.pop()
+    else:
+        serialized = results
+
     many = True if isinstance(serialized, list) else False
-    model_class = obj[0].brewtils_model if many else obj.brewtils_model
+    model_class = obj[0].brewtils_model
 
     return SchemaParser.parse(serialized, model_class, from_string=False, many=many)
 
@@ -160,7 +253,7 @@ def create_connection(connection_alias: str = "default", db_config: Box = None) 
                    port=":" + str(db_config["connection"]["port"]) if db_config["connection"]["port"] else "",
                    database="/" + str(db_config["name"]) if db_config["name"] else ""),
         pool_pre_ping=True,
-        echo=True)
+        echo=False)
 
     global Session
 
@@ -298,7 +391,8 @@ def query(model_class: ModelType, **kwargs) -> List[ModelItem]:
             column = getattr(_model_map[model_class], key, None)
             if column:
                 if isinstance(filter_params[key], BaseModel):
-                    query_set = query_set.filter(column.has(_model_map[filter_params[key].schema].id == filter_params[key].id))
+                    query_set = query_set.filter(
+                        column.has(_model_map[filter_params[key].schema].id == filter_params[key].id))
                 else:
                     query_set = query_set.filter(column == filter_params[key])
 
@@ -418,7 +512,7 @@ def reload(obj: ModelItem) -> ModelItem:
     """
 
     session = Session()
-    existing_obj = session.query(_model_map[type(obj)]).get(obj.id).first()
+    existing_obj = session.query(_model_map[type(obj)]).get(int(obj.id)).first()
 
     return to_brewtils(existing_obj)
 

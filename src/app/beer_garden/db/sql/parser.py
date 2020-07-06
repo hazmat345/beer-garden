@@ -38,10 +38,10 @@ class SqlParser(SchemaParser):
         for obj in query:
             model_dict = self.object_as_dict(obj)
 
-            for key, value in beer_garden.db.sql.restricted_field_mapping:
+            for key in beer_garden.db.sql.restricted_field_mapping:
                 if key in model_dict:
-                    model_dict["value"] = model_dict["key"]
-                    model_dict.pop('key', None)
+                    model_dict[beer_garden.db.sql.restricted_field_mapping[key]] = model_dict[key]
+                    model_dict.pop(key, None)
 
             results.append(model_dict)
 

@@ -57,7 +57,6 @@ restricted_field_mapping = {
 class BaseModel:
     pass
 
-
 class Choices(BaseModel, Base):
     __tablename__ = brewtils.models.Choices.schema
     brewtils_model = brewtils.models.Choices
@@ -156,7 +155,7 @@ class Parameter(BaseModel, Base):
 
     @validates('type')
     def validate_type(self, key, value):
-        if value not in BrewtilsParameter.TYPES:
+        if value is not None and value not in BrewtilsParameter.TYPES:
             raise ModelValidationError(
                 f"Can not save Parameter '{self}': '{value}' is not a valid input"
             )
@@ -164,7 +163,7 @@ class Parameter(BaseModel, Base):
 
     @validates('form_input_type')
     def validate_form_input_type(self, key, value):
-        if value not in BrewtilsParameter.FORM_INPUT_TYPES:
+        if value is not None and value not in BrewtilsParameter.FORM_INPUT_TYPES:
             raise ModelValidationError(
                 f"Can not save Parameter '{self}': '{value}' is not a valid input"
             )
@@ -216,7 +215,7 @@ class Command(BaseModel, Base):
     parameters = relationship("Parameter", cascade="all, save-update, merge, delete, delete-orphan")
 
     system_id = Column(Integer, ForeignKey(f'{brewtils.models.System.schema}.id'))
-    system = relationship("System", back_populates="commands")
+    system = relationship("System", back_populates="commands", uselist=False)
 
     UniqueConstraint('name', 'system')
 
@@ -232,7 +231,7 @@ class Command(BaseModel, Base):
 
     @validates('command_type')
     def validate_command_type(self, key, value):
-        if value not in BrewtilsCommand.COMMAND_TYPES:
+        if value is not None and value not in BrewtilsCommand.COMMAND_TYPES:
             raise ModelValidationError(
                 f"Can not save Command {self}: Invalid command type '{value}'"
             )
@@ -240,7 +239,7 @@ class Command(BaseModel, Base):
 
     @validates('output_type')
     def validate_output_type(self, key, value):
-        if value not in BrewtilsCommand.OUTPUT_TYPES:
+        if value is not None and value not in BrewtilsCommand.OUTPUT_TYPES:
             raise ModelValidationError(
                 f"Can not save Command {self}: Invalid output type '{value}'"
             )
@@ -248,8 +247,8 @@ class Command(BaseModel, Base):
 
     @validates('parameters')
     def validate_parameters(self, key, value):
-        if len(value) != len(
-                set(parameter.key for parameter in value)
+        if self.parameters is not None and len(self.parameters) != len(
+                set(parameter.key for parameter in self.parameters)
         ):
             raise ModelValidationError(
                 f"Can not save Command {self}: Contains Parameters with duplicate keys"
@@ -282,13 +281,13 @@ class Instance(BaseModel, Base):
     model_metadata = Column(PickleType)
 
     system_id = Column(Integer, ForeignKey(f'{brewtils.models.System.schema}.id'))
-    status_info = relationship("StatusInfo", cascade="all, save-update, merge, delete")
+    status_info = relationship("StatusInfo", cascade="all, save-update, merge, delete", uselist=False)
 
     @validates('status')
     def validate_parameters(self, key, value):
-        if value not in BrewtilsInstance.INSTANCE_STATUSES:
+        if value is not None and value not in BrewtilsInstance.INSTANCE_STATUSES:
             raise ModelValidationError(
-                f"Can not save Instance {self}: Invalid status 'value'"
+                f"Can not save Instance {self}: Invalid status '{value}'"
             )
         return value
 
@@ -339,7 +338,7 @@ class Request(BaseModel, Base):
     output = Column(String)
     output_type = Column(String)
     status = Column(String, default="CREATED")
-    output = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=None)
     error_class = Column(String)
     has_parent = Column(Boolean)
@@ -357,7 +356,7 @@ class Request(BaseModel, Base):
 
     @validates('status')
     def validate_status(self, key, value):
-        if value not in BrewtilsRequest.STATUS_LIST:
+        if value is not None and value not in BrewtilsRequest.STATUS_LIST:
             raise ModelValidationError(
                 f"Can not save Request {self}: Invalid status '{value}'"
             )
@@ -386,7 +385,7 @@ class Request(BaseModel, Base):
         return value
 
 
-#@event.listens_for(Request.status, 'set', active_history=True)
+@event.listens_for(Request.status, 'set', active_history=True)
 def request_status_change(target, value, old_status, initiator):
     if value != old_status:
         if old_status in BrewtilsRequest.COMPLETED_STATUSES:
@@ -429,19 +428,22 @@ class System(BaseModel, Base):
 
     @validates('instances')
     def validate_output_type(self, key, value):
-        if len(value) > self.max_instances:
-            raise ModelValidationError(
-                "Can not save System %s: Number of instances (%s) "
-                "exceeds system limit (%s)"
-                % (str(self), len(value), self.max_instances)
-            )
+        if self.max_instances is None:
+            self.max_instances = 1
+        if self.instances is not None :
+            if len(self.instances) > self.max_instances:
+                raise ModelValidationError(
+                    "Can not save System %s: Number of instances (%s) "
+                    "exceeds system limit (%s)"
+                    % (str(self), len(value), self.max_instances)
+                )
 
-        if len(value) != len(
-                set(instance.name for instance in value)
-        ):
-            raise ModelValidationError(
-                "Can not save System %s: Duplicate instance names" % str(self)
-            )
+            if len(self.instances) != len(
+                    set(instance.name for instance in self.instances)
+            ):
+                raise ModelValidationError(
+                    "Can not save System %s: Duplicate instance names" % str(self)
+                )
 
         return value
 
@@ -565,7 +567,7 @@ class Job(BaseModel, Base):
     status = Column(String, nullable=False,
                           default="RUNNING")
 
-    request_template = relationship("RequestTemplate", cascade="all, save-update, merge, delete")
+    request_template = relationship("RequestTemplate", cascade="all, save-update, merge, delete", uselist=False)
 
     @validates('trigger_type')
     def validate_trigger_type(self, key, value):
@@ -616,6 +618,6 @@ class Garden(BaseModel, Base):
     connection_params = Column(PickleType)
 
     systems = relationship("System", cascade="all, save-update, merge, delete")
-    status_info = relationship("StatusInfo", cascade="all, save-update, merge, delete")
+    status_info = relationship("StatusInfo", cascade="all, save-update, merge, delete", uselist=False)
 
     UniqueConstraint('name')

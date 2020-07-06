@@ -14,11 +14,11 @@ from brewtils.models import Event
 
 import beer_garden
 import beer_garden.config
-import beer_garden.db.api as db
-
+# import beer_garden.db.api as db
+# import beer_garden.queue.api as queue
 import beer_garden.events
-import beer_garden.queue.api as queue
-import beer_garden.router as router
+
+# import beer_garden.router as router
 from beer_garden.events.processors import PipeListener, QueueListener
 from beer_garden.log import process_record
 
@@ -175,13 +175,18 @@ class EntryPoint:
         beer_garden.log.load_plugin_log_config()
 
 
+
         # Set up a database connection
+        import beer_garden.db.api as db
         db.create_connection(db_config=beer_garden.config.get("db"))
 
         # Set up message queue connections
+        import beer_garden.queue.api as queue
+
         queue.create_clients(beer_garden.config.get("amq"))
 
         # Load known gardens for routing
+        import beer_garden.router as router
         router.setup_routing()
 
         # Now invoke the actual process target, passing in the connection

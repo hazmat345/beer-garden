@@ -41,7 +41,8 @@ def get_systems(**kwargs) -> List[System]:
         The list of Systems that matched the query
 
     """
-    return db.query(System, **kwargs)
+    systems =  db.query(System, **kwargs)
+    return systems
 
 
 @publish_event(Events.SYSTEM_CREATED)

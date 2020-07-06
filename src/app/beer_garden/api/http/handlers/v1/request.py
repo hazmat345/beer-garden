@@ -6,7 +6,7 @@ from brewtils.errors import ModelValidationError
 from brewtils.models import Operation, Request
 from brewtils.schema_parser import SchemaParser
 
-import beer_garden.db.api as db
+# import beer_garden.db.api as db
 from beer_garden.api.http.authorization import Permissions, authenticated
 from beer_garden.api.http.base_handler import BaseHandler
 
@@ -300,6 +300,8 @@ class RequestListAPI(BaseHandler):
             Operation(operation_type="REQUEST_READ_ALL", kwargs=query_args),
             serialize_kwargs=serialize_kwargs,
         )
+
+        import beer_garden.db.api as db
 
         response_headers = {
             # These are for information

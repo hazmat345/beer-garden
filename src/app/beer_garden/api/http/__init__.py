@@ -37,7 +37,7 @@ import beer_garden.api.http.handlers.v1 as v1
 import beer_garden.api.http.handlers.vbeta as vbeta
 import beer_garden.config as config
 import beer_garden.events
-import beer_garden.router
+# import beer_garden.router
 from beer_garden.api.http.authorization import anonymous_principal as load_anonymous
 from beer_garden.api.http.processors import EventManager, websocket_publish
 from beer_garden.events import publish
@@ -82,6 +82,7 @@ async def startup():
     This is the first thing called from within the ioloop context.
     """
     global anonymous_principal
+    import beer_garden.router
 
     # Need to wait until after mongo connection established to load
     anonymous_principal = load_anonymous()
@@ -109,6 +110,7 @@ async def shutdown():
 
     This execution is normally scheduled by the signal handler.
     """
+    import beer_garden.router
 
     logger.debug("Stopping server for new HTTP connections")
     server.stop()

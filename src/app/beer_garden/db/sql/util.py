@@ -125,7 +125,8 @@ def ensure_users(guest_login_enabled):
                     hash=custom_app_context.hash(default_password),
                     roles=[role],
                     model_metadata={"auto_change": True, "changed": False},
-                ))
+                )
+            )
 
     anonymous_user = session.query(Principal).filter(Principal.username == "anonymous")
 
@@ -146,9 +147,7 @@ def ensure_users(guest_login_enabled):
         if guest_login_enabled:
             logger.info("Creating anonymous user.")
             role = session.query(Role).filter(Role.name == "bg-anonymous").first()
-            session.add(Principal(
-                username="anonymous", roles=[role]
-            ))
+            session.add(Principal(username="anonymous", roles=[role]))
 
     session.commit()
 
@@ -292,7 +291,10 @@ def _should_create_admin():
     if count == 0:
         return True
 
-    if api.Session().query(Principal).filter(Principal.username == "admin").count() == 1:
+    if (
+        api.Session().query(Principal).filter(Principal.username == "admin").count()
+        == 1
+    ):
         return False
 
     if count == 1:

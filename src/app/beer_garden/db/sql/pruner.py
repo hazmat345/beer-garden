@@ -22,7 +22,7 @@ class SqlPruner(StoppableThread):
         super(SqlPruner, self).__init__(logger=self.logger, name="Remover")
 
     def add_task(
-            self, collection=None, field=None, delete_after=None, additional_query=None
+        self, collection=None, field=None, delete_after=None, additional_query=None
     ):
         self._tasks.append(
             {
@@ -43,7 +43,7 @@ class SqlPruner(StoppableThread):
                 session = api.create_session()
                 delete_older_than = current_time - task["delete_after"]
 
-                query = session.query(task['collection'])
+                query = session.query(task["collection"])
 
                 query = query.filter(task["field"] < delete_older_than)
 
@@ -86,9 +86,11 @@ class SqlPruner(StoppableThread):
                     "collection": Request,
                     "field": "created_at",
                     "delete_after": timedelta(minutes=info_ttl),
-                    "additional_query": and_(Request.status in ["SUCCESS", "CANCELED", "ERROR"],
-                                             Request.has_parent == false(),
-                                             Request.command_type == "INFO"),
+                    "additional_query": and_(
+                        Request.status in ["SUCCESS", "CANCELED", "ERROR"],
+                        Request.has_parent == false(),
+                        Request.command_type == "INFO",
+                    ),
                 }
             )
 
@@ -98,9 +100,11 @@ class SqlPruner(StoppableThread):
                     "collection": Request,
                     "field": "created_at",
                     "delete_after": timedelta(minutes=action_ttl),
-                    "additional_query": and_(Request.status in ["SUCCESS", "CANCELED", "ERROR"],
-                                             Request.has_parent == False,
-                                             Request.command_type == "ACTION"),
+                    "additional_query": and_(
+                        Request.status in ["SUCCESS", "CANCELED", "ERROR"],
+                        Request.has_parent == False,
+                        Request.command_type == "ACTION",
+                    ),
                 }
             )
 

@@ -52,6 +52,7 @@ for model_name in beer_garden.db.sql.models.__all__:
 def create_session():
     return Session()
 
+
 def to_brewtils_fields(obj):
 
     if not isinstance(obj, dict):
@@ -79,22 +80,25 @@ def to_brewtils_fields(obj):
             obj[beer_garden.db.sql.models.restricted_field_mapping[key]] = obj[key]
             obj.pop(key, None)
 
-    if "id" in obj:
+    if "id" in obj and isinstance(obj["id"], int):
         obj["id"] = str(obj["id"])
 
+    new_obj = dict()
     for key in obj:
         if isinstance(obj[key], list):
             items = list()
 
             for item in obj[key]:
-                items.append(item)
+                items.append(to_brewtils_fields(item))
 
-            obj[key] = items
+            new_obj[key] = items
 
         elif isinstance(obj[key], dict):
-            obj[key] = to_brewtils_fields(obj[key])
+            new_obj[key] = to_brewtils_fields(obj[key])
+        else:
+            new_obj[key] = obj[key]
 
-    return obj
+    return new_obj
 
 
 def from_brewtils_fields(obj, SqlModel):
@@ -103,34 +107,36 @@ def from_brewtils_fields(obj, SqlModel):
             obj[key] = obj[beer_garden.db.sql.models.restricted_field_mapping[key]]
             obj.pop(beer_garden.db.sql.models.restricted_field_mapping[key], None)
 
-    if "id" in obj:
+    if "id" in obj and isinstance(obj["id"], str):
         obj["id"] = int(obj["id"])
 
+    newObj = dict()
     for key in obj:
 
         if key in SqlModel.__mapper__.relationships.keys():
             if obj[key] is not None:
-                print(key)
                 column = SqlModel.__mapper__.relationships[key]
                 if isinstance(obj[key], list):
                     if len(obj[key]) == 0:
-                        obj[key] = []
+                        newObj[key] = []
                     else:
                         obj_list = list()
                         for item in obj[key]:
-                            obj_list.append(from_brewtils_fields(item, column.entity.class_))
-                        obj[key] = obj_list
+                            obj_list.append(
+                                from_brewtils_fields(item, column.entity.class_)
+                            )
+                        newObj[key] = obj_list
                 else:
                     obj[key] = from_brewtils_fields(obj[key], column.entity.class_)
             elif SqlModel.__mapper__.relationships[key].uselist:
-                obj[key] = []
+                newObj[key] = []
 
         elif key in SqlModel.__mapper__.columns.keys():
-            pass
-        else:
-            obj.pop(key, None)
+            newObj[key] = obj[key]
+        # else:
+        # obj.pop(key, None)
     try:
-        return SqlModel(**obj)
+        return SqlModel(**newObj)
     except Exception as e:
         raise
 
@@ -150,13 +156,12 @@ def from_brewtils(obj: ModelItem):
     sql_obj = from_brewtils_fields(model_dict, _model_map[type(obj)])
     return sql_obj
 
-def object_as_dict(obj):
-    return {c.key: getattr(obj, c.key)
-        for c in inspect(obj).mapper.column_attrs}
 
-def to_brewtils(
-        obj
-) -> Union[ModelItem, List[ModelItem]]:
+def object_as_dict(obj):
+    return {c.key: getattr(obj, c.key) for c in inspect(obj).mapper.column_attrs}
+
+
+def to_brewtils(obj) -> Union[ModelItem, List[ModelItem]]:
     """Convert an item from its Mongo model to its Brewtils one
 
     Args:
@@ -169,22 +174,24 @@ def to_brewtils(
     if obj is None or (isinstance(obj, list) and len(obj) == 0):
         return obj
 
-    results = list()
+    if isinstance(obj, list):
+        results = list()
 
-    for item in obj:
-        #results.append(to_brewtils_fields(object_as_dict(item)))
-        results.append(to_brewtils_fields(item))
-        #results.append(inspect(item).dict)
+        for item in obj:
+            results.append(to_brewtils_fields(item))
 
-    if len(results) == 0:
-        serialized = None
-    elif len(results) == 1:
-        serialized = results.pop()
+        if len(results) == 0:
+            serialized = None
+        else:
+            serialized = results
     else:
-        serialized = results
+        serialized = to_brewtils_fields(obj)
 
     many = True if isinstance(serialized, list) else False
-    model_class = obj[0].brewtils_model
+    if many:
+        model_class = obj[0].brewtils_model
+    else:
+        model_class = obj.brewtils_model
 
     return SchemaParser.parse(serialized, model_class, from_string=False, many=many)
 
@@ -233,27 +240,27 @@ def create_connection(connection_alias: str = "default", db_config: Box = None) 
 
     global engine
 
-    engine_url = "{dialect}{driver}://{username}{password}{host}{port}{database}".format(
-        dialect=str(db_config["connection"]["type"]),
-        driver="+" + str(db_config["connection"]["driver"]) if db_config["connection"]["driver"] else "",
-        username=str(db_config["connection"]["username"]) if db_config["connection"]["username"] else "",
-        password=":" + str(db_config["connection"]["password"]) if db_config["connection"][
-            "password"] else "",
-        host="@" + str(db_config["connection"]["host"]) if db_config["connection"]["host"] else "",
-        port=":" + str(db_config["connection"]["port"]) if db_config["connection"]["port"] else "",
-        database="/" + str(db_config["name"]) if db_config["name"] else "")
     engine = create_engine(
-        "{dialect}{driver}://{username}{password}{host}{port}{database}".
-            format(dialect=str(db_config["connection"]["type"]),
-                   driver="+" + str(db_config["connection"]["driver"]) if db_config["connection"]["driver"] else "",
-                   username=str(db_config["connection"]["username"]) if db_config["connection"]["username"] else "",
-                   password=":" + str(db_config["connection"]["password"]) if db_config["connection"][
-                       "password"] else "",
-                   host="@" + str(db_config["connection"]["host"]) if db_config["connection"]["host"] else "",
-                   port=":" + str(db_config["connection"]["port"]) if db_config["connection"]["port"] else "",
-                   database="/" + str(db_config["name"]) if db_config["name"] else ""),
+        "{dialect}{driver}://{username}{password}{host}{port}{database}".format(
+            dialect=str(db_config["type"]),
+            driver="+" + str(db_config["driver"]) if db_config["driver"] else "",
+            username=str(db_config["connection"]["username"])
+            if db_config["connection"]["username"]
+            else "",
+            password=":" + str(db_config["connection"]["password"])
+            if db_config["connection"]["password"]
+            else "",
+            host="@" + str(db_config["connection"]["host"])
+            if db_config["connection"]["host"]
+            else "",
+            port=":" + str(db_config["connection"]["port"])
+            if db_config["connection"]["port"]
+            else "",
+            database="/" + str(db_config["name"]) if db_config["name"] else "",
+        ),
         pool_pre_ping=True,
-        echo=False)
+        echo=False,
+    )
 
     global Session
 
@@ -302,7 +309,9 @@ def count(model_class: ModelType, **kwargs) -> int:
         column = getattr(_model_map[model_class], k, None)
         if column:
             if isinstance(v, BaseModel):
-                query_set = query_set.filter(column.has(_model_map[v.schema].id == v.id))
+                query_set = query_set.filter(
+                    column.has(_model_map[v.schema].id == v.id)
+                )
             else:
                 query_set = query_set.filter(column == v)
 
@@ -310,7 +319,7 @@ def count(model_class: ModelType, **kwargs) -> int:
 
 
 def query_unique(
-        model_class: ModelType, raise_missing=False, **kwargs
+    model_class: ModelType, raise_missing=False, **kwargs
 ) -> Optional[ModelItem]:
     """Query a collection for a unique item
 
@@ -344,12 +353,25 @@ def query_unique(
             column = getattr(_model_map[model_class], k, None)
             if column:
                 if isinstance(v, BaseModel):
-                    query_set = query_set.filter(column.has(_model_map[v.schema].id == v.id))
+                    query_set = query_set.filter(
+                        column.has(_model_map[v.schema].id == v.id)
+                    )
                 else:
                     query_set = query_set.filter(column == v)
+            elif "__" in k:
+                # instances__contains
+                field, operations = k.split("__")
+                column = getattr(_model_map[model_class], field, None)
 
-        query_set.one_or_none()
-        return to_brewtils(query_set)
+                if column:
+                    if isinstance(v, BaseModel):
+                        query_set = query_set.filter(
+                            column.has(_model_map[v.schema].id == v.id)
+                        )
+                    else:
+                        query_set = query_set.filter(column == v)
+
+        return to_brewtils(query_set.one_or_none())
     except MultipleResultsFound:
         if raise_missing:
             raise
@@ -392,7 +414,11 @@ def query(model_class: ModelType, **kwargs) -> List[ModelItem]:
             if column:
                 if isinstance(filter_params[key], BaseModel):
                     query_set = query_set.filter(
-                        column.has(_model_map[filter_params[key].schema].id == filter_params[key].id))
+                        column.has(
+                            _model_map[filter_params[key].schema].id
+                            == filter_params[key].id
+                        )
+                    )
                 else:
                     query_set = query_set.filter(column == filter_params[key])
 
@@ -455,14 +481,18 @@ def create(obj: ModelItem) -> ModelItem:
     session.add(sql_obj)
     session.commit()
 
-    return to_brewtils(sql_obj)
+    # Refreshing Object to ensure it is the latest
+    session.refresh(sql_obj)
+
+    brewtils_obj = to_brewtils(sql_obj)
+
+    return brewtils_obj
 
 
 def update(obj: ModelItem) -> ModelItem:
     """Save changes to an item to the database
 
-    This is almost identical to the "create" function but it also calls an additional
-    clean method (clean_update) to ensure that the update is valid.
+    This is identical to the "create" function
 
     Args:
         obj: The Brewtils model to save
@@ -471,13 +501,7 @@ def update(obj: ModelItem) -> ModelItem:
         The saved Brewtils model
 
     """
-    sql_obj = from_brewtils(obj)
-
-    session = Session()
-    session.add(sql_obj)
-    session.commit()
-
-    return to_brewtils(sql_obj)
+    return create(obj)
 
 
 def delete(obj: ModelItem) -> None:
@@ -518,7 +542,7 @@ def reload(obj: ModelItem) -> ModelItem:
 
 
 def replace_commands(
-        system: brewtils.models.System, new_commands: List[brewtils.models.Command]
+    system: brewtils.models.System, new_commands: List[brewtils.models.Command]
 ) -> brewtils.models.System:
     """Replaces a System's Commands
 
@@ -541,8 +565,11 @@ def replace_commands(
 def distinct(brewtils_class: ModelItem, field: str) -> List:
     session = Session()
 
-    query_set = session.query(_model_map[brewtils_class]).with_entities(
-        getattr(_model_map[brewtils_class], field, None)).distinct()
+    query_set = (
+        session.query(_model_map[brewtils_class])
+        .with_entities(getattr(_model_map[brewtils_class], field, None))
+        .distinct()
+    )
 
     results = []
 

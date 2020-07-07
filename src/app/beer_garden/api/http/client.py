@@ -11,13 +11,13 @@ from brewtils.schema_parser import SchemaParser
 import beer_garden.api
 
 
-
 class ExecutorClient(object):
     parser = SchemaParser()
     pool = ThreadPoolExecutor(50)
 
     async def __call__(self, *args, serialize_kwargs=None, **kwargs):
         import beer_garden.router
+
         result = await asyncio.get_event_loop().run_in_executor(
             self.pool, partial(beer_garden.router.route, *args, **kwargs)
         )

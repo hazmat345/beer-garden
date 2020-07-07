@@ -37,6 +37,7 @@ import beer_garden.api.http.handlers.v1 as v1
 import beer_garden.api.http.handlers.vbeta as vbeta
 import beer_garden.config as config
 import beer_garden.events
+
 # import beer_garden.router
 from beer_garden.api.http.authorization import anonymous_principal as load_anonymous
 from beer_garden.api.http.processors import EventManager, websocket_publish

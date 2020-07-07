@@ -7,6 +7,7 @@ from brewtils.schema_parser import SchemaParser
 
 import beer_garden.db.sql.models
 
+
 class SqlParser(SchemaParser):
     _models = copy(SchemaParser._models)
     _models.update(
@@ -27,10 +28,8 @@ class SqlParser(SchemaParser):
         }
     )
 
-
     def object_as_dict(self, obj):
-        return {c.key: getattr(obj, c.key)
-                for c in inspect(obj).mapper.column_attrs}
+        return {c.key: getattr(obj, c.key) for c in inspect(obj).mapper.column_attrs}
 
     def serialize(self, query):
         results = list()
@@ -40,7 +39,9 @@ class SqlParser(SchemaParser):
 
             for key in beer_garden.db.sql.restricted_field_mapping:
                 if key in model_dict:
-                    model_dict[beer_garden.db.sql.restricted_field_mapping[key]] = model_dict[key]
+                    model_dict[
+                        beer_garden.db.sql.restricted_field_mapping[key]
+                    ] = model_dict[key]
                     model_dict.pop(key, None)
 
             results.append(model_dict)

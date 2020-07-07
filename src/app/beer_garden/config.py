@@ -544,26 +544,26 @@ _DB_SPEC = {
         "name": {
             "type": "str",
             "default": None,
-            #"default": "beer_garden",
+            # "default": "beer_garden",
             "required": False,
             "description": "Name of the database to use",
             "previous_names": ["db_name"],
         },
+        "type": {
+            "type": "str",
+            "default": "mongo",
+            "description": "Type of Database connecting to (mongo, sqlite, mysql, postgresql, oracle, "
+            "or mssql)",
+        },
+        "driver": {
+            "type": "str",
+            "default": None,
+            "required": False,
+            "description": "SqlAlchemey driver for database connection",
+        },
         "connection": {
             "type": "dict",
             "items": {
-                "type": {
-                    "type": "str",
-                    "default": "mongo",
-                    "description": "Type of Database connecting to (mongo, sqlite, mysql, postgresql, oracle, "
-                                   "or mssql)",
-                },
-                "driver": {
-                    "type": "str",
-                    "default": None,
-                    "required": False,
-                    "description": "SqlAlchemey driver for database connection",
-                },
                 "host": {
                     "type": "str",
                     # "default": "localhost",
@@ -583,7 +583,7 @@ _DB_SPEC = {
                 },
                 "port": {
                     "type": "int",
-                    #"default": 27017,
+                    # "default": 27017,
                     "default": None,
                     "required": False,
                     "description": "Port of the database server",

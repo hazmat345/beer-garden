@@ -121,7 +121,6 @@ class SqlJobStore(BaseJobStore):
         session.query(SqlJob).delete()
         session.commit()
 
-
     def _get_jobs(self, conditions=None):
         jobs = []
         failed_jobs = []

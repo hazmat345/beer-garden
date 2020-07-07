@@ -4,8 +4,6 @@ from typing import List
 from brewtils.models import Command
 
 
-
-
 def get_command(command_id: str) -> Command:
     """Retrieve an individual Command
 
@@ -17,6 +15,7 @@ def get_command(command_id: str) -> Command:
 
     """
     import beer_garden.db.api as db
+
     return db.query_unique(Command, id=command_id)
 
 
@@ -28,4 +27,5 @@ def get_commands() -> List[Command]:
 
     """
     import beer_garden.db.api as db
+
     return db.query(Command)

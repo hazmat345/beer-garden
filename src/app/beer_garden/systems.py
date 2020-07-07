@@ -41,7 +41,7 @@ def get_systems(**kwargs) -> List[System]:
         The list of Systems that matched the query
 
     """
-    systems =  db.query(System, **kwargs)
+    systems = db.query(System, **kwargs)
     return systems
 
 

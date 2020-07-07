@@ -4,7 +4,7 @@ import beer_garden
 api = None
 
 try:
-    database_type = beer_garden.config.get("db.connection.type")
+    database_type = beer_garden.config.get("db.type")
     if database_type:
         if database_type.lower() == "mongo":
             import beer_garden.db.mongo.api as api

@@ -332,7 +332,22 @@ _MQ_SPEC = {
         "host": {
             "type": "str",
             "default": "localhost",
-            "description": "Hostname of MQ to use",
+            "description": "Publicly accessible hostname for plugins to connect to",
+            "long_description": "This value will be given to ALL plugins (both local "
+            "and remote) to use for their message broker connection. It's recommended "
+            "that this value be globally resolvable, if possible. If that's not "
+            "possible then the `internal_host` config option might be useful.",
+            "alt_env_names": ["PUBLISH_HOSTNAME", "AMQ_PUBLISH_HOST"],
+        },
+        "internal_host": {
+            "type": "str",
+            "description": "Host name that Beergarden (not plugins) will use for the "
+            "message broker connection.",
+            "long_description": "This value should only be set if Beergarden needs to "
+            "use a different name to resolve the message broker address. Typically "
+            "this would be in an orchestration environment where internal containers "
+            "would need to use one name and external plugins would need to use another.",
+            "fallback": "mq.host",
         },
         "admin_queue_expiry": {
             "type": "int",
@@ -1060,23 +1075,17 @@ _VALIDATOR_SPEC = {
 }
 
 _SPECIFICATION = {
-    "publish_hostname": {
-        "type": "str",
-        "default": "localhost",
-        "description": "Publicly accessible hostname for plugins to connect to",
-        "alt_env_names": ["AMQ_PUBLISH_HOST"],
-    },
-    "mq": _MQ_SPEC,
     "application": _APP_SPEC,
     "auth": _AUTH_SPEC,
     "configuration": _META_SPEC,
     "db": _DB_SPEC,
     "entry": _ENTRY_SPEC,
     "event": _EVENT_SPEC,
-    "parent": _PARENT_SPEC,
     "garden": _GARDEN_SPEC,
     "log": _LOG_SPEC,
     "metrics": _METRICS_SPEC,
+    "mq": _MQ_SPEC,
+    "parent": _PARENT_SPEC,
     "plugin": _PLUGIN_SPEC,
     "scheduler": _SCHEDULER_SPEC,
     "validator": _VALIDATOR_SPEC,

@@ -28,7 +28,7 @@ def create_clients(mq_config):
     global clients
     clients = {
         "pika": TransientPikaClient(
-            host=mq_config.host,
+            host=mq_config.internal_host,
             port=mq_config.connections.message.port,
             ssl=mq_config.connections.message.ssl,
             user=mq_config.connections.admin.user,
@@ -39,7 +39,7 @@ def create_clients(mq_config):
             exchange=mq_config.exchange,
         ),
         "pyrabbit": PyrabbitClient(
-            host=mq_config.host,
+            host=mq_config.internal_host,
             virtual_host=mq_config.virtual_host,
             admin_expires=mq_config.admin_queue_expiry,
             **mq_config.connections.admin,
@@ -86,7 +86,7 @@ def create(instance: Instance) -> dict:
 
     mq_config = config.get("mq")
     connection = {
-        "host": config.get("publish_hostname"),
+        "host": mq_config.get("host"),
         "port": mq_config.connections.message.port,
         "user": mq_config.connections.message.user,
         "password": mq_config.connections.message.password,

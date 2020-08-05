@@ -1036,12 +1036,6 @@ _VALIDATOR_SPEC = {
     },
 }
 
-# I have omitted the following from the spec
-#
-# * "backend" - there should be no need for this
-# * "thrift" - there should be no need for this
-#
-# Everything else has been copied wholesale into this specification.
 _SPECIFICATION = {
     "publish_hostname": {
         "type": "str",

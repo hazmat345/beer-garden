@@ -326,33 +326,6 @@ _META_SPEC = {
     },
 }
 
-_MQ_SSL_SPEC = {
-    "type": "dict",
-    "items": {
-        "enabled": {
-            "type": "bool",
-            "default": False,
-            "description": "Should the connection use SSL",
-        },
-        "ca_cert": {
-            "type": "str",
-            "description": "Path to CA certificate file to use",
-            "required": False,
-        },
-        "ca_verify": {
-            "type": "bool",
-            "default": True,
-            "description": "Verify external certificates",
-            "required": False,
-        },
-        "client_cert": {
-            "type": "str",
-            "description": "Path to client combined key / certificate",
-            "required": False,
-        },
-    },
-}
-
 _MQ_SPEC = {
     "type": "dict",
     "items": {
@@ -415,7 +388,32 @@ _MQ_SPEC = {
                             "description": "Password to login to the MQ admin",
                             "alt_env_names": ["AMQ_ADMIN_PASSWORD", "AMQ_ADMIN_PW"],
                         },
-                        "ssl": _MQ_SSL_SPEC,
+                        "ssl": {
+                            "type": "dict",
+                            "items": {
+                                "enabled": {
+                                    "type": "bool",
+                                    "default": False,
+                                    "description": "Should the connection use SSL",
+                                },
+                                "ca_cert": {
+                                    "type": "str",
+                                    "description": "Path to CA certificate file to use",
+                                    "required": False,
+                                },
+                                "ca_verify": {
+                                    "type": "bool",
+                                    "default": True,
+                                    "description": "Verify external certificates",
+                                    "required": False,
+                                },
+                                "client_cert": {
+                                    "type": "str",
+                                    "description": "Path to client combined key / certificate",
+                                    "required": False,
+                                },
+                            },
+                        },
                     },
                 },
                 "message": {
@@ -439,7 +437,32 @@ _MQ_SPEC = {
                             "description": "Username to login to the MQ host",
                             "alt_env_names": ["AMQ_USER"],
                         },
-                        "ssl": _MQ_SSL_SPEC,
+                        "ssl": {
+                            "type": "dict",
+                            "items": {
+                                "enabled": {
+                                    "type": "bool",
+                                    "default": False,
+                                    "description": "Should the connection use SSL",
+                                },
+                                "ca_cert": {
+                                    "type": "str",
+                                    "description": "Path to CA certificate file to use",
+                                    "required": False,
+                                },
+                                "ca_verify": {
+                                    "type": "bool",
+                                    "default": True,
+                                    "description": "Verify external certificates",
+                                    "required": False,
+                                },
+                                "client_cert": {
+                                    "type": "str",
+                                    "description": "Path to client combined key / certificate",
+                                    "required": False,
+                                },
+                            },
+                        },
                     },
                 },
             },

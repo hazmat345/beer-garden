@@ -321,7 +321,6 @@ _META_SPEC = {
             "required": False,
             "cli_short_name": "c",
             "bootstrap": True,
-            "previous_names": ["config"],
             "alt_env_names": ["CONFIG"],
         }
     },
@@ -356,13 +355,11 @@ _MQ_SSL_SPEC = {
 
 _MQ_SPEC = {
     "type": "dict",
-    "previous_names": ["amq"],
     "items": {
         "host": {
             "type": "str",
             "default": "localhost",
             "description": "Hostname of MQ to use",
-            "previous_names": ["amq_host"],
         },
         "admin_queue_expiry": {
             "type": "int",
@@ -373,7 +370,6 @@ _MQ_SPEC = {
             "type": "int",
             "default": 3600,
             "description": "Heartbeat interval for MQ",
-            "previous_names": ["amq_heartbeat_interval"],
         },
         "blocked_connection_timeout": {
             "type": "int",
@@ -384,19 +380,16 @@ _MQ_SPEC = {
             "type": "int",
             "default": 3,
             "description": "Number of retries to connect to MQ",
-            "previous_names": ["amq_connection_attempts"],
         },
         "exchange": {
             "type": "str",
             "default": "beer_garden",
             "description": "Exchange name to use for MQ",
-            "previous_names": ["amq_exchange"],
         },
         "virtual_host": {
             "type": "str",
             "default": "/",
             "description": "Virtual host to use for MQ",
-            "previous_names": ["amq_virtual_host"],
         },
         "connections": {
             "type": "dict",
@@ -408,21 +401,18 @@ _MQ_SPEC = {
                             "type": "int",
                             "default": 15672,
                             "description": "Port of the MQ Admin host",
-                            "previous_names": ["amq_admin_port"],
                             "alt_env_names": ["AMQ_ADMIN_PORT"],
                         },
                         "user": {
                             "type": "str",
                             "default": "guest",
                             "description": "Username to login to the MQ admin",
-                            "previous_names": ["amq_admin_user"],
                             "alt_env_names": ["AMQ_ADMIN_USER"],
                         },
                         "password": {
                             "type": "str",
                             "default": "guest",
                             "description": "Password to login to the MQ admin",
-                            "previous_names": ["amq_admin_password", "amq_admin_pw"],
                             "alt_env_names": ["AMQ_ADMIN_PASSWORD", "AMQ_ADMIN_PW"],
                         },
                         "ssl": _MQ_SSL_SPEC,
@@ -435,21 +425,18 @@ _MQ_SPEC = {
                             "type": "int",
                             "default": 5672,
                             "description": "Port of the MQ host",
-                            "previous_names": ["amq_port"],
                             "alt_env_names": ["AMQ_PORT"],
                         },
                         "password": {
                             "type": "str",
                             "default": "guest",
                             "description": "Password to login to the MQ host",
-                            "previous_names": ["amq_password"],
                             "alt_env_names": ["AMQ_PASSWORD"],
                         },
                         "user": {
                             "type": "str",
                             "default": "guest",
                             "description": "Username to login to the MQ host",
-                            "previous_names": ["amq_user"],
                             "alt_env_names": ["AMQ_USER"],
                         },
                         "ssl": _MQ_SSL_SPEC,
@@ -467,32 +454,27 @@ _APP_SPEC = {
             "type": "bool",
             "default": False,
             "description": "Determine if CORS should be enabled",
-            "previous_names": ["cors_enabled"],
         },
         "debug_mode": {
             "type": "bool",
             "default": False,
             "description": "Run the application in debug mode",
-            "previous_names": ["debug_mode"],
         },
         "name": {
             "type": "str",
             "default": "Beer Garden",
             "description": "The title to display on the GUI",
-            "previous_names": ["application_name"],
         },
         "icon_default": {
             "type": "str",
             "description": "Default font-awesome icon to display",
             "default": "fa-beer",
-            "previous_names": ["icon_default"],
             "alt_env_names": ["ICON_DEFAULT"],
         },
         "allow_unsafe_templates": {
             "type": "bool",
             "default": False,
             "description": "Allow unsafe templates to be loaded by the application",
-            "previous_names": ["ALLOW_UNSANITIZED_TEMPLATES", "allow_unsafe_templates"],
             "alt_env_names": [
                 "ALLOW_UNSANITIZED_TEMPLATES",
                 "BG_ALLOW_UNSAFE_TEMPLATES",
@@ -546,7 +528,6 @@ _DB_SPEC = {
             "type": "str",
             "default": "beer_garden",
             "description": "Name of the database to use",
-            "previous_names": ["db_name"],
         },
         "connection": {
             "type": "dict",
@@ -555,7 +536,6 @@ _DB_SPEC = {
                     "type": "str",
                     "default": "localhost",
                     "description": "Hostname/IP of the database server",
-                    "previous_names": ["db_host"],
                     "alt_env_names": ["DB_HOST"],
                 },
                 "password": {
@@ -563,14 +543,12 @@ _DB_SPEC = {
                     "default": None,
                     "required": False,
                     "description": "Password to connect to the database",
-                    "previous_names": ["db_password"],
                     "alt_env_names": ["DB_PASSWORD"],
                 },
                 "port": {
                     "type": "int",
                     "default": 27017,
                     "description": "Port of the database server",
-                    "previous_names": ["db_port"],
                     "alt_env_names": ["DB_PORT"],
                 },
                 "username": {
@@ -578,7 +556,6 @@ _DB_SPEC = {
                     "default": None,
                     "required": False,
                     "description": "Username to connect to the database",
-                    "previous_names": ["db_username"],
                     "alt_env_names": ["DB_USERNAME"],
                 },
             },
@@ -591,7 +568,6 @@ _DB_SPEC = {
                     "default": 15,
                     "description": "Number of minutes to wait before deleting "
                     "events (negative number for never)",
-                    "previous_names": ["event_mongo_ttl"],
                     "alt_env_names": ["EVENT_MONGO_TTL"],
                 },
                 "action": {
@@ -599,7 +575,6 @@ _DB_SPEC = {
                     "default": -1,
                     "description": "Number of minutes to wait before deleting "
                     "ACTION requests (negative number for never)",
-                    "previous_names": ["action_request_ttl"],
                     "alt_env_names": ["ACTION_REQUEST_TTL"],
                 },
                 "info": {
@@ -607,7 +582,6 @@ _DB_SPEC = {
                     "default": 15,
                     "description": "Number of minutes to wait before deleting "
                     "INFO requests (negative number for never)",
-                    "previous_names": ["info_request_ttl"],
                     "alt_env_names": ["INFO_REQUEST_TTL"],
                 },
             },
@@ -630,7 +604,6 @@ _HTTP_SPEC = {
                     "type": "bool",
                     "default": False,
                     "description": "Serve content using SSL",
-                    "previous_names": ["ssl_enabled"],
                     "alt_env_names": ["SSL_ENABLED"],
                     "cli_separator": "_",
                 },
@@ -638,14 +611,12 @@ _HTTP_SPEC = {
                     "type": "str",
                     "description": "Path to a private key",
                     "required": False,
-                    "previous_names": ["ssl_private_key"],
                     "alt_env_names": ["SSL_PRIVATE_KEY"],
                 },
                 "public_key": {
                     "type": "str",
                     "description": "Path to a public key",
                     "required": False,
-                    "previous_names": ["ssl_public_key"],
                     "alt_env_names": ["SSL_PUBLIC_KEY"],
                 },
                 "ca_cert": {
@@ -654,7 +625,6 @@ _HTTP_SPEC = {
                         "Path to CA certificate file to use for SSLContext"
                     ),
                     "required": False,
-                    "previous_names": ["ca_cert"],
                     "alt_env_names": ["CA_CERT"],
                 },
                 "ca_path": {
@@ -663,7 +633,6 @@ _HTTP_SPEC = {
                         "Path to CA certificate path to use for SSLContext"
                     ),
                     "required": False,
-                    "previous_names": ["ca_path"],
                     "alt_env_names": ["CA_PATH"],
                 },
                 "client_cert_verify": {
@@ -673,7 +642,6 @@ _HTTP_SPEC = {
                     ),
                     "choices": ["NONE", "OPTIONAL", "REQUIRED"],
                     "default": "NONE",
-                    "previous_names": ["client_cert_verify"],
                     "alt_env_names": ["CLIENT_CERT_VERIFY"],
                 },
             },
@@ -682,14 +650,12 @@ _HTTP_SPEC = {
             "type": "int",
             "default": 2337,
             "description": "Serve content on this port",
-            "previous_names": ["web_port"],
         },
         "url_prefix": {
             "type": "str",
             "default": "/",
             "description": "URL path prefix",
             "required": False,
-            "previous_names": ["url_prefix"],
             "alt_env_names": ["URL_PREFIX"],
         },
         "host": {
@@ -701,7 +667,6 @@ _HTTP_SPEC = {
             "type": "str",
             "default": "localhost",
             "description": "Public fully-qualified domain name",
-            "previous_names": ["public_fqdn"],
             "alt_env_names": ["PUBLIC_FQDN"],
         },
     },
@@ -825,14 +790,12 @@ _EVENT_SPEC = {
                     "type": "str",
                     "required": False,
                     "description": "Exchange to use for MQ events",
-                    "previous_names": ["event_amq_exchange"],
                 },
                 "virtual_host": {
                     "type": "str",
                     "default": "/",
                     "required": False,
                     "description": "Virtual host to use for MQ events",
-                    "previous_names": ["event_amq_virtual_host"],
                 },
             },
         },
@@ -843,7 +806,6 @@ _EVENT_SPEC = {
                     "type": "bool",
                     "default": True,
                     "description": "Persist events to Mongo",
-                    "previous_names": ["event_persist_mongo"],
                     "alt_env_names": ["EVENT_PERSIST_MONGO"],
                 }
             },
@@ -859,21 +821,18 @@ _LOG_SPEC = {
             "description": "Path to a logging config file.",
             "required": False,
             "cli_short_name": "l",
-            "previous_names": ["log_config"],
             "alt_env_names": ["LOG_CONFIG"],
         },
         "file": {
             "type": "str",
             "description": "File you would like the application to log to",
             "required": False,
-            "previous_names": ["log_file"],
         },
         "level": {
             "type": "str",
             "description": "Log level for the application",
             "default": "INFO",
             "choices": ["DEBUG", "INFO", "WARN", "WARNING", "ERROR", "CRITICAL"],
-            "previous_names": ["log_level"],
         },
     },
 }
@@ -924,7 +883,6 @@ _PLUGIN_SPEC = {
                     "type": "str",
                     "description": "Level that will be used with a default logging "
                     "configuration if a config_file is not provided",
-                    "previous_names": ["plugin_logging_level"],
                     "default": "INFO",
                     "choices": [
                         "DEBUG",
@@ -941,14 +899,12 @@ _PLUGIN_SPEC = {
             "type": "int",
             "default": 10,
             "description": "Amount of time between status messages",
-            "previous_names": ["plugin_status_heartbeat"],
         },
         "status_timeout": {
             "type": "int",
             "default": 30,
             "description": "Amount of time to wait before marking a plugin as"
             "unresponsive",
-            "previous_names": ["plugin_status_timeout "],
         },
         "local": {
             "type": "dict",
@@ -974,7 +930,6 @@ _PLUGIN_SPEC = {
                     "type": "str",
                     "description": "Directory where local plugins are located",
                     "required": False,
-                    "previous_names": ["plugins_directory", "plugin_directory"],
                     "alt_env_names": ["PLUGINS_DIRECTORY", "BG_PLUGIN_DIRECTORY"],
                 },
                 "timeout": {
@@ -985,14 +940,12 @@ _PLUGIN_SPEC = {
                             "default": 10,
                             "description": "Seconds to wait for a plugin to stop"
                             "gracefully",
-                            "previous_names": ["plugin_shutdown_timeout"],
                             "alt_env_names": ["PLUGIN_SHUTDOWN_TIMEOUT"],
                         },
                         "startup": {
                             "type": "int",
                             "default": 5,
                             "description": "Seconds to wait for a plugin to start",
-                            "previous_names": ["plugin_startup_timeout"],
                             "alt_env_names": ["PLUGIN_STARTUP_TIMEOUT"],
                         },
                     },
@@ -1094,7 +1047,6 @@ _SPECIFICATION = {
         "type": "str",
         "default": "localhost",
         "description": "Publicly accessible hostname for plugins to connect to",
-        "previous_names": ["amq_publish_host"],
         "alt_env_names": ["AMQ_PUBLISH_HOST"],
     },
     "mq": _MQ_SPEC,

@@ -17,7 +17,7 @@ import beer_garden.config
 import beer_garden.db.api as db
 import beer_garden.events
 import beer_garden.queue.api as queue
-import beer_garden.router as router
+import beer_garden.garden as garden
 from beer_garden.events.processors import PipeListener, QueueListener
 from beer_garden.log import process_record
 
@@ -180,8 +180,10 @@ class EntryPoint:
             # Set up message queue connections
             queue.create_clients(beer_garden.config.get("mq"))
 
+            # # Load known gardens for routing
+            # router.setup_routing()
             # Load known gardens for routing
-            router.setup_routing()
+            garden.setup_garden_cache()
         except Exception as ex:
             # If we don't do this any tracebacks won't propagate back to the "real"
             # logging. In systemd mode we don't see STDERR from entry points.

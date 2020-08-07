@@ -36,6 +36,7 @@ import beer_garden.api.http.handlers.misc as misc
 import beer_garden.api.http.handlers.v1 as v1
 import beer_garden.api.http.handlers.vbeta as vbeta
 import beer_garden.config as config
+import beer_garden.garden
 import beer_garden.events
 import beer_garden.router
 from beer_garden.api.http.authorization import anonymous_principal as load_anonymous
@@ -390,7 +391,7 @@ def _event_callback(event):
 
     # And also register handlers that the entry point needs to care about
     # As of now that's only the routing subsystem
-    for handler in [beer_garden.router.handle_event]:
+    for handler in [beer_garden.router.handle_event, beer_garden.garden.handle_event]:
         try:
             handler(event)
         except Exception as ex:

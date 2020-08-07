@@ -185,8 +185,10 @@ class Application(StoppableThread):
         for helper_thread in self.helper_threads:
             helper_thread.start()
 
-        self.logger.debug("Setting up garden routing...")
-        beer_garden.router.setup_routing()
+        # self.logger.debug("Setting up garden routing...")
+        # beer_garden.router.setup_routing()
+        self.logger.debug("Setting up garden cache...")
+        beer_garden.garden.setup_garden_cache()
 
         self.logger.debug("Starting forwarding processor...")
         beer_garden.router.forward_processor.start()
@@ -283,16 +285,9 @@ class Application(StoppableThread):
 
     @staticmethod
     def _publish_update(event: Events):
-        # Want to have most current system list when publishing, so use the garden
-        # dict from the routing module
-        system_lists = (g.systems for g in beer_garden.router.gardens.values())
-
-        garden = Garden(
-            name=config.get("garden.name"),
-            status="RUNNING" if event == Events.GARDEN_STARTED else "STOPPED",
-            namespaces=beer_garden.namespace.get_namespaces(),
-            systems=list(flatten(system_lists)),
-        )
+        garden = beer_garden.garden.local_garden()
+        if event == Events.GARDEN_STOPPED:
+            garden.status = "STOPPED"
 
         publish(Event(name=event.name, payload_type="Garden", payload=garden))
 

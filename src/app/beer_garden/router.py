@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
+from typing import Union
+
 import requests
-from brewtils.models import Events, Garden, Instance, Operation, Request, System
+from brewtils.models import Events, Instance, Operation, Request, System
 from brewtils.schema_parser import SchemaParser
-from typing import Dict, Union
 
 import beer_garden
 import beer_garden.commands
@@ -19,8 +20,7 @@ import beer_garden.requests
 import beer_garden.scheduler
 import beer_garden.systems
 from beer_garden.errors import RoutingRequestException, UnknownGardenException
-from beer_garden.garden import get_gardens
-from beer_garden.garden import local_garden
+from beer_garden.garden import get_gardens, local_garden
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +36,7 @@ routable_operations = [
 forward_processor = None
 
 # Dict of garden_name -> garden
-gardens: Dict[str, Garden] = {}
+# gardens: Dict[str, Garden] = {}
 
 route_functions = {
     "REQUEST_CREATE": beer_garden.requests.process_request,
@@ -168,7 +168,7 @@ def forward(operation: Operation):
         RoutingRequestException: Could not determine a route to child
         UnknownGardenException: The specified target garden is unknown
     """
-    target_garden = gardens.get(operation.target_garden_name)
+    target_garden = beer_garden.garden.garden_cache.get(operation.target_garden_name)
 
     if not target_garden:
         raise UnknownGardenException(
@@ -193,67 +193,68 @@ def forward(operation: Operation):
         logger.exception(f"Error forwarding operation:{ex}")
 
 
-def setup_routing():
-    """Initialize the routing subsystem
-
-    This will load the cached child garden definitions and use them to populate the
-    two dictionaries that matter, garden_lookup and garden_connections.
-
-    It will then query the database for all local systems and add those to the
-    dictionaries as well.
-    """
-    local_garden_name = config.get("garden.name")
-
-    # We do NOT want to load local garden information from the database as the local
-    # name could have changed
-    for garden in get_gardens():
-        if garden.name != local_garden_name:
-            if (
-                garden.connection_type is not None
-                and garden.connection_type.casefold() != "local"
-            ):
-                gardens[garden.name] = garden
-            else:
-                logger.warning(f"Garden with invalid connection info: {garden!r}")
-
-    # Now add the "local" garden
-    gardens[local_garden_name] = local_garden()
-    logger.debug("Routing setup complete")
+# def setup_routing():
+#     """Initialize the routing subsystem
+#
+#     This will load the cached child garden definitions and use them to populate the
+#     two dictionaries that matter, garden_lookup and garden_connections.
+#
+#     It will then query the database for all local systems and add those to the
+#     dictionaries as well.
+#     """
+#     local_garden_name = config.get("garden.name")
+#
+#     # We do NOT want to load local garden information from the database as the local
+#     # name could have changed
+#     for garden in get_gardens():
+#         if garden.name != local_garden_name:
+#             if (
+#                 garden.connection_type is not None
+#                 and garden.connection_type.casefold() != "local"
+#             ):
+#                 gardens[garden.name] = garden
+#             else:
+#                 logger.warning(f"Garden with invalid connection info: {garden!r}")
+#
+#     # Now add the "local" garden
+#     gardens[local_garden_name] = local_garden()
+#     logger.debug("Routing setup complete")
 
 
 def handle_event(event):
     """Handle events"""
-    if (
-        event.name
-        in (
-            Events.SYSTEM_CREATED.name,
-            Events.SYSTEM_UPDATED.name,
-            Events.SYSTEM_REMOVED.name,
-        )
-        and event.garden in gardens
-    ):
-        index = None
-        for i, system in enumerate(gardens[event.garden].systems):
-            if system.id == event.payload.id:
-                index = i
-                break
-
-        if index is not None:
-            gardens[event.garden].systems.pop(index)
-
-        if event.name in (Events.SYSTEM_CREATED.name, Events.SYSTEM_UPDATED.name):
-            gardens[event.garden].systems.append(event.payload)
-
-    # This is a little unintuitive. We want to let the garden module deal with handling
-    # any downstream garden changes since handling those changes is nontrivial.
-    # It's *those* events we want to act on here, not the "raw" downstream ones.
-    # This is also why we only handle GARDEN_UPDATED and not STARTED or STOPPED
-    if event.garden == config.get("garden.name"):
-        if event.name == Events.GARDEN_UPDATED.name:
-            gardens[event.payload.name] = event.payload
-
-        elif event.name == Events.GARDEN_REMOVED.name:
-            del gardens[event.payload.name]
+    pass
+    # if (
+    #     event.name
+    #     in (
+    #         Events.SYSTEM_CREATED.name,
+    #         Events.SYSTEM_UPDATED.name,
+    #         Events.SYSTEM_REMOVED.name,
+    #     )
+    #     and event.garden in gardens
+    # ):
+    #     index = None
+    #     for i, system in enumerate(gardens[event.garden].systems):
+    #         if system.id == event.payload.id:
+    #             index = i
+    #             break
+    #
+    #     if index is not None:
+    #         gardens[event.garden].systems.pop(index)
+    #
+    #     if event.name in (Events.SYSTEM_CREATED.name, Events.SYSTEM_UPDATED.name):
+    #         gardens[event.garden].systems.append(event.payload)
+    #
+    # # This is a little unintuitive. We want to let the garden module deal with handling
+    # # any downstream garden changes since handling those changes is nontrivial.
+    # # It's *those* events we want to act on here, not the "raw" downstream ones.
+    # # This is also why we only handle GARDEN_UPDATED and not STARTED or STOPPED
+    # if event.garden == config.get("garden.name"):
+    #     if event.name == Events.GARDEN_UPDATED.name:
+    #         gardens[event.payload.name] = event.payload
+    #
+    #     elif event.name == Events.GARDEN_REMOVED.name:
+    #         del gardens[event.payload.name]
 
 
 def _pre_route(operation: Operation) -> Operation:
@@ -382,7 +383,7 @@ def _forward_http(operation: Operation, conn_info: dict):
 def _garden_name_lookup(system: Union[str, System]) -> str:
     system_name = str(system)
 
-    for garden in gardens.values():
+    for garden in beer_garden.garden.garden_cache.values():
         for system in garden.systems:
             if str(system) == system_name:
                 return garden.name

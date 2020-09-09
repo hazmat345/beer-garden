@@ -263,16 +263,6 @@ def query(model_class: ModelType, **kwargs) -> List[ModelItem]:
     """
     query_set = _model_map[model_class].objects
 
-    if kwargs.get("filter_params"):
-        filter_params = kwargs["filter_params"]
-
-        # If any values are brewtils models those need to be converted
-        for key in filter_params:
-            if isinstance(filter_params[key], BaseModel):
-                filter_params[key] = from_brewtils(filter_params[key])
-
-        query_set = query_set.filter(**(kwargs.get("filter_params", {})))
-
     # Bad things happen if you try to use a hint with a text search.
     if kwargs.get("text_search"):
         query_set = query_set.search_text(kwargs.get("text_search"))
@@ -298,6 +288,16 @@ def query(model_class: ModelType, **kwargs) -> List[ModelItem]:
 
     if kwargs.get("length"):
         query_set = query_set.limit(int(kwargs.get("length")))
+
+    if kwargs.get("filter_params"):
+        filter_params = kwargs["filter_params"]
+
+        # If any values are brewtils models those need to be converted
+        for key in filter_params:
+            if isinstance(filter_params[key], BaseModel):
+                filter_params[key] = from_brewtils(filter_params[key])
+
+        query_set = query_set.filter(**(kwargs.get("filter_params", {})))
 
     return [] if len(query_set) == 0 else to_brewtils(query_set)
 

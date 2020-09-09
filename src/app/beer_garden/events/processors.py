@@ -48,7 +48,8 @@ class QueueListener(BaseProcessor):
         """Process events as they are received"""
         while not self.stopped():
             try:
-                self.process(self._queue.get(timeout=0.1))
+                while True:
+                    self.process(self._queue.get(timeout=0.1))
             except Empty:
                 pass
 

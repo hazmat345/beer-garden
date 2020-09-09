@@ -451,7 +451,11 @@ class System(MongoModel, Document):
                 "name": "unique_index",
                 "fields": ["namespace", "name", "version"],
                 "unique": True,
-            }
+            },
+            {
+                "name": "instances_index",
+                "fields": ["instances"],
+            },
         ],
     }
 

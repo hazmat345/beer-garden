@@ -80,9 +80,9 @@ class MongoModel:
     def index_names(cls):
         return [index["name"] for index in cls._meta["indexes"]]
 
-    def save(self, *args, **kwargs):
-        kwargs.setdefault("write_concern", {"w": "majority"})
-        return super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     kwargs.setdefault("write_concern", {"w": "majority"})
+    #     return super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         # Sigh. In delete (but not save!) write_concern things ARE the kwargs!

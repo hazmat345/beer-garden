@@ -26,7 +26,7 @@ def garden_callbacks(event: Event) -> None:
         None
     """
     if event.error:
-        logger.error(f"Error event: {event!r}")
+        # logger.error(f"Error event: {event!r}")
         return
     else:
         logger.debug(f"{event!r}")

@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import logging
+
+import mongoengine.errors
 from brewtils.errors import ModelValidationError
 from brewtils.models import Operation
 from brewtils.schema_parser import SchemaParser
@@ -6,6 +9,8 @@ from brewtils.schemas import SystemSchema
 
 from beer_garden.api.http.authorization import Permissions, authenticated
 from beer_garden.api.http.base_handler import BaseHandler
+
+logger = logging.getLogger(__name__)
 
 
 class SystemAPI(BaseHandler):
@@ -349,16 +354,22 @@ class SystemListAPI(BaseHandler):
           - Systems
         """
 
-        response = await self.client(
-            Operation(
-                operation_type="SYSTEM_CREATE",
-                args=[
-                    SchemaParser.parse_system(
-                        self.request.decoded_body, from_string=True
-                    )
-                ],
+        try:
+            response = await self.client(
+                Operation(
+                    operation_type="SYSTEM_CREATE",
+                    args=[
+                        SchemaParser.parse_system(
+                            self.request.decoded_body, from_string=True
+                        )
+                    ],
+                )
             )
-        )
-        self.set_status(201)
+            self.set_status(201)
+        except mongoengine.errors.NotUniqueError:
+            logger.warning("Conflict")
+            self.set_status(409)
+            response = {"message": "No."}
+
         self.set_header("Content-Type", "application/json; charset=UTF-8")
         self.write(response)

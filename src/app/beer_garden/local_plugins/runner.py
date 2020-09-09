@@ -112,60 +112,60 @@ class ProcessRunner(Thread):
                 cwd=str(self.process_cwd.resolve()),
                 restore_signals=False,
                 close_fds=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                # stdout=subprocess.PIPE,
+                # stderr=subprocess.PIPE,
                 text=True,
             )
 
-            # Reading process IO is blocking so needs to be in separate threads
-            stdout_thread = Thread(
-                target=self._read_stream,
-                args=(self.process.stdout, logging.INFO),
-                name=f"{self} STDOUT Reader",
-            )
-            stderr_thread = Thread(
-                target=self._read_stream,
-                args=(self.process.stderr, logging.ERROR),
-                name=f"{self} STDERR Reader",
-            )
-            stdout_thread.start()
-            stderr_thread.start()
-
-            # Processing the logs also needs a thread
-            log_reader = DelayListener(
-                event=self.logger_ready,
-                queue=self.log_queue,
-                action=self._process_logs,
-                name=f"{self} Log Processor",
-            )
-            log_reader.start()
+            # # Reading process IO is blocking so needs to be in separate threads
+            # stdout_thread = Thread(
+            #     target=self._read_stream,
+            #     args=(self.process.stdout, logging.INFO),
+            #     name=f"{self} STDOUT Reader",
+            # )
+            # stderr_thread = Thread(
+            #     target=self._read_stream,
+            #     args=(self.process.stderr, logging.ERROR),
+            #     name=f"{self} STDERR Reader",
+            # )
+            # stdout_thread.start()
+            # stderr_thread.start()
+            #
+            # # Processing the logs also needs a thread
+            # log_reader = DelayListener(
+            #     event=self.logger_ready,
+            #     queue=self.log_queue,
+            #     action=self._process_logs,
+            #     name=f"{self} Log Processor",
+            # )
+            # log_reader.start()
 
             # Just spin here until until the process is no longer alive
             while self.process.poll() is None:
                 sleep(0.1)
 
-            self.logger.debug("About to join stream reader threads")
-            stdout_thread.join()
-            stderr_thread.join()
-
-            # Ensure logs are sent SOMEWHERE in the event they were never configured
-            # TODO - This is broken: QueueListener doesn't exhaust queue before dying
-            if not self.logger_ready.is_set():
-                self.logger.warning(
-                    f"Logger for plugin {self.runner_name} was never started. About to "
-                    f"log all queued log records using Beer-garden logging config"
-                )
-
-                self.process_logger = self.logger
-                self.logger_ready.set()
-
-                # Need to give the log_reader time to start, otherwise the stopped
-                # check will happen before we start processing
-                sleep(0.1)
-
-            self.logger.debug("About to stop and join log processing thread")
-            log_reader.stop()
-            log_reader.join()
+            # self.logger.debug("About to join stream reader threads")
+            # stdout_thread.join()
+            # stderr_thread.join()
+            #
+            # # Ensure logs are sent SOMEWHERE in the event they were never configured
+            # # TODO - This is broken: QueueListener doesn't exhaust queue before dying
+            # if not self.logger_ready.is_set():
+            #     self.logger.warning(
+            #         f"Logger for plugin {self.runner_name} was never started. About to "
+            #         f"log all queued log records using Beer-garden logging config"
+            #     )
+            #
+            #     self.process_logger = self.logger
+            #     self.logger_ready.set()
+            #
+            #     # Need to give the log_reader time to start, otherwise the stopped
+            #     # check will happen before we start processing
+            #     sleep(0.1)
+            #
+            # self.logger.debug("About to stop and join log processing thread")
+            # log_reader.stop()
+            # log_reader.join()
 
             self.logger.info("Plugin is officially stopped")
 

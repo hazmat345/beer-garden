@@ -142,8 +142,8 @@ class RequestValidator(object):
                     )
 
                 if request.output_type is None:
-                    request.output_type = command.output_type
-                elif command.output_type != request.output_type:
+                    request.output_type = command.output_type[0]
+                elif request.output_type not in command.output_type:
                     raise ModelValidationError(
                         "Output Type for Request was %s but the command specified "
                         "the type as %s" % (request.output_type, command.output_type)

@@ -204,7 +204,7 @@ class Command(MongoModel, EmbeddedDocument):
     description = StringField()
     parameters = ListField(EmbeddedDocumentField("Parameter"))
     command_type = StringField(choices=BrewtilsCommand.COMMAND_TYPES, default="ACTION")
-    output_type = StringField(choices=BrewtilsCommand.OUTPUT_TYPES, default="STRING")
+    output_type = ListField(StringField(choices=BrewtilsCommand.OUTPUT_TYPES))
     schema = DictField()
     form = DictField()
     template = StringField()
@@ -222,10 +222,11 @@ class Command(MongoModel, EmbeddedDocument):
                 f"Can not save Command {self}: Invalid command type '{self.command_type}'"
             )
 
-        if self.output_type not in BrewtilsCommand.OUTPUT_TYPES:
-            raise ModelValidationError(
-                f"Can not save Command {self}: Invalid output type '{self.output_type}'"
-            )
+        for output_type in self.output_type:
+            if output_type not in BrewtilsCommand.OUTPUT_TYPES:
+                raise ModelValidationError(
+                    f"Can not save Command {self}: Invalid output type '{output_type}'"
+                )
 
         if len(self.parameters) != len(
             set(parameter.key for parameter in self.parameters)

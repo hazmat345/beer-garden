@@ -251,6 +251,10 @@ export default function appRun(
     }
   });
 
+  EventService.addCallback('console', (event) => {
+    console.log(event);
+  });
+
   $interval(function() {
     EventService.connect(TokenService.getToken());
   }, 5000);

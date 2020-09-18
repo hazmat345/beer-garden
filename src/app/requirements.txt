@@ -56,6 +56,7 @@ pytest-mock==3.3.1        # via -r requirements.in
 pytest-tornado==0.8.1     # via -r requirements.in
 pytest==6.1.1             # via -r requirements.in, pytest-lazy-fixture, pytest-mock, pytest-tornado
 python-box==3.4.6         # via yapconf
+python-prctl==1.7
 pytz==2020.1              # via -r requirements.in, apscheduler, babel, brewtils, tzlocal
 pyyaml==5.3.1             # via apispec
 regex==2020.9.27          # via black

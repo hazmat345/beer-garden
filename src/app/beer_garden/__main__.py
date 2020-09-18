@@ -3,6 +3,7 @@
 import argparse
 import logging
 import signal
+import threading
 from pathlib import Path
 
 import sys
@@ -11,6 +12,24 @@ import beer_garden
 import beer_garden.config
 import beer_garden.log
 from beer_garden.app import Application
+
+try:
+    import prctl
+
+    def set_thread_name(name):
+        prctl.set_name(name)
+
+    def _thread_name_hack(self):
+        set_thread_name(self.name)
+        threading.Thread.__bootstrap_original(self)
+
+    threading.Thread.__bootstrap_original = threading.Thread._bootstrap
+    threading.Thread._bootstrap = _thread_name_hack
+except ImportError:
+    print("WARN: prctl is not installed. You will not be able to see thread names")
+
+    def set_thread_name(_):
+        pass
 
 
 def generate_config():

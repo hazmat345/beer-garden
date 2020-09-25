@@ -453,8 +453,17 @@ class System(MongoModel, Document):
                 "unique": True,
             },
             {
-                "name": "instances_index",
+                "name": "system_instances",
                 "fields": ["instances"],
+            },
+            {
+                "name": "system_instance_name",
+                "fields": ["instances.name"],
+            },
+            {
+                "name": "system_instance_id",
+                "fields": ["instances.id"],
+                "unique": True,
             },
         ],
     }

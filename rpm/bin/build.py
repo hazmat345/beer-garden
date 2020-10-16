@@ -7,7 +7,7 @@ import os
 import subprocess
 import sys
 
-BUILD_IMAGE = "bgio/build"
+BUILD_IMAGE = "bgio/ruby"
 NODE_IMAGE = "node:10.9"
 SUPPORTED_DISTRIBUTIONS = ["centos7"]
 SUPPORTED_PYTHONS = ["3.7"]
@@ -63,7 +63,8 @@ def build_rpms(version, cli_dist, cli_python, local, docker_envs):
     subprocess.call(js_cmd)
 
     for dist in build_dists:
-        tag = f"{dist}-python{build_python}"
+        #tag = f"{dist}-python{build_python}"
+        tag = "latest"
         cmd = (
             [
                 "docker", "run", "--rm", "--network", "host",

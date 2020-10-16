@@ -1,0 +1,6 @@
+FROM ruby
+
+RUN gem install fpm
+
+COPY --from=bgio/build:centos7 /opt/beer-garden /opt/beer-garden
+

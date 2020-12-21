@@ -217,6 +217,7 @@ class Command(MongoModel, EmbeddedDocument):
     schema = DictField()
     form = DictField()
     template = StringField()
+    output_template = StringField()
     hidden = BooleanField()
     icon_name = StringField()
 

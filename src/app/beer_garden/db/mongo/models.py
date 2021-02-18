@@ -509,32 +509,54 @@ class System(MongoModel, Document):
     def pre_serialize(self):
         encoding = "utf-8"
         """If string output was over 16MB it was spilled over to the GridFS storage solution"""
+        # if self.commands_gridfs:
+        #     print("~~~Retrieving commands from gridfs")
+        #     self.commands = [Command.from_json(command) for command in loads(self.commands_gridfs.read().decode(encoding))]
+        #     print(f"~~~Loaded {self.commands}")
+        #     self.commands_gridfs = None
+
+        """If string output was over 16MB it was spilled over to the GridFS storage solution"""
         if self.commands_gridfs:
-            print("~~~Retrieving commands from gridfs")
-            self.commands = [Command.from_json(command) for command in loads(self.commands_gridfs.read().decode(encoding))]
-            print(f"~~~Loaded {self.commands}")
+            self.logger.debug("~~~Retrieving command from gridfs")
+            self.commands = self.commands_gridfs.read().decode(encoding)
             self.commands_gridfs = None
 
     def save(self, *args, **kwargs):
+        max_size = 15 * 1_000_000
         encoding = "utf-8"
 
+        # if self.commands:
+        #     # If the output size is too large, we switch it over
+        #     # Max size for Mongo is 16MB, switching over at 15MB to be safe
+        #     print("~~~Output size too big, storing in gridfs")
+        #     if self.commands_gridfs:
+        #         self.commands_gridfs = None
+        #     self.commands_gridfs.put(dumps([command.to_json() for command in self.commands]), encoding=encoding)
+        #     self.commands = None
+
         if self.commands:
-            # If the output size is too large, we switch it over
-            # Max size for Mongo is 16MB, switching over at 15MB to be safe
-            print("~~~Output size too big, storing in gridfs")
-            if self.commands_gridfs:
-                self.commands_gridfs = None
-            self.commands_gridfs.put(dumps([command.to_json() for command in self.commands]), encoding=encoding)
-            self.commands = None
+            command_size = sys.getsizeof(self.commands)
+            if command_size > max_size:
+                self.logger.info("~~~Command size too big, storing in gridfs")
+                self.commands_gridfs.put(
+                    json.dumps(self.commands), encoding=encoding
+                )
+                self.commands = None
 
         super().save(*args, **kwargs)
 
     def modify(self, *args, **kwargs):
         print(f"~~~found modify call {args}, {kwargs}")
+        max_size = 15 * 1_000_000
+        encoding = "utf-8"
+
         if kwargs.get('commands', None):
-            self.pre_serialize()
-            self.commands = kwargs.pop('commands')
-            self.save()
+            command_size = sys.getsizeof(kwargs['commands'])
+            if command_size > max_size:
+                self.commands_gridfs.put(
+                    kwargs.pop('commands'), encoding=encoding
+                )
+                self.save()
         super().modify(*args, **kwargs)
 
     def clean(self):

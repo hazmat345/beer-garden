@@ -545,19 +545,6 @@ class System(MongoModel, Document):
 
         super().save(*args, **kwargs)
 
-    def modify(self, *args, **kwargs):
-        print(f"~~~found modify call {args}, {kwargs}")
-        max_size = 15 * 1_000_000
-        encoding = "utf-8"
-
-        if kwargs.get('commands', None):
-            command_size = sys.getsizeof(kwargs['commands'])
-            if command_size > max_size:
-                self.commands_gridfs.put(
-                    kwargs.pop('commands'), encoding=encoding
-                )
-                self.save()
-        super().modify(*args, **kwargs)
 
     def clean(self):
         """Validate before saving to the database"""

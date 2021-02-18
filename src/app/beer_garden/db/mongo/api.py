@@ -2,7 +2,7 @@
 import brewtils.models
 import logging
 from box import Box
-from brewtils.models import BaseModel
+from brewtils.models import BaseModel, System
 from brewtils.schema_parser import SchemaParser
 from mongoengine import NotUniqueError, connect, register_connection, DoesNotExist
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
@@ -68,7 +68,7 @@ def from_brewtils(obj: ModelItem) -> MongoModel:
 
 
 def to_brewtils(
-    obj: Union[MongoModel, List[MongoModel]]
+        obj: Union[MongoModel, List[MongoModel]]
 ) -> Union[ModelItem, List[ModelItem]]:
     """Convert an item from its Mongo model to its Brewtils one
 
@@ -153,11 +153,11 @@ def initial_setup(guest_login_enabled):
     ensure_model_migration()
 
     for doc in (
-        beer_garden.db.mongo.models.Job,
-        beer_garden.db.mongo.models.Request,
-        beer_garden.db.mongo.models.Role,
-        beer_garden.db.mongo.models.System,
-        beer_garden.db.mongo.models.Principal,
+            beer_garden.db.mongo.models.Job,
+            beer_garden.db.mongo.models.Request,
+            beer_garden.db.mongo.models.Role,
+            beer_garden.db.mongo.models.System,
+            beer_garden.db.mongo.models.Principal,
     ):
         check_indexes(doc)
 
@@ -200,7 +200,7 @@ def count(model_class: ModelType, **kwargs) -> int:
 
 
 def query_unique(
-    model_class: ModelType, raise_missing=False, **kwargs
+        model_class: ModelType, raise_missing=False, **kwargs
 ) -> Optional[ModelItem]:
     """Query a collection for a unique item
 
@@ -375,6 +375,10 @@ def modify(obj: ModelItem, query=None, **kwargs) -> ModelItem:
     for key in kwargs:
         if isinstance(kwargs[key], BaseModel):
             kwargs[key] = from_brewtils(kwargs[key])
+
+    if type(mongo_obj) == System and kwargs.get('commands', None):
+        mongo_obj.command = kwargs.pop('commands')
+        mongo_obj.save()
 
     mongo_obj.modify(query=query, **kwargs)
 

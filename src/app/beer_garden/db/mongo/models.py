@@ -37,6 +37,7 @@ from mongoengine import (
     PULL,
 )
 from mongoengine.errors import DoesNotExist
+from json import dumps, loads
 
 import brewtils.models
 from .fields import DummyField, StatusInfo
@@ -217,6 +218,7 @@ class Command(MongoModel, EmbeddedDocument):
     schema = DictField()
     form = DictField()
     template = StringField()
+    template_gridfs = FileField()
     hidden = BooleanField()
     icon_name = StringField()
 
@@ -486,6 +488,7 @@ class System(MongoModel, Document):
     max_instances = IntField(default=-1)
     instances = EmbeddedDocumentListField("Instance")
     commands = EmbeddedDocumentListField("Command")
+    commands_gridfs = FileField()
     icon_name = StringField()
     display_name = StringField()
     metadata = DictField()
@@ -502,6 +505,37 @@ class System(MongoModel, Document):
             }
         ],
     }
+
+    def pre_serialize(self):
+        encoding = "utf-8"
+        """If string output was over 16MB it was spilled over to the GridFS storage solution"""
+        if self.commands_gridfs:
+            print("~~~Retrieving commands from gridfs")
+            self.commands = [Command.from_json(command) for command in loads(self.commands_gridfs.read().decode(encoding))]
+            print(f"~~~Loaded {self.commands}")
+            self.commands_gridfs = None
+
+    def save(self, *args, **kwargs):
+        encoding = "utf-8"
+
+        if self.commands:
+            # If the output size is too large, we switch it over
+            # Max size for Mongo is 16MB, switching over at 15MB to be safe
+            print("~~~Output size too big, storing in gridfs")
+            if self.commands_gridfs:
+                self.commands_gridfs = None
+            self.commands_gridfs.put(dumps([command.to_json() for command in self.commands]), encoding=encoding)
+            self.commands = None
+
+        super().save(*args, **kwargs)
+
+    def modify(self, *args, **kwargs):
+        print(f"~~~found modify call {args}, {kwargs}")
+        if kwargs.get('commands', None):
+            self.pre_serialize()
+            self.commands = kwargs.pop('commands')
+            self.save()
+        super().modify(*args, **kwargs)
 
     def clean(self):
         """Validate before saving to the database"""

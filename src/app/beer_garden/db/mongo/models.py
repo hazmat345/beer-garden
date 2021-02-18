@@ -7,6 +7,9 @@ import six
 import sys
 import json
 
+from brewtils.schema_parser import SchemaParser
+
+
 try:
     from lark import ParseError
     from lark.exceptions import LarkError
@@ -517,8 +520,13 @@ class System(MongoModel, Document):
 
         """If string output was over 16MB it was spilled over to the GridFS storage solution"""
         if self.commands_gridfs:
-            self.logger.debug("~~~Retrieving command from gridfs")
-            self.commands = self.commands_gridfs.read().decode(encoding)
+            from .parser import MongoParser
+            #self.logger.debug("~~~Retrieving command from gridfs")
+            # json_commands =
+            #
+            # for command in commands:
+            #     MongoParser.parse_command(json_commands)
+            self.commands = [MongoParser.parse_command(command) for command in json.loads(self.commands_gridfs.read().decode(encoding))]
             self.commands_gridfs = None
 
     def save(self, *args, **kwargs):
@@ -535,12 +543,28 @@ class System(MongoModel, Document):
         #     self.commands = None
 
         if self.commands:
-            command_size = sys.getsizeof(self.commands)
-            if command_size > max_size:
-                self.logger.info("~~~Command size too big, storing in gridfs")
-                self.commands_gridfs.put(
-                    json.dumps(self.commands), encoding=encoding
-                )
+
+            template_size = 0
+
+            for command in self.commands:
+                if command.template:
+                    template_size += sys.getsizeof(command.template)
+
+            if template_size > max_size:
+                from .parser import MongoParser
+                #self.logger.info("~~~Command size too big, storing in gridfs")
+                # self.commands_gridfs.put(
+                #     json.dumps(self.commands), encoding=encoding
+                # )
+
+                json_commands = list()
+
+                for command in self.commands:
+                    json_commands.append(MongoParser.serialize(command, to_string=False))
+
+                # [json_commands.append(MongoParser.serialize(command, to_string=False)) for command in self.commands]
+
+                self.commands_gridfs.put(json.dumps(json_commands), encoding=encoding)
                 self.commands = None
 
         super().save(*args, **kwargs)

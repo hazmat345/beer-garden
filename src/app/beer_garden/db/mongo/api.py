@@ -2,14 +2,14 @@
 import brewtils.models
 import logging
 from box import Box
-from brewtils.models import BaseModel, System
+from brewtils.models import BaseModel
 from brewtils.schema_parser import SchemaParser
 from mongoengine import NotUniqueError, connect, register_connection, DoesNotExist
 from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 from typing import List, Optional, Type, Union, Tuple
 
 import beer_garden.db.mongo.models
-from beer_garden.db.mongo.models import MongoModel
+from beer_garden.db.mongo.models import MongoModel, System
 from beer_garden.db.mongo.parser import MongoParser
 from beer_garden.db.mongo.pruner import MongoPruner
 from beer_garden.db.mongo.util import (
@@ -375,10 +375,18 @@ def modify(obj: ModelItem, query=None, **kwargs) -> ModelItem:
     for key in kwargs:
         if isinstance(kwargs[key], BaseModel):
             kwargs[key] = from_brewtils(kwargs[key])
-
     if type(mongo_obj) == System and kwargs.get('commands', None):
-        mongo_obj.command = kwargs.pop('commands')
+        commands = kwargs.pop('commands')
+
+
+        mongo_obj.modify(query=query, **kwargs)
+
+        mongo_obj.commands = commands
         mongo_obj.save()
+        # TODO It is not loading the commands properly, so we have to figure that out
+        #mongo_obj.commands = commands
+
+        return to_brewtils(mongo_obj)
 
     mongo_obj.modify(query=query, **kwargs)
 

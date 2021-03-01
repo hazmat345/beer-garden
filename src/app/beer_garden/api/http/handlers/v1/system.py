@@ -311,7 +311,7 @@ class SystemListAPI(BaseHandler):
                     "include_fields": include_fields,
                     "exclude_fields": exclude_fields,
                     "dereference_nested": dereference_nested,
-                }
+                },
             ),
             serialize_kwargs=serialize_kwargs,
         )

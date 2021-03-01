@@ -23,9 +23,9 @@ class SerializeHelper(object):
 
         # This is a helper function to find bad formatted Operations/Clients
         if (
-                serialize_kwargs is None
-                and operation.kwargs is not None
-                and "serialize_kwargs" in operation.kwargs
+            serialize_kwargs is None
+            and operation.kwargs is not None
+            and "serialize_kwargs" in operation.kwargs
         ):
             serialize_kwargs = operation.kwargs["serialize_kwargs"]
             logger.info(
@@ -57,7 +57,7 @@ class SerializeHelper(object):
             return True
 
         if isinstance(result, list) and (
-                len(result) == 0 or not isinstance(result[0], BaseModel)
+            len(result) == 0 or not isinstance(result[0], BaseModel)
         ):
             return True
 

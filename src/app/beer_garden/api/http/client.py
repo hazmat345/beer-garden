@@ -1,22 +1,37 @@
 # -*- coding: utf-8 -*-
 import json
+import logging
 from inspect import isawaitable
 
 import six
-from brewtils.models import BaseModel
+from brewtils.models import BaseModel, Operation
 from brewtils.schema_parser import SchemaParser
 
 import beer_garden.api
 import beer_garden.router
 
+logger = logging.getLogger(__name__)
+
 
 class SerializeHelper(object):
-    async def __call__(self, *args, serialize_kwargs=None, **kwargs):
-        result = beer_garden.router.route(*args, **kwargs)
+    async def __call__(self, operation: Operation, serialize_kwargs=None, **kwargs):
+        result = beer_garden.router.route(operation, **kwargs)
 
         # Await any coroutines
         if isawaitable(result):
             result = await result
+
+        # This is a helper function to find bad formatted Operations/Clients
+        if (
+                serialize_kwargs is None
+                and operation.kwargs is not None
+                and "serialize_kwargs" in operation.kwargs
+        ):
+            serialize_kwargs = operation.kwargs["serialize_kwargs"]
+            logger.info(
+                f"Serialized Kwargs was pass through Operation instead of Client "
+                f"function for {operation}, this was migrated but should be fixed"
+            )
 
         # Handlers overwhelmingly just write the response so default to serializing
         serialize_kwargs = serialize_kwargs or {}
@@ -42,7 +57,7 @@ class SerializeHelper(object):
             return True
 
         if isinstance(result, list) and (
-            len(result) == 0 or not isinstance(result[0], BaseModel)
+                len(result) == 0 or not isinstance(result[0], BaseModel)
         ):
             return True
 

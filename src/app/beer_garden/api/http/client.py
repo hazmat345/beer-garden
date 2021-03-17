@@ -21,18 +21,6 @@ class SerializeHelper(object):
         if isawaitable(result):
             result = await result
 
-        # This is a helper function to find bad formatted Operations/Clients
-        if (
-            serialize_kwargs is None
-            and operation.kwargs is not None
-            and "serialize_kwargs" in operation.kwargs
-        ):
-            serialize_kwargs = operation.kwargs["serialize_kwargs"]
-            logger.info(
-                f"Serialized Kwargs was pass through Operation instead of Client "
-                f"function for {operation}, this was migrated but should be fixed"
-            )
-
         # Handlers overwhelmingly just write the response so default to serializing
         serialize_kwargs = serialize_kwargs or {}
         if "to_string" not in serialize_kwargs:

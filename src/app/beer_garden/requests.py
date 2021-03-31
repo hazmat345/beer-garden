@@ -788,7 +788,7 @@ def handle_event(event):
         if completion_event:
             completion_event.set()
 
-    # Only care about local garden
+    # Local garden
     if event.garden == config.get("garden.name"):
 
         if event.name == Events.GARDEN_STOPPED.name:
@@ -798,8 +798,8 @@ def handle_event(event):
             for request_event in request_map:
                 request_map[request_event].set()
 
-    # Only care about downstream garden
-    elif event.garden != config.get("garden.name"):
+    # Downstream gardens
+    else:
 
         if event.name == Events.REQUEST_CREATED.name:
             # Attempt to create the request, if it already exists then continue on
@@ -818,8 +818,3 @@ def handle_event(event):
                 setattr(existing_request, field, getattr(event.payload, field))
 
             db.update(existing_request)
-
-    # Required if the main process spawns a wait Request
-    if event.name == Events.REQUEST_COMPLETED.name:
-        if str(event.payload.id) in request_map:
-            request_map[str(event.payload.id)].set()

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Package containing the Stomp entry point"""
 import logging
+import os
 import threading
 import types
 from brewtils.models import Event, Events
@@ -22,6 +23,8 @@ def signal_handler(_: int, __: types.FrameType):
 
 
 def run(ep_conn):
+    logger.info(f"pid: {os.getpid()}")
+
     conn_manager = StompManager(ep_conn)
 
     _setup_event_handling(conn_manager)

@@ -64,6 +64,8 @@ def run(ep_conn):
     global logger
     logger = logging.getLogger(__name__)
 
+    logger.info(f"pid: {os.getpid()}")
+
     _setup_application()
     _setup_operation_forwarding()
     _setup_event_handling(ep_conn)

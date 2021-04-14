@@ -783,9 +783,13 @@ def process_wait(request: Request, timeout: float) -> Request:
 
 def handle_event(event):
     # Whenever a request is completed check to see if this process is waiting for it
+    import os
+
     if event.name == Events.REQUEST_COMPLETED.name:
+        logger.info(f"{os.getpid()} checking request {event.payload.id}")
         completion_event = request_map.pop(event.payload.id, None)
         if completion_event:
+            logger.info(f"{os.getpid()} found it!")
             completion_event.set()
 
     # Only care about local garden

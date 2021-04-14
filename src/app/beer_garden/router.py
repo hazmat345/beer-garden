@@ -16,6 +16,7 @@ The router service is responsible for:
 
 import asyncio
 import logging
+import os
 import threading
 from concurrent.futures.thread import ThreadPoolExecutor
 from functools import partial
@@ -374,6 +375,8 @@ def add_routing_system(system=None, garden_name=None):
     # Default to local garden name
     garden_name = garden_name or config.get("garden.name")
 
+    logger.info(f"{os.getpid()} Adding {system} to {garden_name}")
+
     with routing_lock:
         system_name_routes[str(system)] = garden_name
         system_id_routes[system.id] = garden_name
@@ -384,6 +387,8 @@ def add_routing_system(system=None, garden_name=None):
 
 def remove_routing_system(system=None):
     """Update the gardens used for routing"""
+    logger.info(f"{os.getpid()} Removing {system}")
+
     with routing_lock:
         if str(system) in system_name_routes:
             del system_name_routes[str(system)]

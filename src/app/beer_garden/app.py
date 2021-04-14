@@ -216,6 +216,8 @@ class Application(StoppableThread):
     def _startup(self):
         """Initializes core requirements for Application"""
         self.logger.debug("Starting Application...")
+        import os
+        self.logger.info(f"pid: {os.getpid()}")
 
         self.logger.debug("Starting event manager...")
         beer_garden.events.manager.start()

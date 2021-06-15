@@ -11,11 +11,11 @@ BUILD_IMAGE = "bgio/build"
 NODE_IMAGE = "node:10.9"
 SUPPORTED_DISTRIBUTIONS = ["centos7"]
 SUPPORTED_PYTHONS = ["3.7"]
-BUILD_TYPES = ["rpm"]
+BUILD_TYPES = ["deb", "rpm"]
 
 SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
 BASE_PATH = os.path.abspath(os.path.join(SCRIPT_PATH, "..", ".."))
-RPM_BUILD_SCRIPT = os.path.join("/", "rpm_build.sh")
+RPM_BUILD_SCRIPT = os.path.join("/", "deb_build.sh")
 
 
 def parse_args(cli_args):
@@ -71,15 +71,13 @@ def build_rpms(version, iteration, cli_dist, cli_python, local, docker_envs):
                 "docker", "run", "--rm", "--network", "host",
                 "-v", f"{BASE_PATH}/src:/src",
                 "-v", f"{BASE_PATH}/rpm:/rpm",
-                "-v", f"{SCRIPT_PATH}/rpm_build.sh:{RPM_BUILD_SCRIPT}",
+                "-v", f"{SCRIPT_PATH}/deb_build.sh:{RPM_BUILD_SCRIPT}",
             ] +
             env_vars +
             [
                 BUILD_IMAGE + ":" + tag,
                 RPM_BUILD_SCRIPT,
-                "-r", dist[-1],
                 "-v", version,
-                "-i", iteration,
             ]
         )
 
@@ -91,7 +89,7 @@ def build_rpms(version, iteration, cli_dist, cli_python, local, docker_envs):
 
 def main():
     args = parse_args(sys.argv[1:])
-    if args.type == "rpm":
+    if args.type == "rpm" or args.type == "deb":
         build_rpms(
             args.version,
             args.iteration,

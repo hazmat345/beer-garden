@@ -47,6 +47,9 @@ rpm-build:  ## build rpm
 rpm-build-local:  ## build local rpm
 	rpm/bin/build.py rpm --local $(VERSION)
 
+deb-build-local:  ## build local rpm
+	rpm/bin/build.py deb --local $(VERSION)
+
 
 # Docker
 docker-login: ## log in to the docker registry

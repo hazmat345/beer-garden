@@ -3,14 +3,12 @@
 set -e
 
 usage() {
-  echo "Usage: rpm_build.sh [OPTION]..."
-  echo "Build an RPM distribution of beer-garden."
+  echo "Usage: deb_build.sh [OPTION]..."
+  echo "Build an deb distribution of beer-garden."
   echo ""
   echo "Arguments are space separated and are as follows:"
   echo "  -l, --local                  Build local version of all applications"
-  echo "  -r, --release [RELEASE]      The fedora release to target. Must be 7."
-  echo "  -v, --version [VERSION]      Version for the rpm"
-  echo "  -i, --iteration [ITERATION]  Iteration for the rpm"
+  echo "  -v, --version [VERSION]      Version for the package"
   echo ""
   exit 1
 }
@@ -25,16 +23,8 @@ while [[ "$#" -gt 0 ]]; do
     -l|--local)
     LOCAL="true"
     ;;
-    -r|--release)
-    RELEASE="$2"
-    shift
-    ;;
     -v|--version)
     VERSION="$2"
-    shift
-    ;;
-    -i|--iteration)
-    ITERATION="$2"
     shift
     ;;
     *) echo "Unknown argument: $key"; usage;;
@@ -42,23 +32,9 @@ while [[ "$#" -gt 0 ]]; do
   shift
 done
 
-if [ -z "$RELEASE" ]; then
-  echo "RELEASE not specified, using 7"
-  RELEASE="7"
-elif [[ "$RELEASE" != "7" ]]; then
-  echo "Unsupported RELEASE: ${RELEASE}"
-  echo "Supported releases are 7"
-  exit 1
-fi
-
 if [ -z "$VERSION" ]; then
   echo "VERSION not specified"
   exit 1
-fi
-
-if [ -z "$ITERATION" ]; then
-  echo "ITERATION not specified, using 1"
-  ITERATION="1"
 fi
 
 # Constants
@@ -124,7 +100,6 @@ create_rpm() {
     # -n $APP_NAME              Name of the RPM
     # -v $VERSION               RPM version
     # -a x86_64                 Specifies the Architecture
-    # --rpm-dist "el$RELEASE"   The rpm distribution
     # --iteration $ITERATION    The iteration number
     # -s dir                    Describes that the source we are using is a directory
     # -x ""                     Excludes paths matching the given pattern
@@ -147,7 +122,6 @@ create_rpm() {
         -n $APP_NAME
         -v $VERSION
         -a x86_64
-        --rpm-dist "el${RELEASE}"
         --iteration $ITERATION
         -s dir
         -x "*.bak"
@@ -170,16 +144,10 @@ create_rpm() {
     )
 
     # Put the service files in the correct location
-    service_paths=()
+    cp "$RESOURCE_BASE/service/beer-garden.service" "/lib/systemd/system/"
+    service_paths=("/lib/systemd/system/beer-garden.service")
 
-    if [[ "$RELEASE" == "7" ]]; then
-        args+=(-d "openssl-libs >= 1:1.0.2a-1")
-
-        cp "$RESOURCE_BASE/service/beer-garden.service" "/lib/systemd/system/"
-        service_paths+=("/lib/systemd/system/beer-garden.service")
-    fi
-
-    # Make sure we have a place to put the rpm
+    # Make sure we have a place to put the package
     mkdir -p /rpm/dist
     cd /rpm/dist
 

@@ -19,7 +19,7 @@ delegate requesting information from the plugin to the request service.
 
 import logging
 import threading
-from brewtils.models import Event, Events, Instance, Request, RequestTemplate, System
+from brewtils.models import Event, Events, Instance, Operation, Request, RequestTemplate, System
 from brewtils.schema_parser import SchemaParser
 from brewtils.stoppable_thread import StoppableThread
 from bson import ObjectId
@@ -316,6 +316,22 @@ def read_logs(
     )
 
     logger.debug(f"Reading Logs from instance {system}[{instance}]")
+
+    request = Request.from_template(
+        read_logs_request,
+        namespace=system.namespace,
+        system=system.name,
+        system_version=system.version,
+        instance_name=instance.name,
+        parameters={"start_line": start_line, "end_line": end_line},
+    )
+
+    op = Operation(
+        operation_type="REQUEST_CREATE",
+        model=request,
+        model_type="Request",
+        kwargs={"is_admin": True, "wait_event": wait_event},
+    ),
 
     request = requests.process_request(
         Request.from_template(

@@ -303,6 +303,7 @@ class Request(MongoModel, Document):
     created_at = DateTimeField(default=datetime.datetime.utcnow, required=True)
     updated_at = DateTimeField(default=None, required=True)
     error_class = StringField(required=False)
+    # has_parent = BooleanField(default=False, required=False)
     has_parent = BooleanField(required=False)
     hidden = BooleanField(required=False)
     requester = StringField(required=False)
@@ -410,6 +411,8 @@ class Request(MongoModel, Document):
 
     def save(self, *args, **kwargs):
         self.updated_at = datetime.datetime.utcnow()
+        self.has_parent = bool(self.parent)
+
         max_size = 15 * 1_000_000
         encoding = "utf-8"
         parameter_size = sys.getsizeof(self.parameters)

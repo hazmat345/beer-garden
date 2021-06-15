@@ -16,14 +16,16 @@ class EventManager:
         self._conn = conn
 
     def put(self, event):
-        beer_garden.api.http.io_loop.add_callback(self._conn.send, event)
+        self._conn.send(event)
+        # beer_garden.api.http.io_loop.add_callback(self._conn.send, event)
 
 
 def websocket_publish(item):
     """Will serialize an event and publish it to all event websocket endpoints"""
     try:
-        beer_garden.api.http.io_loop.add_callback(
-            EventSocket.publish, SchemaParser.serialize(item, to_string=True)
-        )
+        EventSocket.publish(SchemaParser.serialize(item, to_string=True))
+        # beer_garden.api.http.io_loop.add_callback(
+        #     EventSocket.publish, SchemaParser.serialize(item, to_string=True)
+        # )
     except Exception as ex:
         logger.exception(f"Error publishing event to websocket: {ex}")

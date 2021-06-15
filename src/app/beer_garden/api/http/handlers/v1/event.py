@@ -26,7 +26,10 @@ class EventSocket(AuthMixin, WebSocketHandler):
         return True
 
     def open(self):
+        logger.debug("Open requested")
+
         if EventSocket.closing:
+            logger.debug("Open ignored - closing")
             self.close(reason="Shutting down")
             return
 
@@ -37,26 +40,30 @@ class EventSocket(AuthMixin, WebSocketHandler):
             self.close(reason=str(ex))
             return
 
+        logger.debug("Adding connection")
         EventSocket.listeners.add(self)
 
     def on_close(self):
+        logger.debug("Closing connection")
         EventSocket.listeners.discard(self)
 
     def on_message(self, message):
+        logger.info(f"Got message {message}")
         pass
 
     @classmethod
     def publish(cls, message):
-        # Don't bother if nobody is listening
-        if not len(cls.listeners):
-            return
+        # # Don't bother if nobody is listening
+        # if not len(cls.listeners):
+        #     return
 
-        for listener in cls.listeners:
+        for i, listener in enumerate(cls.listeners):
+            logger.info(f"Writing message {i}")
             listener.write_message(message)
 
     @classmethod
     def shutdown(cls):
-        logger.debug("Closing websocket connections")
+        logger.debug("Closing all websocket connections")
         EventSocket.closing = True
 
         for listener in cls.listeners:

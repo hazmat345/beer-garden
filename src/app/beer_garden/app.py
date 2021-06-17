@@ -39,7 +39,7 @@ from beer_garden.log import load_plugin_log_config
 from beer_garden.metrics import PrometheusServer
 from beer_garden.monitor import MonitorFile
 from beer_garden.plugin import StatusMonitor
-from beer_garden.scheduler import MixedScheduler
+from beer_garden.scheduler import SchedulerCoordinator
 
 
 class Application(StoppableThread):
@@ -68,8 +68,6 @@ class Application(StoppableThread):
 
     def initialize(self):
         """Actually construct all the various component pieces"""
-
-        self.scheduler = self._setup_scheduler()
 
         load_plugin_log_config()
 
@@ -124,6 +122,8 @@ class Application(StoppableThread):
             create_event=file_event,
             modify_event=file_event,
         )
+
+        self.scheduler = SchedulerCoordinator()
 
     def run(self):
         """Before setting up Beer-Garden, ensures that required services are running"""
@@ -244,7 +244,8 @@ class Application(StoppableThread):
         self.logger.debug("Starting local plugin process monitoring...")
         beer_garden.local_plugins.manager.lpm_proxy.start()
 
-        self.logger.debug("Starting scheduler")
+        self.logger.debug("Configuring and starting scheduler...")
+        self._setup_scheduler()
         self.scheduler.start()
 
         self.logger.debug("Publishing startup sync")
@@ -256,8 +257,8 @@ class Application(StoppableThread):
         if config.get("plugin.local.logging.config_file"):
             self.plugin_local_log_config_observer.start()
 
-        self.logger.debug("Loading jobs from database")
-        self.scheduler.initialize_from_db()
+        # self.logger.debug("Loading jobs from database")
+        # self.scheduler.jobs_from_db()
 
         self.logger.info("All set! Let me know if you need anything else!")
 
@@ -347,8 +348,7 @@ class Application(StoppableThread):
 
         return event_manager
 
-    @staticmethod
-    def _setup_scheduler():
+    def _setup_scheduler(self):
         """Initializes scheduled jobs stored in the database"""
         job_stores = {"beer_garden": db.get_job_store()}
         scheduler_config = config.get("scheduler")
@@ -362,14 +362,8 @@ class Application(StoppableThread):
             "timezone": utc,
         }
 
-        # return BackgroundScheduler(
-        #     jobstores=job_stores,
-        #     executors=executors,
-        #     job_defaults=job_defaults,
-        #     timezone=utc,
-        # )
-
-        return MixedScheduler(interval_config=ap_config)
+        self.scheduler.configure(ap_config)
+        self.scheduler.jobs_from_db()
 
     @staticmethod
     def _setup_multiprocessing_manager():

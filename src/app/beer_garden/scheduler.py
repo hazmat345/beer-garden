@@ -1,39 +1,37 @@
 # -*- coding: utf-8 -*-
-"""Scheduled Service
+"""Scheduler Service
 
 The schedule service is responsible for:
 * CRUD operations of `Job` operations
 * Triggering `Job` based `Requests`
 """
+
 import logging
 import threading
+from datetime import datetime, timedelta
 from os.path import isdir
 from typing import Dict, List
-from datetime import datetime, timedelta
-
-from apscheduler.triggers.interval import IntervalTrigger as APInterval
-
-from watchdog.observers.polling import PollingObserver as Observer
-from watchdog.events import (
-    PatternMatchingEventHandler,
-    EVENT_TYPE_CREATED,
-    EVENT_TYPE_DELETED,
-    EVENT_TYPE_MOVED,
-    EVENT_TYPE_MODIFIED,
-)
-from watchdog.utils import has_attribute, unicode_paths
-from pathtools.patterns import match_any_paths
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from brewtils.models import Event, Events, Job, Operation
+from apscheduler.triggers.interval import IntervalTrigger as APInterval
+from brewtils.models import Event, Events, FileTrigger, Job, Operation
+from pathtools.patterns import match_any_paths
+from watchdog.events import (
+    EVENT_TYPE_CREATED,
+    EVENT_TYPE_DELETED,
+    EVENT_TYPE_MODIFIED,
+    EVENT_TYPE_MOVED,
+    PatternMatchingEventHandler,
+)
+from watchdog.observers.polling import PollingObserver as Observer
+from watchdog.utils import has_attribute, unicode_paths
 
 import beer_garden
 import beer_garden.config as config
 import beer_garden.db.api as db
+from beer_garden.db.mongo.jobstore import construct_trigger
 from beer_garden.events import publish_event
 from beer_garden.requests import get_request
-from beer_garden.db.mongo.jobstore import construct_trigger
-from brewtils.models import FileTrigger
 
 logger = logging.getLogger(__name__)
 
@@ -103,16 +101,16 @@ def inject_values(request, dictionary):
 
 
 class PatternMatchingEventHandlerWithArgs(PatternMatchingEventHandler):
-    """
-    A BG implementation of the watchdog PatternMatchingEventHandler.
+    """Watchdog PatternMatchingEventHandler with args/kwargs
 
-    Allows args/kwargs to be stored and passed through to the callback functions
+    Allows args/kwargs to be stored and passed through to callback functions
     """
 
     _args = []
     _kwargs = {}
     _coalesce = False
     _src_path_timing = {}
+
     # This is used to avoid multiple triggers from the same event
     _min_delta_time = timedelta(microseconds=500_000)
 
@@ -186,55 +184,26 @@ class PatternMatchingEventHandlerWithArgs(PatternMatchingEventHandler):
         super().on_moved(event)
 
 
-def pass_through(class_objects=None):
-    """
-    Adds any non-implemented methods defined by the given object names to the class.
+class SchedulerCoordinator:
+    """Coordinates a file-based scheduler and an interval-based scheduler"""
 
-    Args:
-        class_objects: List of class object names to expose directly.
-    """
+    def __init__(self):
+        # self._sync_scheduler.configure(**interval_config)
+        self._sync_scheduler = BackgroundScheduler()
 
-    def wrapper(my_class):
-        for obj in class_objects:
-            scheduler = getattr(my_class, obj, None)
-            if scheduler is not None:
-                method_list = [
-                    func
-                    for func in dir(scheduler)
-                    if callable(getattr(scheduler, func))
-                ]
-                # added = []
-                for name in method_list:
-                    # Don't expose methods that are intended to be private!
-                    if name[0] != "_" and not hasattr(my_class, name):
-                        # added.append(name)
-                        method = getattr(scheduler, name)
-                        setattr(my_class, name, method)
-        return my_class
+        self._async_scheduler = Observer()
+        self._async_jobs = {}
+        self._async_paused_jobs = set()
 
-    return wrapper
+        self.running = False
 
+    def configure(self, sync_config):
+        """Configures the underlying schedulers"""
+        self._sync_scheduler.configure(**sync_config)
 
-@pass_through(class_objects=["_sync_scheduler", "_async_scheduler"])
-class MixedScheduler(object):
-    """
-    A wrapper that tracks a file-based scheduler and an interval-based scheduler.
-    """
-
-    _sync_scheduler = BackgroundScheduler()
-    _async_scheduler = Observer()
-    _async_jobs = {}
-    _async_paused_jobs = set()
-
-    running = False
-
-    def _process_watches(self, jobs):
-        """Helper function for initialize_from_db.  Adds job list to the scheduler
-
-        Args:
-            jobs: Jobs to be added to the watchdog scheduler
-        """
-        for job in jobs:
+    def jobs_from_db(self):
+        """Initializes the watchdog scheduler from jobs stored in the database"""
+        for job in db.query(Job, filter_params={"trigger_type": "file"}):
             if isinstance(job.trigger, FileTrigger):
                 self.add_job(
                     run_job,
@@ -242,19 +211,6 @@ class MixedScheduler(object):
                     coalesce=job.coalesce,
                     kwargs={"job_id": job.id, "request_template": job.request_template},
                 )
-
-    def __init__(self, interval_config=None):
-        """Initializes the underlying scheduler(s)
-
-        Args:
-            interval_config: Any scheduler-specific arguments for the APScheduler
-        """
-        self._sync_scheduler.configure(**interval_config)
-
-    def initialize_from_db(self):
-        """Initializes the watchdog scheduler from jobs stored in the database"""
-        all_jobs = db.query(Job, filter_params={"trigger_type": "file"})
-        self._process_watches(all_jobs)
 
     def start(self):
         """Starts both schedulers"""
@@ -268,17 +224,13 @@ class MixedScheduler(object):
         Args:
             kwargs: Any other scheduler-specific arguments
         """
-        self.stop(**kwargs)
-
-    def stop(self, **kwargs):
-        """Stops both schedulers
-
-        Args:
-            kwargs: Any other scheduler-specific arguments
-        """
         self._sync_scheduler.shutdown(**kwargs)
         self._async_scheduler.stop()
         self.running = False
+
+    def pause(self):
+        """Pauses the sync scheduler"""
+        self._sync_scheduler.pause()
 
     def reschedule_job(self, job_id, **kwargs):
         """Passes through to the sync scheduler, but ignores async jobs

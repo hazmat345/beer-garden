@@ -6,7 +6,7 @@ from brewtils.models import RequestTemplate
 from pytz import utc
 from watchdog.events import FileSystemEvent
 
-from beer_garden.scheduler import MixedScheduler
+from beer_garden.scheduler import SchedulerCoordinator
 
 
 @pytest.fixture
@@ -21,7 +21,7 @@ def scheduler(jobstore):
         "timezone": utc,
     }
 
-    return MixedScheduler(interval_config=interval_config)
+    return SchedulerCoordinator(interval_config=interval_config)
 
 
 @pytest.fixture

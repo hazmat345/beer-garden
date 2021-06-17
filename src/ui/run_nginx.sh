@@ -1,0 +1,1 @@
+docker run --rm --network=host -v /home/matt/Projects/beergarden/beer-garden/src/ui/default.conf:/etc/nginx/conf.d/default.conf -v /home/matt/Projects/beergarden/beer-garden/src/ui/dist:/usr/share/nginx/dist -v /home/matt/Projects/beergarden/beer-garden/src/ui/certs:/certs nginx:1.16.1

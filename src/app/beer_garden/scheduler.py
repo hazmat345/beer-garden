@@ -100,6 +100,87 @@ def inject_values(request, dictionary):
         return request
 
 
+def run_job(job_id, request_template, **kwargs):
+    """Spawned by the scheduler, this will kick off a new request.
+
+    This method is meant to be run in a separate process.
+
+    Args:
+        job_id: The Beer-Garden job ID that triggered this event.
+        request_template: Request template specified by the job.
+    """
+    import beer_garden.router
+
+    request_template.metadata["_bg_job_id"] = job_id
+
+    # Attempt to inject information into the request template
+    if "event" in kwargs and kwargs["event"] is not None:
+        try:
+            # This overloads the __missing__ function to allow partial injections
+            injection_dict = InjectionDict()
+            build_injection_dict(injection_dict, kwargs["event"], prefix="event")
+
+            try:
+                db_job = db.query_unique(Job, id=job_id)
+                if db_job:
+                    build_injection_dict(
+                        injection_dict, db_job.trigger, prefix="trigger"
+                    )
+
+            except Exception as ex:
+                logger.exception(f"Could not fetch job for parameter injection: {ex}")
+
+            inject_values(request_template.parameters, injection_dict)
+        except Exception as ex:
+            logger.exception(f"Could not inject parameters: {ex}")
+
+    db_job = db.query_unique(Job, id=job_id)
+    wait_event = threading.Event()
+
+    # I'm not sure what would cause this, but just be safe
+    if not db_job:
+        logger.error(f"Could not find job {job_id} in database, job will not be run")
+        return
+
+    try:
+        request = beer_garden.router.route(
+            Operation(
+                operation_type="REQUEST_CREATE",
+                model=request_template,
+                model_type="RequestTemplate",
+                kwargs={"wait_event": wait_event},
+            )
+        )
+
+        # Wait for the request to complete
+        timeout = db_job.timeout or None
+        if not wait_event.wait(timeout=timeout):
+            logger.warning(f"Execution of job {db_job} timed out.")
+            return
+
+        request = get_request(request.id)
+
+        if request.status == "ERROR":
+            db_job.error_count += 1
+        elif request.status == "SUCCESS":
+            db_job.success_count += 1
+
+        db.update(db_job)
+    except Exception as ex:
+        logger.exception(f"Error executing {db_job}: {ex}")
+
+    # Be a little careful here as the job could have been removed or paused
+    job = beer_garden.application.scheduler.get_job(job_id)
+    if (
+        job
+        and job.next_run_time is not None
+        and getattr(job.trigger, "reschedule_on_finish", False)
+    ):
+        # This essentially resets the timer on this job, which has the effect of
+        # making the wait time start whenever the job finishes
+        beer_garden.application.scheduler.reschedule_job(job_id, trigger=job.trigger)
+
+
 class PatternMatchingEventHandlerWithArgs(PatternMatchingEventHandler):
     """Watchdog PatternMatchingEventHandler with args/kwargs
 
@@ -206,7 +287,6 @@ class SchedulerCoordinator:
         for job in db.query(Job, filter_params={"trigger_type": "file"}):
             if isinstance(job.trigger, FileTrigger):
                 self.add_job(
-                    run_job,
                     trigger=job.trigger,
                     coalesce=job.coalesce,
                     kwargs={"job_id": job.id, "request_template": job.request_template},
@@ -231,6 +311,51 @@ class SchedulerCoordinator:
     def pause(self):
         """Pauses the sync scheduler"""
         self._sync_scheduler.pause()
+
+    def add_job(self, trigger=None, **kwargs):
+        """Adds a job to one of the schedulers
+
+        Args:
+            trigger: The trigger used to schedule
+            kwargs: Any other kwargs to be passed to the scheduler
+        """
+        if trigger is None:
+            logger.exception("Scheduler called with None-type trigger.")
+            return
+
+        if not isinstance(trigger, FileTrigger):
+            # The old code always set the trigger to None, not sure why
+            self._sync_scheduler.add_job(
+                run_job,
+                trigger=construct_trigger(kwargs.pop("trigger_type"), trigger),
+                **kwargs,
+            )
+
+        else:
+            if not isdir(trigger.path):
+                logger.exception(f"User passed an invalid trigger path {trigger.path}")
+                return
+
+            # Pull out the arguments needed by the run_job function
+            args = [
+                kwargs.get("kwargs").get("job_id"),
+                kwargs.get("kwargs").get("request_template"),
+            ]
+
+            # Pass in those args to be relayed once the event occurs
+            event_handler = PatternMatchingEventHandlerWithArgs(
+                args=args,
+                coalesce=kwargs.get("coalesce", False),
+                patterns=trigger.pattern,
+            )
+            event_handler = self._add_triggers(event_handler, trigger.callbacks, run_job)
+
+            if trigger.path is not None and event_handler is not None:
+                # Register the job id with the set and schedule it with watchdog
+                watch = self._async_scheduler.schedule(
+                    event_handler, trigger.path, recursive=trigger.recursive
+                )
+                self._async_jobs[args[0]] = (event_handler, watch)
 
     def reschedule_job(self, job_id, **kwargs):
         """Passes through to the sync scheduler, but ignores async jobs
@@ -317,52 +442,6 @@ class SchedulerCoordinator:
                 setattr(handler, name, func)
         return handler
 
-    def add_job(self, func, trigger=None, **kwargs):
-        """Adds a job to one of the schedulers
-
-        Args:
-            func: The callback function
-            trigger: The trigger used to schedule
-            kwargs: Any other kwargs to be passed to the scheduler
-        """
-        if trigger is None:
-            logger.exception("Scheduler called with None-type trigger.")
-            return
-
-        if not isinstance(trigger, FileTrigger):
-            # The old code always set the trigger to None, not sure why
-            self._sync_scheduler.add_job(
-                func,
-                trigger=construct_trigger(kwargs.pop("trigger_type"), trigger),
-                **kwargs,
-            )
-
-        else:
-            if not isdir(trigger.path):
-                logger.exception(f"User passed an invalid trigger path {trigger.path}")
-                return
-
-            # Pull out the arguments needed by the run_job function
-            args = [
-                kwargs.get("kwargs").get("job_id"),
-                kwargs.get("kwargs").get("request_template"),
-            ]
-
-            # Pass in those args to be relayed once the event occurs
-            event_handler = PatternMatchingEventHandlerWithArgs(
-                args=args,
-                coalesce=kwargs.get("coalesce", False),
-                patterns=trigger.pattern,
-            )
-            event_handler = self._add_triggers(event_handler, trigger.callbacks, func)
-
-            if trigger.path is not None and event_handler is not None:
-                # Register the job id with the set and schedule it with watchdog
-                watch = self._async_scheduler.schedule(
-                    event_handler, trigger.path, recursive=trigger.recursive
-                )
-                self._async_jobs[args[0]] = (event_handler, watch)
-
 
 class IntervalTrigger(APInterval):
     """Beergarden implementation of an apscheduler IntervalTrigger"""
@@ -370,87 +449,6 @@ class IntervalTrigger(APInterval):
     def __init__(self, *args, **kwargs):
         self.reschedule_on_finish = kwargs.pop("reschedule_on_finish", False)
         super(IntervalTrigger, self).__init__(*args, **kwargs)
-
-
-def run_job(job_id, request_template, **kwargs):
-    """Spawned by the scheduler, this will kick off a new request.
-
-    This method is meant to be run in a separate process.
-
-    Args:
-        job_id: The Beer-Garden job ID that triggered this event.
-        request_template: Request template specified by the job.
-    """
-    import beer_garden.router
-
-    request_template.metadata["_bg_job_id"] = job_id
-
-    # Attempt to inject information into the request template
-    if "event" in kwargs and kwargs["event"] is not None:
-        try:
-            # This overloads the __missing__ function to allow partial injections
-            injection_dict = InjectionDict()
-            build_injection_dict(injection_dict, kwargs["event"], prefix="event")
-
-            try:
-                db_job = db.query_unique(Job, id=job_id)
-                if db_job:
-                    build_injection_dict(
-                        injection_dict, db_job.trigger, prefix="trigger"
-                    )
-
-            except Exception as ex:
-                logger.exception(f"Could not fetch job for parameter injection: {ex}")
-
-            inject_values(request_template.parameters, injection_dict)
-        except Exception as ex:
-            logger.exception(f"Could not inject parameters: {ex}")
-
-    db_job = db.query_unique(Job, id=job_id)
-    wait_event = threading.Event()
-
-    # I'm not sure what would cause this, but just be safe
-    if not db_job:
-        logger.error(f"Could not find job {job_id} in database, job will not be run")
-        return
-
-    try:
-        request = beer_garden.router.route(
-            Operation(
-                operation_type="REQUEST_CREATE",
-                model=request_template,
-                model_type="RequestTemplate",
-                kwargs={"wait_event": wait_event},
-            )
-        )
-
-        # Wait for the request to complete
-        timeout = db_job.timeout or None
-        if not wait_event.wait(timeout=timeout):
-            logger.warning(f"Execution of job {db_job} timed out.")
-            return
-
-        request = get_request(request.id)
-
-        if request.status == "ERROR":
-            db_job.error_count += 1
-        elif request.status == "SUCCESS":
-            db_job.success_count += 1
-
-        db.update(db_job)
-    except Exception as ex:
-        logger.exception(f"Error executing {db_job}: {ex}")
-
-    # Be a little careful here as the job could have been removed or paused
-    job = beer_garden.application.scheduler.get_job(job_id)
-    if (
-        job
-        and job.next_run_time is not None
-        and getattr(job.trigger, "reschedule_on_finish", False)
-    ):
-        # This essentially resets the timer on this job, which has the effect of
-        # making the wait time start whenever the job finishes
-        beer_garden.application.scheduler.reschedule_job(job_id, trigger=job.trigger)
 
 
 def get_job(job_id: str) -> Job:
@@ -558,7 +556,6 @@ def handle_event(event: Event) -> None:
         if event.name in [Events.JOB_CREATED.name, Events.JOB_UPDATED.name]:
             try:
                 beer_garden.application.scheduler.add_job(
-                    run_job,
                     trigger=event.payload.trigger,
                     trigger_type=event.payload.trigger_type,
                     kwargs={
